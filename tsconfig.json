@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "checkJs": false,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "target": "es5",
+        "module": "esnext",
+        "rootDir": "src",
+        "outDir": "./build",
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "jsx": "react",
+        "declaration": false,
+        "strict": true,
+        "lib": ["es2018", "dom"],
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "skipLibCheck": true
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "build",
+        ".vscode",
+        "coverage",
+        ".npm",
+        ".yarn"
+    ],
+    "include": ["src/**/*"]
+}

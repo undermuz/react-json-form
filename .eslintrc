@@ -1,0 +1,37 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 13,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "plugins": ["@typescript-eslint"],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "node": true,
+        "es6": true,
+        "es2022": true
+    },
+    "rules": {
+        "no-useless-escape": 0,
+        "no-prototype-builtins": "off",
+        "no-unused-vars": "warn",
+        "no-debugger": 0,
+        "no-console": 0,
+        "new-cap": 0,
+        "strict": 1,
+        "no-underscore-dangle": 0,
+        "no-use-before-define": 0,
+        "eol-last": 0,
+        "require-atomic-updates": 0
+    }
+}
