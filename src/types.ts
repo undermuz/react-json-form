@@ -1,4 +1,5 @@
-import { FunctionComponent } from "react"
+import { FC, FunctionComponent, PropsWithChildren } from "react"
+import { IInput } from "./input"
 
 export enum EnumSchemeItemType {
     Text = "text",
@@ -48,4 +49,32 @@ export interface IWidgetSettings {
     value: TypeValue
     scheme: IScheme
     view: FunctionComponent<{ id: number; value: any }>
+}
+
+export interface JsonFormControls {
+    [key: string]: FC<IInput>
+    Input: FC<IInput>
+    TextBlock: FC<IInput>
+    CheckBox: FC<IInput>
+    Date: FC<IInput>
+    Select: FC<IInput>
+}
+
+export type IUiHeaderProps = Partial<Pick<IScheme, "id" | "title">> & {
+    primary?: boolean
+}
+
+export interface IField {
+    title: string
+    type: EnumSchemeItemType
+    hasError: boolean
+}
+
+export interface JsonFormUi {
+    Container: FC<PropsWithChildren<{}>>
+    Header: FC<PropsWithChildren<IUiHeaderProps>>
+    Body: FC<PropsWithChildren<{}>>
+    FlatFormContainer: FC<PropsWithChildren<{}>>
+    Field: FC<PropsWithChildren<IField>>
+    Controls: JsonFormControls
 }

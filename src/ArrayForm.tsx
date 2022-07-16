@@ -8,7 +8,7 @@ import React, {
     useState,
 } from "react"
 
-import Widget from "./Widget"
+import FlatForm from "./FlatForm"
 
 import { ISchemeItem, TypeValue, TypeValueItem } from "./types"
 
@@ -235,17 +235,17 @@ const WidgetItem: React.FC<IWidgetItem> = (props) => {
         onChange(newValue, id)
     }
 
-    return <Widget scheme={scheme} value={value} onChange={handleChange} />
+    return <FlatForm scheme={scheme} value={value} onChange={handleChange} />
 }
 
-interface IMultipleWidgetItem {
+interface IArrayForm {
     value: TypeValueItem[]
     defValue: TypeValueItem
     scheme: ISchemeItem[]
     onChange: Function
 }
 
-const MultipleWidget: React.FC<IMultipleWidgetItem> = (props) => {
+const ArrayForm: React.FC<IArrayForm> = (props) => {
     const { value, scheme, defValue, onChange } = props
 
     const tabs = value as TabList
@@ -379,4 +379,4 @@ const MultipleWidget: React.FC<IMultipleWidgetItem> = (props) => {
     )
 }
 
-export default MultipleWidget
+export default ArrayForm

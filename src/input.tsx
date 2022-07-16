@@ -2,22 +2,20 @@
 import { FC } from "react"
 
 // import Editor from "react-quill"
-import Select from "react-select"
 
 import "react-datepicker/dist/react-datepicker.css"
 import GeoSelect from "./Inputs/GeoSelect"
 // import DateSelect from "./Inputs/DateSelect"
-
-import { isArray } from "underscore"
 
 import {
     EnumSchemeItemType,
     FunctionOnChange,
     TypeSchemeItemSettings,
 } from "./types"
-import { IFieldWidgetSettings } from "./Widget"
-import { CheckBox, DateInput, TextArea, TextInput } from "grommet"
+import { IFieldWidgetSettings } from "./FlatForm"
+
 import JsonForm from "./JsonForm"
+import { useJsonFormUi } from "./UiContext"
 
 // import * as Tests from 'helpers/ValueTests'
 // import * as Objects from 'helpers/Objects'
@@ -159,15 +157,11 @@ import JsonForm from "./JsonForm"
 //     }
 // }
 
-interface TypeSelectValue {
-    label: string
-    value: number
-}
-
-interface IInput {
+export interface IInput {
     name: string
     value: any
     type: EnumSchemeItemType
+    hasError: boolean
     title: string
     settings: TypeSchemeItemSettings
     onChange: Function
@@ -179,20 +173,9 @@ const Input: FC<IInput> = (props) => {
 
     const { onChange, onTest } = props
 
+    const Ui = useJsonFormUi()
+
     try {
-        if (type == EnumSchemeItemType.Widget) {
-            const _settings = settings as IFieldWidgetSettings
-
-            return (
-                <JsonForm
-                    value={value}
-                    title={title}
-                    {..._settings}
-                    onChange={onChange as FunctionOnChange}
-                />
-            )
-        }
-
         // if (type == "text-editor") {
         //     return (
         //         <TextEditor
@@ -203,6 +186,17 @@ const Input: FC<IInput> = (props) => {
         //         />
         //     )
         // }
+
+        if (type == "geo") {
+            return (
+                <GeoSelect
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    onTest={onTest}
+                />
+            )
+        }
 
         if (type == EnumSchemeItemType.Files) {
             return null
@@ -218,96 +212,37 @@ const Input: FC<IInput> = (props) => {
             // )
         }
 
-        if (type == EnumSchemeItemType.Select) {
-            const list: number[] = isArray(value) ? (value as number[]) : []
+        if (type == EnumSchemeItemType.Widget) {
+            const _settings = settings as IFieldWidgetSettings
 
             return (
-                <Select
-                    isMulti={settings.multiple ? true : false}
-                    name={name}
-                    value={
-                        settings.multiple
-                            ? list.map((_val) => ({
-                                  label:
-                                      settings.options.find(
-                                          (_i: TypeSelectValue) =>
-                                              _i.value == _val
-                                      )?.label || "(Not found)",
-                                  value: _val,
-                              }))
-                            : value
-                    }
-                    options={settings.options}
-                    onBlur={() => onTest}
-                    onChange={(_value: any) => {
-                        if (settings.multiple) {
-                            const _list: TypeSelectValue[] = isArray(_value)
-                                ? (_value as TypeSelectValue[])
-                                : []
-
-                            onChange(_list.map((_val) => _val.value))
-                        } else {
-                            onChange(_value)
-                        }
-                    }}
+                <JsonForm
+                    value={value}
+                    title={title}
+                    primary={false}
+                    {..._settings}
+                    onChange={onChange as FunctionOnChange}
                 />
             )
         }
-        if (type === EnumSchemeItemType.Checkbox) {
-            return (
-                <CheckBox
-                    checked={Boolean(value)}
-                    name={name}
-                    label={title}
-                    onChange={(event) => onChange(event.target.checked)}
-                    onMouseLeave={(e) => onTest(e.currentTarget.checked)}
-                />
-            )
+
+        if (type == EnumSchemeItemType.Select) {
+            return <Ui.Controls.Select {...props} />
         }
 
         if (type === EnumSchemeItemType.Date) {
-            return (
-                <DateInput
-                    format="dd.mm.yyyy"
-                    value={value ? value : undefined}
-                    onChange={({ value }) => onChange(value)}
-                />
-            )
+            return <Ui.Controls.Date {...props} />
         }
 
-        if (type == "geo") {
-            return (
-                <GeoSelect
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    onTest={onTest}
-                />
-            )
+        if (type === EnumSchemeItemType.Checkbox) {
+            return <Ui.Controls.CheckBox {...props} />
         }
 
         if (type == EnumSchemeItemType.TextBlock) {
-            return (
-                <TextArea
-                    value={value}
-                    className="form-control"
-                    {...settings}
-                    onBlur={(e) => onTest(e.currentTarget.value)}
-                    onChange={(event) => onChange(event.currentTarget.value)}
-                />
-            )
+            return <Ui.Controls.TextBlock {...props} />
         }
 
-        return (
-            <TextInput
-                placeholder={name}
-                name={name}
-                type={type || "text"}
-                value={value}
-                onChange={(e) => onChange(e.currentTarget.value)}
-                onBlur={(e) => onTest(e.currentTarget.value)}
-            />
-        )
+        return <Ui.Controls.Input {...props} />
     } catch (e) {
         console.error(`Error <Input {...${JSON.stringify(props)} }>:`)
         console.error(e)
