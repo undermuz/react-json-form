@@ -1,6 +1,5 @@
 import { __assign } from "tslib";
-/*SYSTEM IMPORTS*/
-import React from "react";
+import { jsx as _jsx } from "react/jsx-runtime";
 // import Editor from "react-quill"
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,7 +15,7 @@ var Input = function (props) {
     try {
         if (type == EnumSchemeItemType.Widget) {
             var _settings = settings;
-            return (React.createElement(WidgetBuilder, __assign({ value: value, title: title }, _settings, { onChange: onChange })));
+            return (_jsx(WidgetBuilder, __assign({ value: value, title: title }, _settings, { onChange: onChange })));
         }
         // if (type == "text-editor") {
         //     return (
@@ -43,7 +42,7 @@ var Input = function (props) {
         }
         if (type == EnumSchemeItemType.Select) {
             var list = isArray(value) ? value : [];
-            return (React.createElement(Select, { isMulti: settings.multiple ? true : false, name: name, value: settings.multiple
+            return (_jsx(Select, { isMulti: settings.multiple ? true : false, name: name, value: settings.multiple
                     ? list.map(function (_val) {
                         var _a;
                         return ({
@@ -66,26 +65,26 @@ var Input = function (props) {
                 } }));
         }
         if (type === EnumSchemeItemType.Checkbox) {
-            return (React.createElement(CheckBox, { checked: Boolean(value), name: name, label: title, onChange: function (event) { return onChange(event.target.checked); }, onMouseLeave: function (e) { return onTest(e.currentTarget.checked); } }));
+            return (_jsx(CheckBox, { checked: Boolean(value), name: name, label: title, onChange: function (event) { return onChange(event.target.checked); }, onMouseLeave: function (e) { return onTest(e.currentTarget.checked); } }));
         }
         if (type === EnumSchemeItemType.Date) {
-            return (React.createElement(DateInput, { format: "dd.mm.yyyy", value: value ? value : undefined, onChange: function (_a) {
+            return (_jsx(DateInput, { format: "dd.mm.yyyy", value: value ? value : undefined, onChange: function (_a) {
                     var value = _a.value;
                     return onChange(value);
                 } }));
         }
         if (type == "geo") {
-            return (React.createElement(GeoSelect, { name: name, value: value, onChange: onChange, onTest: onTest }));
+            return (_jsx(GeoSelect, { name: name, value: value, onChange: onChange, onTest: onTest }));
         }
         if (type == EnumSchemeItemType.TextBlock) {
-            return (React.createElement(TextArea, __assign({ value: value, className: "form-control" }, settings, { onBlur: function (e) { return onTest(e.currentTarget.value); }, onChange: function (event) { return onChange(event.currentTarget.value); } })));
+            return (_jsx(TextArea, __assign({ value: value, className: "form-control" }, settings, { onBlur: function (e) { return onTest(e.currentTarget.value); }, onChange: function (event) { return onChange(event.currentTarget.value); } })));
         }
-        return (React.createElement(TextInput, { placeholder: name, name: name, type: type || "text", value: value, onChange: function (e) { return onChange(e.currentTarget.value); }, onBlur: function (e) { return onTest(e.currentTarget.value); } }));
+        return (_jsx(TextInput, { placeholder: name, name: name, type: type || "text", value: value, onChange: function (e) { return onChange(e.currentTarget.value); }, onBlur: function (e) { return onTest(e.currentTarget.value); } }));
     }
     catch (e) {
         console.error("Error <Input {...".concat(JSON.stringify(props), " }>:"));
         console.error(e);
-        return React.createElement("div", { className: "alert alert-danger" }, e.message);
+        return _jsx("div", __assign({ className: "alert alert-danger" }, { children: e.message }));
     }
 };
 export default Input;

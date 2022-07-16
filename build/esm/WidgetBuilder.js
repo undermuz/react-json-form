@@ -1,6 +1,7 @@
 import { __assign } from "tslib";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /*SYSTEM IMPORTS*/
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 /* UI */
 import { Box, Heading, Tag } from "grommet";
@@ -17,16 +18,8 @@ var WidgetBuilder = function (props) {
     var handleChange = useCallback(function (newValue) {
         onChange(__assign(__assign({}, value), newValue));
     }, [value, onChange]);
-    return (React.createElement(ErrorBoundary, { FallbackComponent: ErrorFallback, onReset: function () {
+    return (_jsxs(ErrorBoundary, __assign({ FallbackComponent: ErrorFallback, onReset: function () {
             // reset the state of your app so the error doesn't happen again
-        } },
-        Boolean(title) && (React.createElement(Box, { width: "100%", direction: "row", pad: "small", justify: "between", background: primary ? "brand" : "light-6" },
-            React.createElement(Box, { direction: "row", justify: "start", gap: "small" },
-                React.createElement(Heading, { level: 3, margin: "none" }, title),
-                Boolean(id) && React.createElement(Tag, { value: "#".concat(id) })),
-            header)),
-        React.createElement(Box, { pad: "small" },
-            multiple && (React.createElement(MultipleWidget, { scheme: scheme, defValue: defValue, value: value, onChange: onChange })),
-            !multiple && (React.createElement(Widget, { scheme: scheme, value: value, onChange: handleChange })))));
+        } }, { children: [Boolean(title) && (_jsxs(Box, __assign({ width: "100%", direction: "row", pad: "small", justify: "between", background: primary ? "brand" : "light-6" }, { children: [_jsxs(Box, __assign({ direction: "row", justify: "start", gap: "small" }, { children: [_jsx(Heading, __assign({ level: 3, margin: "none" }, { children: title })), Boolean(id) && _jsx(Tag, { value: "#".concat(id) })] })), header] }))), _jsxs(Box, __assign({ pad: "small" }, { children: [multiple && (_jsx(MultipleWidget, { scheme: scheme, defValue: defValue, value: value, onChange: onChange })), !multiple && (_jsx(Widget, { scheme: scheme, value: value, onChange: handleChange }))] }))] })));
 };
 export default WidgetBuilder;

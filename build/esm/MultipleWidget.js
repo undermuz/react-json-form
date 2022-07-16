@@ -1,6 +1,7 @@
 import { __assign, __makeTemplateObject, __rest, __spreadArray } from "tslib";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /*SYSTEM IMPORTS*/
-import React, { useCallback, useEffect, useMemo, useState, } from "react";
+import { useCallback, useEffect, useMemo, useState, } from "react";
 import Widget from "./Widget";
 import { isArray } from "underscore";
 import { Box, Text } from "grommet";
@@ -24,20 +25,19 @@ var SortableTab = function (_a) {
         transform: CSS.Transform.toString(transform),
         transition: transition,
     };
-    return (React.createElement(StyledTab, __assign({}, props, { ref: setNodeRef, style: style }, attributes, listeners)));
+    return (_jsx(StyledTab, __assign({}, props, { ref: setNodeRef, style: style }, attributes, listeners)));
 };
-var TrashDroppable = function (props) {
+var TrashDroppable = function () {
     var _a = useDroppable({
         id: "trash",
     }), isOver = _a.isOver, setNodeRef = _a.setNodeRef;
-    return (React.createElement(TrashContainer, { ref: setNodeRef, animation: { type: "fadeIn", duration: 300 }, border: {
+    return (_jsx(TrashContainer, __assign({ ref: setNodeRef, animation: { type: "fadeIn", duration: 300 }, border: {
             color: "status-critical",
             size: "small",
             style: "dashed",
         }, background: {
             color: isOver ? "status-critical" : "light-2",
-        }, pad: "xsmall" },
-        React.createElement(Text, null, "\u041E\u0442\u043F\u0443\u0441\u0442\u0438\u0442\u0435 \u0447\u0442\u043E\u0431\u044B \u0443\u0434\u0430\u043B\u0438\u0442\u044C")));
+        }, pad: "xsmall" }, { children: _jsx(Text, { children: "\u041E\u0442\u043F\u0443\u0441\u0442\u0438\u0442\u0435 \u0447\u0442\u043E\u0431\u044B \u0443\u0434\u0430\u043B\u0438\u0442\u044C" }) })));
 };
 var SortableList = function (_a) {
     var tabs = _a.tabs, onSortEnd = _a.onSortEnd, children = _a.children;
@@ -67,7 +67,7 @@ var SortableList = function (_a) {
         }
         return [];
     }, [activeId, tabs]);
-    return (React.createElement(DndContext, { sensors: sensors, 
+    return (_jsxs(DndContext, __assign({ sensors: sensors, 
         // collisionDetection={closestCenter}
         collisionDetection: collisionDetectionStrategy, 
         // modifiers={[restrictToHorizontalAxis]}
@@ -77,26 +77,19 @@ var SortableList = function (_a) {
             onSortEnd(event);
         }, onDragStart: function (event) {
             setActiveId(event.active.id);
-        } },
-        React.createElement(SortableContext, { id: "list", items: tabs, strategy: horizontalListSortingStrategy }, children),
-        createPortal(React.createElement(DragOverlay, null, currentIndex > -1 ? (React.createElement(SortableTab, { tabId: activeId },
-            React.createElement(Box, { pad: "xsmall" },
-                React.createElement(Text, null,
-                    "#",
-                    currentIndex + 1)))) : null), document.body),
-        activeId !== null && React.createElement(TrashDroppable, null)));
+        } }, { children: [_jsx(SortableContext, __assign({ id: "list", items: tabs, strategy: horizontalListSortingStrategy }, { children: children })), createPortal(_jsx(DragOverlay, { children: currentIndex > -1 ? (_jsx(SortableTab, __assign({ tabId: activeId }, { children: _jsx(Box, __assign({ pad: "xsmall" }, { children: _jsxs(Text, { children: ["#", currentIndex + 1] }) })) }))) : null }), document.body), activeId !== null && _jsx(TrashDroppable, {})] })));
 };
 var WidgetItem = function (props) {
     var id = props.id, value = props.value, scheme = props.scheme, onChange = props.onChange;
     useEffect(function () {
-        if (!Boolean(id)) {
+        if (!id) {
             console.error("WidgetItem: props id is required");
         }
     }, []);
     var handleChange = function (newValue) {
         onChange(newValue, id);
     };
-    return React.createElement(Widget, { scheme: scheme, value: value, onChange: handleChange });
+    return _jsx(Widget, { scheme: scheme, value: value, onChange: handleChange });
 };
 var MultipleWidget = function (props) {
     var value = props.value, scheme = props.scheme, defValue = props.defValue, onChange = props.onChange;
@@ -158,18 +151,7 @@ var MultipleWidget = function (props) {
         }
         return item;
     }, [value, tab]);
-    return (React.createElement(Box, { direction: "column", style: { position: "relative", zIndex: 1 } },
-        React.createElement(Box, { direction: "row" },
-            React.createElement(Box, { direction: "row" },
-                React.createElement(SortableList, { tabs: tabs, onSortEnd: handleSortTabs }, tabs.map(function (val, index) { return (React.createElement(SortableTab, { key: val.id, tabId: val.id, hoverIndicator: true, active: tab === val.id, onClick: function () { return setTab(val.id); } },
-                    React.createElement(Box, { pad: "xsmall" },
-                        React.createElement(Text, null,
-                            "#",
-                            index + 1)))); }))),
-            React.createElement(StyledTab, { hoverIndicator: true, onClick: handleAddTab },
-                React.createElement(Box, { pad: "xsmall" },
-                    React.createElement(Add, null)))),
-        currentItem !== null && (React.createElement(WidgetItem, { id: currentItem.id, scheme: scheme, value: currentItem, onChange: handleChange }))));
+    return (_jsxs(Box, __assign({ direction: "column", style: { position: "relative", zIndex: 1 } }, { children: [_jsxs(Box, __assign({ direction: "row" }, { children: [_jsx(Box, __assign({ direction: "row" }, { children: _jsx(SortableList, __assign({ tabs: tabs, onSortEnd: handleSortTabs }, { children: tabs.map(function (val, index) { return (_jsx(SortableTab, __assign({ tabId: val.id, hoverIndicator: true, active: tab === val.id, onClick: function () { return setTab(val.id); } }, { children: _jsx(Box, __assign({ pad: "xsmall" }, { children: _jsxs(Text, { children: ["#", index + 1] }) })) }), val.id)); }) })) })), _jsx(StyledTab, __assign({ hoverIndicator: true, onClick: handleAddTab }, { children: _jsx(Box, __assign({ pad: "xsmall" }, { children: _jsx(Add, {}) })) }))] })), currentItem !== null && (_jsx(WidgetItem, { id: currentItem.id, scheme: scheme, value: currentItem, onChange: handleChange }))] })));
 };
 export default MultipleWidget;
 var templateObject_1, templateObject_2, templateObject_3;

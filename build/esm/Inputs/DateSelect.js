@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import { jsx as _jsx } from "react/jsx-runtime";
+import { useMemo } from "react";
 import ReactDatePicker from "react-datepicker";
 var DateSelect = function (props) {
     var value = props.value, onChange = props.onChange;
@@ -8,6 +9,6 @@ var DateSelect = function (props) {
         }
         return new Date(value);
     }, [value]);
-    return (React.createElement(ReactDatePicker, { selected: dateValue, onChange: function (date) { return onChange(JSON.stringify(date)); } }));
+    return (_jsx(ReactDatePicker, { selected: dateValue, onChange: function (date) { return onChange(JSON.stringify(date)); } }));
 };
 export default DateSelect;

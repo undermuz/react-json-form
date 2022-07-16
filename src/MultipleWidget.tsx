@@ -94,11 +94,7 @@ const SortableTab: FC<SortableTabProps & StyledTabProps & BoxExtendedProps> = ({
     )
 }
 
-interface ITrashDroppable {
-    onDrop?: Function
-}
-
-const TrashDroppable: FC<ITrashDroppable> = (props) => {
+const TrashDroppable: FC = () => {
     const { isOver, setNodeRef } = useDroppable({
         id: "trash",
     })
@@ -230,7 +226,7 @@ const WidgetItem: React.FC<IWidgetItem> = (props) => {
     const { id, value, scheme, onChange } = props
 
     useEffect(() => {
-        if (!Boolean(id)) {
+        if (!id) {
             console.error("WidgetItem: props id is required")
         }
     }, [])

@@ -1,6 +1,7 @@
 import { __assign } from "tslib";
+import { jsx as _jsx } from "react/jsx-runtime";
 /*SYSTEM IMPORTS*/
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import Input from "./input";
 import { Box, FormField } from "grommet";
 var Field = function (props) {
@@ -27,10 +28,8 @@ var Field = function (props) {
         return true;
     }, []);
     if (!showLabel) {
-        return (React.createElement(Box, { pad: "xsmall" },
-            React.createElement(Input, __assign({}, def_input_params))));
+        return (_jsx(Box, __assign({ pad: "xsmall" }, { children: _jsx(Input, __assign({}, def_input_params)) })));
     }
-    return (React.createElement(FormField, { label: title },
-        React.createElement(Input, __assign({}, def_input_params))));
+    return (_jsx(FormField, __assign({ label: title }, { children: _jsx(Input, __assign({}, def_input_params)) })));
 };
 export default Field;

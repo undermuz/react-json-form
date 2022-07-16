@@ -1,5 +1,5 @@
 /*SYSTEM IMPORTS*/
-import React, { FC } from "react"
+import { FC } from "react"
 
 // import Editor from "react-quill"
 import Select from "react-select"
@@ -17,7 +17,7 @@ import {
 } from "./types"
 import { IFieldWidgetSettings } from "./Widget"
 import { CheckBox, DateInput, TextArea, TextInput } from "grommet"
-import WidgetBuilder from "./WidgetBuilder"
+import JsonForm from "./JsonForm"
 
 // import * as Tests from 'helpers/ValueTests'
 // import * as Objects from 'helpers/Objects'
@@ -184,7 +184,7 @@ const Input: FC<IInput> = (props) => {
             const _settings = settings as IFieldWidgetSettings
 
             return (
-                <WidgetBuilder
+                <JsonForm
                     value={value}
                     title={title}
                     {..._settings}

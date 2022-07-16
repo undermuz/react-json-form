@@ -17,18 +17,18 @@ import MultipleWidget from "./MultipleWidget"
 /* HELPERS */
 import { useDefSchemeValue, useSafeValue } from "./utils"
 
-interface IWidgetBuilderParams {
+interface IJsonFormParams {
     value: TypeValue
     primary?: boolean
     header?: ReactNode
     onChange: FunctionOnChange
 }
 
-type IWidgetBuilder = IWidgetBuilderParams &
+type IJsonForm = IJsonFormParams &
     Partial<Pick<IScheme, "id" | "title">> &
     Pick<IScheme, "multiple" | "scheme">
 
-const WidgetBuilder: React.FC<IWidgetBuilder> = (props) => {
+const JsonForm: React.FC<IJsonForm> = (props) => {
     const {
         id,
         title = false,
@@ -99,4 +99,4 @@ const WidgetBuilder: React.FC<IWidgetBuilder> = (props) => {
     )
 }
 
-export default WidgetBuilder
+export default JsonForm

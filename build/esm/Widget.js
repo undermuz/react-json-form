@@ -1,6 +1,7 @@
 import { __assign, __spreadArray } from "tslib";
+import { jsx as _jsx } from "react/jsx-runtime";
 /*SYSTEM IMPORTS*/
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Field from "./Field";
 import { EnumSchemeItemType } from "./types";
 import { isArray } from "underscore";
@@ -111,23 +112,23 @@ var Widget = function (props) {
         });
         onChange(__assign(__assign({}, value), new_value));
     }, []);
-    return (React.createElement(Box, { pad: "xxsmall" }, scheme.map(function (scheme_item, index) {
-        var title = scheme_item.title, name = scheme_item.name, _a = scheme_item.type, type = _a === void 0 ? EnumSchemeItemType.Widget : _a, _b = scheme_item.settings, settings = _b === void 0 ? {} : _b;
-        var field_settings = {};
-        if (type == EnumSchemeItemType.Widget) {
-            var scheme_1 = scheme_item.scheme, _c = scheme_item.multiple, multiple = _c === void 0 ? false : _c;
-            field_settings = { scheme: scheme_1, multiple: multiple };
-        }
-        else if (type == EnumSchemeItemType.Select) {
-            field_settings = settings;
-        }
-        else if (type == EnumSchemeItemType.Files) {
-            field_settings = { settings: settings };
-        }
-        return (React.createElement(Field, { key: index, name: name, value: value[name], type: type, title: title, error: errors.indexOf(name) > -1, settings: field_settings, onChange: function (_v) { return handleChange(name, _v); }, onTest: function (_v) {
-                if (_v === void 0) { _v = "NOT_SET"; }
-                return handleTestField(name, _v === "NOT_SET" ? value[name] : _v);
-            } }));
-    })));
+    return (_jsx(Box, __assign({ pad: "xxsmall" }, { children: scheme.map(function (scheme_item, index) {
+            var title = scheme_item.title, name = scheme_item.name, _a = scheme_item.type, type = _a === void 0 ? EnumSchemeItemType.Widget : _a, _b = scheme_item.settings, settings = _b === void 0 ? {} : _b;
+            var field_settings = {};
+            if (type == EnumSchemeItemType.Widget) {
+                var scheme_1 = scheme_item.scheme, _c = scheme_item.multiple, multiple = _c === void 0 ? false : _c;
+                field_settings = { scheme: scheme_1, multiple: multiple };
+            }
+            else if (type == EnumSchemeItemType.Select) {
+                field_settings = settings;
+            }
+            else if (type == EnumSchemeItemType.Files) {
+                field_settings = { settings: settings };
+            }
+            return (_jsx(Field, { name: name, value: value[name], type: type, title: title, error: errors.indexOf(name) > -1, settings: field_settings, onChange: function (_v) { return handleChange(name, _v); }, onTest: function (_v) {
+                    if (_v === void 0) { _v = "NOT_SET"; }
+                    return handleTestField(name, _v === "NOT_SET" ? value[name] : _v);
+                } }, index));
+        }) })));
 };
 export default Widget;

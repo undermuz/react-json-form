@@ -1,5 +1,5 @@
-import WidgetBuilder from "./WidgetBuilder"
+import JsonForm from "./JsonForm"
 
-export default WidgetBuilder
+export default JsonForm
 
-export { WidgetBuilder }
+export { JsonForm }
