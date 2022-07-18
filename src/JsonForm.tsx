@@ -62,9 +62,10 @@ const JsonForm: React.FC<IJsonForm> = (props) => {
                     {header}
                 </Ui.Header>
 
-                <Ui.Body>
+                <Ui.Body primary={primary} multiple={multiple}>
                     {multiple && (
                         <ArrayForm
+                            primary={primary}
                             scheme={scheme}
                             defValue={defValue}
                             value={value as TypeValueItem[]}
@@ -74,6 +75,7 @@ const JsonForm: React.FC<IJsonForm> = (props) => {
 
                     {!multiple && (
                         <FlatForm
+                            primary={primary}
                             scheme={scheme}
                             value={value as TypeValueItem}
                             onChange={handleChange}

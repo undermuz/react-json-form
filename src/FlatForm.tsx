@@ -14,13 +14,14 @@ export interface IFieldWidgetSettings {
 }
 
 interface IFlatForm {
+    primary?: boolean
     scheme: ISchemeItem[]
     value: TypeValueItem
     onChange: Function
 }
 
 const FlatForm: React.FC<IFlatForm> = (props) => {
-    const { scheme, value, onChange } = props
+    const { scheme, value, primary = false, onChange } = props
 
     const Ui = useJsonFormUi()
 
@@ -108,7 +109,7 @@ const FlatForm: React.FC<IFlatForm> = (props) => {
     }, [])
 
     return (
-        <Ui.FlatFormContainer>
+        <Ui.FlatForm>
             {scheme.map((scheme_item, index) => {
                 const {
                     title,
@@ -132,7 +133,9 @@ const FlatForm: React.FC<IFlatForm> = (props) => {
                 return (
                     <Ui.Field
                         key={index}
+                        isLast={index === scheme.length - 1}
                         type={type}
+                        primary={primary}
                         title={title}
                         hasError={errors.indexOf(name) > -1}
                     >
@@ -154,7 +157,7 @@ const FlatForm: React.FC<IFlatForm> = (props) => {
                     </Ui.Field>
                 )
             })}
-        </Ui.FlatFormContainer>
+        </Ui.FlatForm>
     )
 }
 

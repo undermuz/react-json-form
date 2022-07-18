@@ -22,6 +22,8 @@
         "es2022": true
     },
     "rules": {
+        "react/prop-types": "off",
+        "react/display-name": "off",
         "no-useless-escape": 0,
         "no-prototype-builtins": "off",
         "no-unused-vars": "warn",

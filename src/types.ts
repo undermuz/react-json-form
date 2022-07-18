@@ -1,4 +1,11 @@
-import { FC, FunctionComponent, PropsWithChildren } from "react"
+import {
+    ComponentClass,
+    CSSProperties,
+    FC,
+    FunctionComponent,
+    PropsWithChildren,
+    Ref,
+} from "react"
 import { IInput } from "./input"
 
 export enum EnumSchemeItemType {
@@ -64,17 +71,57 @@ export type IUiHeaderProps = Partial<Pick<IScheme, "id" | "title">> & {
     primary?: boolean
 }
 
+export type IUiBodyProps = Partial<Pick<IScheme, "id" | "title">> & {
+    primary?: boolean
+    multiple?: boolean
+}
+
+export interface IUiTabProps {
+    label?: string
+    active?: boolean
+    style?: CSSProperties | undefined
+    ref?: Ref<HTMLElement> | undefined
+    onClick?: (...args: any[]) => any
+}
+
 export interface IField {
     title: string
+    isLast: boolean
+    primary?: boolean
     type: EnumSchemeItemType
     hasError: boolean
+}
+
+export interface IUiArrayFormProps {
+    style?: CSSProperties | undefined
+}
+
+export interface IUiArrayFormTrashContainerProps {
+    isOver: boolean
+    label?: string
+    ref?: Ref<HTMLDivElement> | undefined
+}
+
+export interface JsonFormIcons {
+    Tabs: {
+        Remove: FC<any> | ComponentClass<any>
+        Add: FC<any> | ComponentClass<any>
+    }
 }
 
 export interface JsonFormUi {
     Container: FC<PropsWithChildren<{}>>
     Header: FC<PropsWithChildren<IUiHeaderProps>>
-    Body: FC<PropsWithChildren<{}>>
-    FlatFormContainer: FC<PropsWithChildren<{}>>
+    Body: FC<PropsWithChildren<IUiBodyProps>>
+    FlatForm: FC<PropsWithChildren<{}>>
     Field: FC<PropsWithChildren<IField>>
+    ArrayForm: FC<PropsWithChildren<IUiArrayFormProps>> & {
+        Header: FC<PropsWithChildren<{}>>
+        Tabs: FC<PropsWithChildren<{}>>
+        Body: FC<PropsWithChildren<{}>>
+        TrashContainer: FC<PropsWithChildren<IUiArrayFormTrashContainerProps>>
+    }
+    Tab: FC<PropsWithChildren<IUiTabProps>>
     Controls: JsonFormControls
+    Icons: JsonFormIcons
 }

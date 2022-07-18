@@ -10,15 +10,9 @@ import React, {
 
 import FlatForm from "./FlatForm"
 
-import { ISchemeItem, TypeValue, TypeValueItem } from "./types"
+import { ISchemeItem, IUiTabProps, TypeValue, TypeValueItem } from "./types"
 
 import { isArray } from "underscore"
-
-import { Box, Text, BoxExtendedProps } from "grommet"
-
-import { Add } from "grommet-icons"
-
-import styled, { css } from "styled-components"
 
 import {
     closestCenter,
@@ -44,37 +38,18 @@ import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { arrayMoveImmutable } from "array-move"
 import { createPortal } from "react-dom"
-
-interface StyledTabProps {
-    active?: boolean
-}
-
-const StyledTab = styled(Box)<StyledTabProps>`
-    ${({ active, theme }) => css`
-        background-color: ${theme.global.colors["light-4"]};
-
-        ${active && `background-color: ${theme.global.colors["accent-4"]};`}
-
-        user-select: none;
-    `}
-`
-
-const TrashContainer = styled(Box)`
-    position: absolute;
-    z-index: 2;
-    top: -60px;
-    left: 0px;
-    width: 100%;
-`
+import { useJsonFormUi } from "./UiContext"
 
 interface SortableTabProps {
     tabId: number
 }
 
-const SortableTab: FC<SortableTabProps & StyledTabProps & BoxExtendedProps> = ({
+const SortableTab: FC<PropsWithChildren<SortableTabProps & IUiTabProps>> = ({
     tabId,
     ...props
 }) => {
+    const Ui = useJsonFormUi()
+
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({ id: tabId })
 
@@ -84,7 +59,7 @@ const SortableTab: FC<SortableTabProps & StyledTabProps & BoxExtendedProps> = ({
     }
 
     return (
-        <StyledTab
+        <Ui.Tab
             {...props}
             ref={setNodeRef}
             style={style}
@@ -95,26 +70,18 @@ const SortableTab: FC<SortableTabProps & StyledTabProps & BoxExtendedProps> = ({
 }
 
 const TrashDroppable: FC = () => {
+    const Ui = useJsonFormUi()
+
     const { isOver, setNodeRef } = useDroppable({
         id: "trash",
     })
 
     return (
-        <TrashContainer
+        <Ui.ArrayForm.TrashContainer
+            isOver={isOver}
             ref={setNodeRef}
-            animation={{ type: "fadeIn", duration: 300 }}
-            border={{
-                color: "status-critical",
-                size: "small",
-                style: "dashed",
-            }}
-            background={{
-                color: isOver ? "status-critical" : "light-2",
-            }}
-            pad="xsmall"
-        >
-            <Text>Отпустите чтобы удалить</Text>
-        </TrashContainer>
+            label="Отпустите чтобы удалить"
+        ></Ui.ArrayForm.TrashContainer>
     )
 }
 
@@ -200,11 +167,10 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
             {createPortal(
                 <DragOverlay>
                     {currentIndex > -1 ? (
-                        <SortableTab tabId={activeId as number}>
-                            <Box pad={"xsmall"}>
-                                <Text>#{currentIndex + 1}</Text>
-                            </Box>
-                        </SortableTab>
+                        <SortableTab
+                            tabId={activeId as number}
+                            label={`#${currentIndex + 1}`}
+                        />
                     ) : null}
                 </DragOverlay>,
                 document.body
@@ -217,13 +183,14 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
 
 interface IWidgetItem {
     id: number
+    primary?: boolean
     value: TypeValue
     scheme: ISchemeItem[]
     onChange: Function
 }
 
 const WidgetItem: React.FC<IWidgetItem> = (props) => {
-    const { id, value, scheme, onChange } = props
+    const { id, value, scheme, primary = false, onChange } = props
 
     useEffect(() => {
         if (!id) {
@@ -235,18 +202,28 @@ const WidgetItem: React.FC<IWidgetItem> = (props) => {
         onChange(newValue, id)
     }
 
-    return <FlatForm scheme={scheme} value={value} onChange={handleChange} />
+    return (
+        <FlatForm
+            primary={primary}
+            scheme={scheme}
+            value={value}
+            onChange={handleChange}
+        />
+    )
 }
 
 interface IArrayForm {
     value: TypeValueItem[]
+    primary?: boolean
     defValue: TypeValueItem
     scheme: ISchemeItem[]
     onChange: Function
 }
 
 const ArrayForm: React.FC<IArrayForm> = (props) => {
-    const { value, scheme, defValue, onChange } = props
+    const { value, scheme, primary = false, defValue, onChange } = props
+
+    const Ui = useJsonFormUi()
 
     const tabs = value as TabList
 
@@ -340,42 +317,46 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
     }, [value, tab])
 
     return (
-        <Box direction="column" style={{ position: "relative", zIndex: 1 }}>
-            <Box direction="row">
-                <Box direction="row">
+        <Ui.ArrayForm style={{ position: "relative", zIndex: 1 }}>
+            <Ui.ArrayForm.Header>
+                <Ui.ArrayForm.Tabs>
                     <SortableList tabs={tabs} onSortEnd={handleSortTabs}>
                         {tabs.map((val, index) => (
                             <SortableTab
                                 key={val.id}
+                                label={`#${index + 1}`}
                                 tabId={val.id}
-                                hoverIndicator
                                 active={tab === val.id}
                                 onClick={() => setTab(val.id)}
-                            >
-                                <Box pad={"xsmall"}>
-                                    <Text>#{index + 1}</Text>
-                                </Box>
-                            </SortableTab>
+                            />
                         ))}
                     </SortableList>
-                </Box>
+                </Ui.ArrayForm.Tabs>
 
-                <StyledTab hoverIndicator onClick={handleAddTab}>
-                    <Box pad={"xsmall"}>
-                        <Add />
-                    </Box>
-                </StyledTab>
-            </Box>
+                <Ui.ArrayForm.Tabs>
+                    <Ui.Tab onClick={() => handleRemoveTab(tab)}>
+                        <Ui.Icons.Tabs.Remove />
+                    </Ui.Tab>
 
-            {currentItem !== null && (
-                <WidgetItem
-                    id={currentItem.id}
-                    scheme={scheme}
-                    value={currentItem}
-                    onChange={handleChange}
-                />
-            )}
-        </Box>
+                    <Ui.Tab onClick={handleAddTab}>
+                        <Ui.Icons.Tabs.Add />
+                    </Ui.Tab>
+                </Ui.ArrayForm.Tabs>
+            </Ui.ArrayForm.Header>
+
+            <Ui.ArrayForm.Body>
+                {currentItem !== null && (
+                    <WidgetItem
+                        key={currentItem.id}
+                        id={currentItem.id}
+                        primary={primary}
+                        scheme={scheme}
+                        value={currentItem}
+                        onChange={handleChange}
+                    />
+                )}
+            </Ui.ArrayForm.Body>
+        </Ui.ArrayForm>
     )
 }
 
