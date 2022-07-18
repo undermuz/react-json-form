@@ -164,6 +164,7 @@ const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
         return (
             <Tab
                 {...props}
+                onClick={props.onSelect}
                 background={{
                     color: props.active ? "brand" : "light-3",
                     opacity: props.active ? "medium" : undefined,

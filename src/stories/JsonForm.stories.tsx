@@ -10,11 +10,16 @@ import UiContext from "../UiContext"
 
 import GrommetUi from "../ui/grommet"
 import ChakraUi from "../ui/chakra"
+import RsuiteUi from "../ui/rsuite"
+
 import { ChakraProvider } from "@chakra-ui/react"
+
+import "rsuite/styles/index.less"
 
 enum JsonFormThemes {
     Grommet,
     ChakraUi,
+    Rsuite,
 }
 
 interface IJsonFormStory {
@@ -52,6 +57,16 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme }) => {
                             </UiContext.Provider>
                         </ChakraProvider>
                     )}
+
+                    {theme === JsonFormThemes.Rsuite && (
+                        <UiContext.Provider value={RsuiteUi}>
+                            <JsonForm
+                                {...scheme}
+                                value={value}
+                                onChange={setValue}
+                            />
+                        </UiContext.Provider>
+                    )}
                 </Box>
                 <Box width={"33.3333%"}>
                     <ReactJson src={value} displayObjectSize={false} />
@@ -75,6 +90,11 @@ export const UiChakra = Template.bind({})
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 UiChakra.args = { theme: JsonFormThemes.ChakraUi }
 // JsonFormStoryChakraUi.name = "Chakra UI"
+
+export const UiRsuite = Template.bind({})
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+UiRsuite.args = { theme: JsonFormThemes.Rsuite }
+// JsonFormStoryChakraUi.name = "Rsuite UI"
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

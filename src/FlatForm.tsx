@@ -135,6 +135,7 @@ const FlatForm: React.FC<IFlatForm> = (props) => {
                         key={index}
                         isLast={index === scheme.length - 1}
                         type={type}
+                        name={name}
                         primary={primary}
                         title={title}
                         hasError={errors.indexOf(name) > -1}

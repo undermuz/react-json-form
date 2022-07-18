@@ -327,18 +327,18 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
                                 label={`#${index + 1}`}
                                 tabId={val.id}
                                 active={tab === val.id}
-                                onClick={() => setTab(val.id)}
+                                onSelect={() => setTab(val.id)}
                             />
                         ))}
                     </SortableList>
                 </Ui.ArrayForm.Tabs>
 
                 <Ui.ArrayForm.Tabs>
-                    <Ui.Tab onClick={() => handleRemoveTab(tab)}>
+                    <Ui.Tab onSelect={() => handleRemoveTab(tab)}>
                         <Ui.Icons.Tabs.Remove />
                     </Ui.Tab>
 
-                    <Ui.Tab onClick={handleAddTab}>
+                    <Ui.Tab onSelect={handleAddTab}>
                         <Ui.Icons.Tabs.Add />
                     </Ui.Tab>
                 </Ui.ArrayForm.Tabs>

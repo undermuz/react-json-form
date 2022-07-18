@@ -1,9 +1,9 @@
 /*SYSTEM IMPORTS*/
-import React, { ReactNode, useCallback } from "react"
+import React, { useCallback } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 
 /* TYPES */
-import { FunctionOnChange, IScheme, TypeValue, TypeValueItem } from "./types"
+import { IJsonFormProps, TypeValueItem } from "./types"
 
 /* COMPONENTS */
 import ErrorFallback from "./components/ErrorFallback"
@@ -13,29 +13,10 @@ import ArrayForm from "./ArrayForm"
 
 /* HELPERS */
 import { useDefSchemeValue, useSafeValue } from "./utils"
-import { useJsonFormUi } from "./UiContext"
+import { useJsonFormComponents } from "./UiContext"
 
-interface IJsonFormParams {
-    value: TypeValue
-    primary?: boolean
-    header?: ReactNode
-    onChange: FunctionOnChange
-}
-
-type IJsonForm = IJsonFormParams &
-    Partial<Pick<IScheme, "id" | "title">> &
-    Pick<IScheme, "multiple" | "scheme">
-
-const JsonForm: React.FC<IJsonForm> = (props) => {
-    const {
-        id,
-        title,
-        header = null,
-        multiple = false,
-        primary = true,
-        scheme = [],
-        onChange,
-    } = props
+const JsonForm: React.FC<IJsonFormProps> = (props) => {
+    const { multiple = false, primary = true, scheme = [], onChange } = props
 
     const defValue = useDefSchemeValue(scheme)
 
@@ -48,42 +29,36 @@ const JsonForm: React.FC<IJsonForm> = (props) => {
         [value, onChange]
     )
 
-    const Ui = useJsonFormUi()
+    const Components = useJsonFormComponents()
 
     return (
-        <Ui.Container>
-            <ErrorBoundary
-                FallbackComponent={ErrorFallback}
-                onReset={() => {
-                    // reset the state of your app so the error doesn't happen again
-                }}
-            >
-                <Ui.Header id={id} primary={primary} title={title}>
-                    {header}
-                </Ui.Header>
+        <ErrorBoundary
+            FallbackComponent={ErrorFallback}
+            onReset={() => {
+                // reset the state of your app so the error doesn't happen again
+            }}
+        >
+            <Components.JsonForm {...props}>
+                {multiple && (
+                    <ArrayForm
+                        primary={primary}
+                        scheme={scheme}
+                        defValue={defValue}
+                        value={value as TypeValueItem[]}
+                        onChange={onChange}
+                    />
+                )}
 
-                <Ui.Body primary={primary} multiple={multiple}>
-                    {multiple && (
-                        <ArrayForm
-                            primary={primary}
-                            scheme={scheme}
-                            defValue={defValue}
-                            value={value as TypeValueItem[]}
-                            onChange={onChange}
-                        />
-                    )}
-
-                    {!multiple && (
-                        <FlatForm
-                            primary={primary}
-                            scheme={scheme}
-                            value={value as TypeValueItem}
-                            onChange={handleChange}
-                        />
-                    )}
-                </Ui.Body>
-            </ErrorBoundary>
-        </Ui.Container>
+                {!multiple && (
+                    <FlatForm
+                        primary={primary}
+                        scheme={scheme}
+                        value={value as TypeValueItem}
+                        onChange={handleChange}
+                    />
+                )}
+            </Components.JsonForm>
+        </ErrorBoundary>
     )
 }
 

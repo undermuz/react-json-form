@@ -30,6 +30,7 @@ import {
 
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
+import { Form, Nav } from "rsuite"
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
     return <Flex direction={"column"}>{children}</Flex>
@@ -76,27 +77,19 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
 }
 
 const UiFlatFormContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
-    return <Flex direction={"column"}>{children}</Flex>
+    return <Form>{children}</Form>
 }
 
-const Branch = styled(Flex)`
-    width: var(--chakra-space-3);
-    ::before {
-        content: "";
-        box-sizing: content-box;
-        display: block;
-        width: 12px;
-        height: var(--branch-height, 18px);
-        padding-bottom: 18px;
-        border: solid var(--chakra-colors-gray-300);
-        border-width: 0 0 1px 1px;
-        border-bottom-left-radius: 8px;
-        margin-left: -1px;
-    }
-`
-
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const { title, isLast, primary = false, type, hasError, children } = props
+    const {
+        title,
+        isLast,
+        primary = false,
+        name,
+        type,
+        hasError,
+        children,
+    } = props
 
     const showLabel = useMemo(() => {
         if (type === EnumSchemeItemType.Checkbox) {
@@ -111,41 +104,10 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
     }, [type])
 
     return (
-        <Flex
-            direction={"row"}
-            borderLeft={!primary && !isLast ? "1px solid" : undefined}
-            borderLeftColor="gray.300"
-            pb={!isLast ? 3 : undefined}
-        >
-            {!primary && (
-                <Branch
-                    style={
-                        {
-                            "--branch-height":
-                                type === EnumSchemeItemType.Checkbox
-                                    ? "1px"
-                                    : "34px",
-                        } as CSSProperties
-                    }
-                    direction={"column"}
-                ></Branch>
-            )}
-            <Flex
-                width={"100%"}
-                pt={showLabel ? 0 : 2}
-                pb={showLabel ? 0 : 2}
-                direction={"column"}
-                justify="center"
-            >
-                <FormControl isInvalid={hasError}>
-                    {showLabel && (
-                        <FormLabel htmlFor="email">{title}</FormLabel>
-                    )}
-
-                    {children}
-                </FormControl>
-            </Flex>
-        </Flex>
+        <Form.Group controlId={name}>
+            {showLabel && <Form.ControlLabel>{title}</Form.ControlLabel>}
+            {children}
+        </Form.Group>
     )
 }
 
@@ -164,16 +126,10 @@ const Tab = styled(Box)<IUiTabProps>`
 const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
     (props, ref) => {
         return (
-            <Tab
-                {...props}
-                onClick={props.onSelect}
-                ref={ref as ForwardedRef<HTMLDivElement>}
-            >
-                <Box p={1}>
-                    {Boolean(props.label) && <Text>{props.label}</Text>}
-                    {props.children}
-                </Box>
-            </Tab>
+            <Nav.Item {...props} ref={ref as ForwardedRef<HTMLAnchorElement>}>
+                {Boolean(props.label) && props.label}
+                {props.children}
+            </Nav.Item>
         )
     }
 )
@@ -230,14 +186,14 @@ const UiArrayFormTrashContainer = forwardRef<
 })
 
 const UiArrayFormTabs: FC<PropsWithChildren<{}>> = (props) => {
-    return <Flex direction="row">{props.children}</Flex>
+    return <Nav appearance="tabs">{props.children}</Nav>
 }
 
 const UiArrayFormBody: FC<PropsWithChildren<{}>> = (props) => {
     return <Flex direction="column">{props.children}</Flex>
 }
 
-const GrommetUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
+const RsuiteUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
     Container: UiContainer,
     Header: UiHeader,
     Body: UiBody,
@@ -252,4 +208,4 @@ const GrommetUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
     Tab: UiTab,
 }
 
-export default GrommetUi
+export default RsuiteUi

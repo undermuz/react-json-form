@@ -4,6 +4,7 @@ import {
     FC,
     FunctionComponent,
     PropsWithChildren,
+    ReactNode,
     Ref,
 } from "react"
 import { IInput } from "./input"
@@ -81,11 +82,12 @@ export interface IUiTabProps {
     active?: boolean
     style?: CSSProperties | undefined
     ref?: Ref<HTMLElement> | undefined
-    onClick?: (...args: any[]) => any
+    onSelect?: (...args: any[]) => any
 }
 
 export interface IField {
     title: string
+    name: string
     isLast: boolean
     primary?: boolean
     type: EnumSchemeItemType
@@ -109,6 +111,21 @@ export interface JsonFormIcons {
     }
 }
 
+export interface IJsonFormParams {
+    value: TypeValue
+    primary?: boolean
+    header?: ReactNode
+    onChange: FunctionOnChange
+}
+
+export type IJsonFormProps = IJsonFormParams &
+    Partial<Pick<IScheme, "id" | "title">> &
+    Pick<IScheme, "multiple" | "scheme">
+
+export interface JsonFormComponents {
+    JsonForm: FC<PropsWithChildren<IJsonFormProps>>
+}
+
 export interface JsonFormUi {
     Container: FC<PropsWithChildren<{}>>
     Header: FC<PropsWithChildren<IUiHeaderProps>>
@@ -122,6 +139,7 @@ export interface JsonFormUi {
         TrashContainer: FC<PropsWithChildren<IUiArrayFormTrashContainerProps>>
     }
     Tab: FC<PropsWithChildren<IUiTabProps>>
+    Components?: Partial<JsonFormComponents>
     Controls: JsonFormControls
     Icons: JsonFormIcons
 }
