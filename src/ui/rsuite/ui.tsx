@@ -21,6 +21,7 @@ import {
     EnumSchemeItemType,
     IField,
     IUiArrayFormProps,
+    IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
     IUiBodyProps,
     IUiHeaderProps,
@@ -185,8 +186,8 @@ const UiArrayFormTrashContainer = forwardRef<
     )
 })
 
-const UiArrayFormTabs: FC<PropsWithChildren<{}>> = (props) => {
-    return <Nav appearance="tabs">{props.children}</Nav>
+const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (props) => {
+    return <Nav appearance={!props.actions ? "tabs" : undefined}>{props.children}</Nav>
 }
 
 const UiArrayFormBody: FC<PropsWithChildren<{}>> = (props) => {

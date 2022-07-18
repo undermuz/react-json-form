@@ -333,7 +333,7 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
                     </SortableList>
                 </Ui.ArrayForm.Tabs>
 
-                <Ui.ArrayForm.Tabs>
+                <Ui.ArrayForm.Tabs actions>
                     <Ui.Tab onSelect={() => handleRemoveTab(tab)}>
                         <Ui.Icons.Tabs.Remove />
                     </Ui.Tab>

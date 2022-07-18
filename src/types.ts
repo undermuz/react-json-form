@@ -126,6 +126,10 @@ export interface JsonFormComponents {
     JsonForm: FC<PropsWithChildren<IJsonFormProps>>
 }
 
+export interface IUiArrayFormTabsProps {
+    actions?: boolean
+}
+
 export interface JsonFormUi {
     Container: FC<PropsWithChildren<{}>>
     Header: FC<PropsWithChildren<IUiHeaderProps>>
@@ -134,7 +138,7 @@ export interface JsonFormUi {
     Field: FC<PropsWithChildren<IField>>
     ArrayForm: FC<PropsWithChildren<IUiArrayFormProps>> & {
         Header: FC<PropsWithChildren<{}>>
-        Tabs: FC<PropsWithChildren<{}>>
+        Tabs: FC<PropsWithChildren<IUiArrayFormTabsProps>>
         Body: FC<PropsWithChildren<{}>>
         TrashContainer: FC<PropsWithChildren<IUiArrayFormTrashContainerProps>>
     }

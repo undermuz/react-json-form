@@ -21,6 +21,7 @@ import {
     EnumSchemeItemType,
     IField,
     IUiArrayFormProps,
+    IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
     IUiBodyProps,
     IUiHeaderProps,
@@ -229,7 +230,7 @@ const UiArrayFormTrashContainer = forwardRef<
     )
 })
 
-const UiArrayFormTabs: FC<PropsWithChildren<{}>> = (props) => {
+const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (props) => {
     return <Flex direction="row">{props.children}</Flex>
 }
 
