@@ -5,10 +5,8 @@ import { useJsonFormUi } from "../../UiContext"
 
 const JsonFormComponent: FC<PropsWithChildren<IJsonFormProps>> = (props) => {
     const {
-        id,
         title,
         header = null,
-        multiple = false,
         primary = true,
         children,
     } = props

@@ -1,8 +1,8 @@
 import { MouseEventHandler } from "react"
+// import { isNumber } from "underscore"
 import { EnumSchemeItemType, IScheme, IWidgetSettings } from "../../../types"
 
 import DEF_VALUE from "./defaults"
-import view from "./view"
 
 export interface IPrice2ValuePricesItem {
     id: number
@@ -37,6 +37,8 @@ export interface IPrice2 {
 const WidgetName = "Price2"
 const WidgetTitle = "Прайсы 2"
 
+const isNumberic = (v: any) => !isNaN(parseInt(v as string))
+
 const scheme: IScheme = {
     id: WidgetName,
     scheme: [
@@ -45,6 +47,7 @@ const scheme: IScheme = {
             title: "Заголовок",
             type: EnumSchemeItemType.Text,
             def_value: DEF_VALUE.title,
+            rules: [[[Boolean], "Поле обязательное"]],
         },
         {
             name: "subtitle",
@@ -64,12 +67,17 @@ const scheme: IScheme = {
                     title: "Заголовок",
                     type: EnumSchemeItemType.Text,
                     def_value: "",
+                    rules: [[[Boolean], "Поле обязательное"]],
                 },
                 {
                     name: "price",
                     title: "Значение",
                     type: EnumSchemeItemType.Text,
-                    def_value: "",
+                    def_value: 0,
+                    rules: [
+                        [[Boolean], "Поле обязательное"],
+                        [[isNumberic], "Должно быть числом"],
+                    ],
                 },
                 {
                     name: "is_active",
@@ -108,7 +116,6 @@ const setting: IWidgetSettings = {
     image: `/pic/5aec67ad9e3e1ee17dc8717d1e23e8c5zXnwX.png`,
     value: DEF_VALUE,
     scheme,
-    view,
 }
 
 export { scheme }

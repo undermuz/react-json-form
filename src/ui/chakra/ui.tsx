@@ -97,7 +97,7 @@ const Branch = styled(Flex)`
 `
 
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const { title, isLast, primary = false, type, hasError, children } = props
+    const { title, isLast, primary = false, type, errors, children } = props
 
     const showLabel = useMemo(() => {
         if (type === EnumSchemeItemType.Checkbox) {
@@ -138,7 +138,7 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
                 direction={"column"}
                 justify="center"
             >
-                <FormControl isInvalid={hasError}>
+                <FormControl isInvalid={errors?.length > 0}>
                     {showLabel && (
                         <FormLabel htmlFor="email">{title}</FormLabel>
                     )}

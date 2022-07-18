@@ -1,8 +1,10 @@
+import { IUseFormFieldRule } from "@undermuz/use-form/build/types/useForm"
+import { IError } from "@undermuz/use-form/build/types/useForm/reducer"
+
 import {
     ComponentClass,
     CSSProperties,
     FC,
-    FunctionComponent,
     PropsWithChildren,
     ReactNode,
     Ref,
@@ -30,7 +32,7 @@ export interface ISchemeItem {
     def_value?: any
     single?: boolean
     multiple?: boolean
-    is_require?: boolean
+    rules?: IUseFormFieldRule[] | undefined
     settings?: TypeSchemeItemSettings
     scheme?: ISchemeItem[]
 }
@@ -56,7 +58,6 @@ export interface IWidgetSettings {
     image: string
     value: TypeValue
     scheme: IScheme
-    view: FunctionComponent<{ id: number; value: any }>
 }
 
 export interface JsonFormControls {
@@ -91,7 +92,7 @@ export interface IField {
     isLast: boolean
     primary?: boolean
     type: EnumSchemeItemType
-    hasError: boolean
+    errors: IError
 }
 
 export interface IUiArrayFormProps {
@@ -130,11 +131,15 @@ export interface IUiArrayFormTabsProps {
     actions?: boolean
 }
 
+export interface IUiFlatFormProps {
+    primary?: boolean
+}
+
 export interface JsonFormUi {
     Container: FC<PropsWithChildren<{}>>
     Header: FC<PropsWithChildren<IUiHeaderProps>>
     Body: FC<PropsWithChildren<IUiBodyProps>>
-    FlatForm: FC<PropsWithChildren<{}>>
+    FlatForm: FC<PropsWithChildren<IUiFlatFormProps>>
     Field: FC<PropsWithChildren<IField>>
     ArrayForm: FC<PropsWithChildren<IUiArrayFormProps>> & {
         Header: FC<PropsWithChildren<{}>>

@@ -1,21 +1,6 @@
-import {
-    CSSProperties,
-    FC,
-    ForwardedRef,
-    forwardRef,
-    PropsWithChildren,
-    useMemo,
-} from "react"
+import { FC, ForwardedRef, forwardRef, PropsWithChildren, useMemo } from "react"
 
-import {
-    Box,
-    Flex,
-    FormControl,
-    FormLabel,
-    Heading,
-    Tag,
-    Text,
-} from "@chakra-ui/react"
+import { Box, Flex, Heading, Tag, Text } from "@chakra-ui/react"
 
 import {
     EnumSchemeItemType,
@@ -24,12 +9,12 @@ import {
     IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
     IUiBodyProps,
+    IUiFlatFormProps,
     IUiHeaderProps,
     IUiTabProps,
     JsonFormUi,
 } from "../../types"
 
-import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import { Form, Nav } from "rsuite"
 
@@ -77,20 +62,23 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
     )
 }
 
-const UiFlatFormContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
-    return <Form>{children}</Form>
+const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
+    primary = false,
+    children,
+}) => {
+    if (primary) {
+        return <Form>{children}</Form>
+    }
+
+    return (
+        <div className="rs-form rs-form-vertical rs-form-fixed-width">
+            {children}
+        </div>
+    )
 }
 
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const {
-        title,
-        isLast,
-        primary = false,
-        name,
-        type,
-        hasError,
-        children,
-    } = props
+    const { title, name, type, errors, children } = props
 
     const showLabel = useMemo(() => {
         if (type === EnumSchemeItemType.Checkbox) {
@@ -108,21 +96,18 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
         <Form.Group controlId={name}>
             {showLabel && <Form.ControlLabel>{title}</Form.ControlLabel>}
             {children}
+            {errors &&
+                errors.length > 0 &&
+                errors.map((error, index: number) => {
+                    return (
+                        <div key={index} style={{ color: "red" }}>
+                            {error}
+                        </div>
+                    )
+                })}
         </Form.Group>
     )
 }
-
-const Tab = styled(Box)<IUiTabProps>`
-    ${({ active }) => css`
-        background-color: var(--chakra-colors-gray-50);
-
-        ${active && `background-color: var(--chakra-colors-teal-50);`}
-
-        user-select: none;
-
-        cursor: pointer;
-    `}
-`
 
 const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
     (props, ref) => {
@@ -186,8 +171,14 @@ const UiArrayFormTrashContainer = forwardRef<
     )
 })
 
-const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (props) => {
-    return <Nav appearance={!props.actions ? "tabs" : undefined}>{props.children}</Nav>
+const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
+    props
+) => {
+    return (
+        <Nav appearance={!props.actions ? "tabs" : undefined}>
+            {props.children}
+        </Nav>
+    )
 }
 
 const UiArrayFormBody: FC<PropsWithChildren<{}>> = (props) => {

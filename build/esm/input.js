@@ -1,22 +1,18 @@
 import { __assign } from "tslib";
 import { jsx as _jsx } from "react/jsx-runtime";
 // import Editor from "react-quill"
-import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import GeoSelect from "./Inputs/GeoSelect";
 // import DateSelect from "./Inputs/DateSelect"
-import { isArray } from "underscore";
 import { EnumSchemeItemType, } from "./types";
-import { CheckBox, DateInput, TextArea, TextInput } from "grommet";
-import WidgetBuilder from "./WidgetBuilder";
+import JsonForm from "./JsonForm";
+import { useJsonFormUi } from "./UiContext";
+import { noop } from "underscore";
 var Input = function (props) {
-    var name = props.name, value = props.value, type = props.type, title = props.title, _a = props.settings, settings = _a === void 0 ? {} : _a;
-    var onChange = props.onChange, onTest = props.onTest;
+    var _a = props.name, name = _a === void 0 ? "" : _a, _b = props.value, value = _b === void 0 ? "" : _b, type = props.type, title = props.title, _c = props.settings, settings = _c === void 0 ? {} : _c;
+    var _d = props.onChange, onChange = _d === void 0 ? noop : _d, _e = props.onBlur, onBlur = _e === void 0 ? noop : _e;
+    var Ui = useJsonFormUi();
     try {
-        if (type == EnumSchemeItemType.Widget) {
-            var _settings = settings;
-            return (_jsx(WidgetBuilder, __assign({ value: value, title: title }, _settings, { onChange: onChange })));
-        }
         // if (type == "text-editor") {
         //     return (
         //         <TextEditor
@@ -27,6 +23,9 @@ var Input = function (props) {
         //         />
         //     )
         // }
+        if (type == "geo") {
+            return (_jsx(GeoSelect, { name: name, value: value, onChange: onChange, onTest: onBlur }));
+        }
         if (type == EnumSchemeItemType.Files) {
             return null;
             // return (
@@ -40,46 +39,23 @@ var Input = function (props) {
             //     />
             // )
         }
-        if (type == EnumSchemeItemType.Select) {
-            var list = isArray(value) ? value : [];
-            return (_jsx(Select, { isMulti: settings.multiple ? true : false, name: name, value: settings.multiple
-                    ? list.map(function (_val) {
-                        var _a;
-                        return ({
-                            label: ((_a = settings.options.find(function (_i) {
-                                return _i.value == _val;
-                            })) === null || _a === void 0 ? void 0 : _a.label) || "(Not found)",
-                            value: _val,
-                        });
-                    })
-                    : value, options: settings.options, onBlur: function () { return onTest; }, onChange: function (_value) {
-                    if (settings.multiple) {
-                        var _list = isArray(_value)
-                            ? _value
-                            : [];
-                        onChange(_list.map(function (_val) { return _val.value; }));
-                    }
-                    else {
-                        onChange(_value);
-                    }
-                } }));
+        if (type == EnumSchemeItemType.Widget) {
+            var _settings = settings;
+            return (_jsx(JsonForm, __assign({ value: value, title: title, primary: false }, _settings, { onChange: onChange })));
         }
-        if (type === EnumSchemeItemType.Checkbox) {
-            return (_jsx(CheckBox, { checked: Boolean(value), name: name, label: title, onChange: function (event) { return onChange(event.target.checked); }, onMouseLeave: function (e) { return onTest(e.currentTarget.checked); } }));
+        if (type == EnumSchemeItemType.Select) {
+            return _jsx(Ui.Controls.Select, __assign({}, props));
         }
         if (type === EnumSchemeItemType.Date) {
-            return (_jsx(DateInput, { format: "dd.mm.yyyy", value: value ? value : undefined, onChange: function (_a) {
-                    var value = _a.value;
-                    return onChange(value);
-                } }));
+            return _jsx(Ui.Controls.Date, __assign({}, props));
         }
-        if (type == "geo") {
-            return (_jsx(GeoSelect, { name: name, value: value, onChange: onChange, onTest: onTest }));
+        if (type === EnumSchemeItemType.Checkbox) {
+            return _jsx(Ui.Controls.CheckBox, __assign({}, props));
         }
         if (type == EnumSchemeItemType.TextBlock) {
-            return (_jsx(TextArea, __assign({ value: value, className: "form-control" }, settings, { onBlur: function (e) { return onTest(e.currentTarget.value); }, onChange: function (event) { return onChange(event.currentTarget.value); } })));
+            return _jsx(Ui.Controls.TextBlock, __assign({}, props));
         }
-        return (_jsx(TextInput, { placeholder: name, name: name, type: type || "text", value: value, onChange: function (e) { return onChange(e.currentTarget.value); }, onBlur: function (e) { return onTest(e.currentTarget.value); } }));
+        return _jsx(Ui.Controls.Input, __assign({}, props));
     }
     catch (e) {
         console.error("Error <Input {...".concat(JSON.stringify(props), " }>:"));

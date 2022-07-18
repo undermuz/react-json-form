@@ -18,7 +18,7 @@ interface TypeSelectValue {
 const ControlSelect: FC<IInput> = (props) => {
     const { name, value, settings = {} } = props
 
-    const { onChange, onTest } = props
+    const { onChange, onBlur } = props
 
     const list: number[] = isArray(value) ? (value as number[]) : []
 
@@ -38,16 +38,16 @@ const ControlSelect: FC<IInput> = (props) => {
                     : value
             }
             options={settings.options}
-            onBlur={() => onTest}
+            onBlur={() => onBlur}
             onChange={(_value: any) => {
                 if (settings.multiple) {
                     const _list: TypeSelectValue[] = isArray(_value)
                         ? (_value as TypeSelectValue[])
                         : []
 
-                    onChange(_list.map((_val) => _val.value))
+                    onChange?.(_list.map((_val) => _val.value))
                 } else {
-                    onChange(_value)
+                    onChange?.(_value)
                 }
             }}
         />
@@ -63,7 +63,7 @@ const ControlDate: FC<IInput> = (props) => {
         <DateInput
             format="dd.mm.yyyy"
             value={value ? value : undefined}
-            onChange={({ value }) => onChange(value)}
+            onChange={({ value }) => onChange?.(value)}
         />
     )
 }
@@ -71,15 +71,15 @@ const ControlDate: FC<IInput> = (props) => {
 const ControlCheckBox: FC<IInput> = (props) => {
     const { name, value, title } = props
 
-    const { onChange, onTest } = props
+    const { onChange, onBlur } = props
 
     return (
         <Checkbox
             checked={Boolean(value)}
             name={name}
-            onChange={(event) => onChange(event.target.checked)}
+            onChange={(event) => onChange?.(event.target.checked)}
             onMouseLeave={(e) =>
-                onTest((e.currentTarget as HTMLInputElement).checked)
+                onBlur?.((e.currentTarget as HTMLInputElement).checked)
             }
         >
             {title}
@@ -90,15 +90,15 @@ const ControlCheckBox: FC<IInput> = (props) => {
 const ControlTextBlock: FC<IInput> = (props) => {
     const { name, value, settings = {} } = props
 
-    const { onChange, onTest } = props
+    const { onChange, onBlur } = props
 
     return (
         <Textarea
             value={value}
             name={name}
             {...settings}
-            onBlur={(e) => onTest(e.currentTarget.value)}
-            onChange={(event) => onChange(event.currentTarget.value)}
+            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onChange={(event) => onChange?.(event.currentTarget.value)}
         />
     )
 }
@@ -106,7 +106,7 @@ const ControlTextBlock: FC<IInput> = (props) => {
 const ControlInput: FC<IInput> = (props) => {
     const { name, value, type } = props
 
-    const { onChange, onTest } = props
+    const { onChange, onBlur } = props
 
     return (
         <Input
@@ -114,8 +114,8 @@ const ControlInput: FC<IInput> = (props) => {
             name={name}
             type={type || "text"}
             value={value}
-            onChange={(e) => onChange(e.currentTarget.value)}
-            onBlur={(e) => onTest(e.currentTarget.value)}
+            onChange={(e) => onChange?.(e.currentTarget.value)}
+            onBlur={(e) => onBlur?.(e.currentTarget.value)}
         />
     )
 }

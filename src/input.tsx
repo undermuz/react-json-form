@@ -16,6 +16,7 @@ import { IFieldWidgetSettings } from "./FlatForm"
 
 import JsonForm from "./JsonForm"
 import { useJsonFormUi } from "./UiContext"
+import { noop } from "underscore"
 
 // import * as Tests from 'helpers/ValueTests'
 // import * as Objects from 'helpers/Objects'
@@ -158,20 +159,21 @@ import { useJsonFormUi } from "./UiContext"
 // }
 
 export interface IInput {
-    name: string
-    value: any
+    name?: string
+    value?: any
     type: EnumSchemeItemType
-    hasError: boolean
+    hasError?: boolean
     title: string
     settings: TypeSchemeItemSettings
-    onChange: Function
-    onTest: Function
+    onChange?: Function
+    onFocus?: Function
+    onBlur?: Function
 }
 
 const Input: FC<IInput> = (props) => {
-    const { name, value, type, title, settings = {} } = props
+    const { name = "", value = "", type, title, settings = {} } = props
 
-    const { onChange, onTest } = props
+    const { onChange = noop, onBlur = noop } = props
 
     const Ui = useJsonFormUi()
 
@@ -193,7 +195,7 @@ const Input: FC<IInput> = (props) => {
                     name={name}
                     value={value}
                     onChange={onChange}
-                    onTest={onTest}
+                    onTest={onBlur}
                 />
             )
         }

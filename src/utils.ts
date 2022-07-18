@@ -1,3 +1,5 @@
+import { IValues } from "@undermuz/use-form/build/types"
+import { IUseFormSettings } from "@undermuz/use-form/build/types/useForm"
 import { useMemo } from "react"
 import { isArray } from "underscore"
 import {
@@ -77,6 +79,7 @@ export const useSafeValue = (
     return useMemo(() => {
         if (
             unsafeValue === undefined ||
+            (!multiple && Object.keys(unsafeValue).length === 0) ||
             (multiple && (!isArray(unsafeValue) || unsafeValue.length == 0))
         ) {
             if (multiple) {
@@ -88,4 +91,31 @@ export const useSafeValue = (
 
         return unsafeValue
     }, [unsafeValue, multiple, defValue])
+}
+
+export const useSchemeToForm = (
+    scheme: ISchemeItem[],
+    value: TypeValueItem,
+    onChange: (v: IValues) => void
+): IUseFormSettings => {
+    return useMemo<IUseFormSettings>(() => {
+        const config: IUseFormSettings = {
+            fields: {},
+            options: {
+                debug: true,
+            },
+            value,
+            onChange,
+        }
+
+        scheme.forEach((item) => {
+            config.fields[item.name] = {
+                label: item.title,
+                rules: item.rules,
+                initialValue: item.def_value,
+            }
+        })
+
+        return config
+    }, [scheme, value, onChange])
 }
