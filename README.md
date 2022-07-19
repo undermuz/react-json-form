@@ -1,6 +1,6 @@
 # @undermuz/react-json-form
 
-React library for generate JSON-based form with React
+React library for generate JSON-based form
 
 ## Install
 
