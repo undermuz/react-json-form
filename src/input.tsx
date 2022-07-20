@@ -10,9 +10,9 @@ import GeoSelect from "./Inputs/GeoSelect"
 import {
     EnumSchemeItemType,
     FunctionOnChange,
+    IFieldWidgetSettings,
     TypeSchemeItemSettings,
 } from "./types"
-import { IFieldWidgetSettings } from "./FlatForm"
 
 import JsonForm from "./JsonForm"
 import { useJsonFormUi } from "./UiContext"

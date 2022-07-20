@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import { IScheme, IWidgetSettings } from "../../../types";
+import { IScheme } from "../../../types";
 export interface IPrice2ValuePricesItem {
     id: number;
     title: string;
@@ -23,6 +23,4 @@ export interface IPrice2 {
     onButtonClick?: MouseEventHandler<HTMLAnchorElement> & MouseEventHandler<HTMLButtonElement>;
 }
 declare const scheme: IScheme;
-declare const setting: IWidgetSettings;
-export { scheme };
-export default setting;
+export default scheme;

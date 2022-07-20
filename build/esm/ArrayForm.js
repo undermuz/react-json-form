@@ -68,11 +68,11 @@ var SortableList = function (_a) {
             setActiveId(event.active.id);
         } }, { children: [_jsx(SortableContext, __assign({ id: "list", items: tabs, strategy: horizontalListSortingStrategy }, { children: children })), createPortal(_jsx(DragOverlay, { children: currentIndex > -1 ? (_jsx(SortableTab, { tabId: activeId, label: "#".concat(currentIndex + 1) })) : null }), document.body), activeId !== null && _jsx(TrashDroppable, {})] })));
 };
-var WidgetItem = function (props) {
+var ArrayFormItem = function (props) {
     var id = props.id, value = props.value, scheme = props.scheme, _a = props.primary, primary = _a === void 0 ? false : _a, onChange = props.onChange;
     useEffect(function () {
         if (!id) {
-            console.error("WidgetItem: props id is required");
+            console.error("ArrayFormItem: props id is required");
         }
     }, []);
     var handleChange = function (newValue) {
@@ -94,12 +94,6 @@ var ArrayForm = function (props) {
         if (id === void 0) { id = null; }
         var _newValue = value.map(function (item) {
             return item.id == id ? __assign(__assign({}, item), newValue) : item;
-        });
-        console.log("MultipleWidgetItem::handleChange", {
-            id: id,
-            item: newValue,
-            oldValue: value,
-            newValue: _newValue,
         });
         onChange(_newValue);
     }, [value, onChange]);
@@ -141,6 +135,6 @@ var ArrayForm = function (props) {
         }
         return item;
     }, [value, tab]);
-    return (_jsxs(Ui.ArrayForm, __assign({ style: { position: "relative", zIndex: 1 } }, { children: [_jsxs(Ui.ArrayForm.Header, { children: [_jsx(Ui.ArrayForm.Tabs, { children: _jsx(SortableList, __assign({ tabs: tabs, onSortEnd: handleSortTabs }, { children: tabs.map(function (val, index) { return (_jsx(SortableTab, { label: "#".concat(index + 1), tabId: val.id, active: tab === val.id, onSelect: function () { return setTab(val.id); } }, val.id)); }) })) }), _jsxs(Ui.ArrayForm.Tabs, __assign({ actions: true }, { children: [_jsx(Ui.Tab, __assign({ onSelect: function () { return handleRemoveTab(tab); } }, { children: _jsx(Ui.Icons.Tabs.Remove, {}) })), _jsx(Ui.Tab, __assign({ onSelect: handleAddTab }, { children: _jsx(Ui.Icons.Tabs.Add, {}) }))] }))] }), _jsx(Ui.ArrayForm.Body, { children: currentItem !== null && (_jsx(WidgetItem, { id: currentItem.id, primary: primary, scheme: scheme, value: currentItem, onChange: handleChange }, currentItem.id)) })] })));
+    return (_jsxs(Ui.ArrayForm, __assign({ style: { position: "relative", zIndex: 1 } }, { children: [_jsxs(Ui.ArrayForm.Header, { children: [_jsx(Ui.ArrayForm.Tabs, { children: _jsx(SortableList, __assign({ tabs: tabs, onSortEnd: handleSortTabs }, { children: tabs.map(function (val, index) { return (_jsx(SortableTab, { label: "#".concat(index + 1), tabId: val.id, active: tab === val.id, onSelect: function () { return setTab(val.id); } }, val.id)); }) })) }), _jsxs(Ui.ArrayForm.Tabs, __assign({ actions: true }, { children: [_jsx(Ui.Tab, __assign({ onSelect: function () { return handleRemoveTab(tab); } }, { children: _jsx(Ui.Icons.Tabs.Remove, {}) })), _jsx(Ui.Tab, __assign({ onSelect: handleAddTab }, { children: _jsx(Ui.Icons.Tabs.Add, {}) }))] }))] }), _jsx(Ui.ArrayForm.Body, { children: currentItem !== null && (_jsx(ArrayFormItem, { id: currentItem.id, primary: primary, scheme: scheme, value: currentItem, onChange: handleChange }, currentItem.id)) })] })));
 };
 export default ArrayForm;

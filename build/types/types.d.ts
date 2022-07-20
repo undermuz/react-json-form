@@ -13,6 +13,10 @@ export declare enum EnumSchemeItemType {
     GeoCoordinates = "geo",
     Date = "date"
 }
+export interface IFieldWidgetSettings {
+    scheme: ISchemeItem[];
+    multiple: boolean;
+}
 export declare type TypeSchemeItemSettings = Record<string, any>;
 export interface ISchemeItem {
     name: string;
@@ -36,14 +40,6 @@ export interface IScheme {
 export declare type TypeValueItem = Record<string, any>;
 export declare type TypeValue = TypeValueItem | TypeValueItem[];
 export declare type FunctionOnChange = (value: TypeValue) => void;
-export interface IWidgetSettings {
-    id: string;
-    title: string;
-    description: string;
-    image: string;
-    value: TypeValue;
-    scheme: IScheme;
-}
 export interface JsonFormControls {
     [key: string]: FC<IInput>;
     Input: FC<IInput>;

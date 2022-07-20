@@ -3,7 +3,7 @@ import { Box } from "grommet"
 import { FC, useState } from "react"
 
 import JsonForm from "../JsonForm"
-import { scheme } from "./Schemes/prices"
+import scheme from "./Schemes/prices"
 
 import ReactJson from "react-json-view"
 import UiContext from "../UiContext"

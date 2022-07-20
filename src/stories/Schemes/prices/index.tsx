@@ -1,6 +1,6 @@
 import { MouseEventHandler } from "react"
 // import { isNumber } from "underscore"
-import { EnumSchemeItemType, IScheme, IWidgetSettings } from "../../../types"
+import { EnumSchemeItemType, IScheme } from "../../../types"
 
 import DEF_VALUE from "./defaults"
 
@@ -109,17 +109,6 @@ const scheme: IScheme = {
     name: WidgetName,
 }
 
-const setting: IWidgetSettings = {
-    id: WidgetName,
-    title: WidgetTitle,
-    description: `Прайсы 2`,
-    image: `/pic/5aec67ad9e3e1ee17dc8717d1e23e8c5zXnwX.png`,
-    value: DEF_VALUE,
-    scheme,
-}
-
-export { scheme }
-
-export default setting
+export default scheme
 
 /*SCHEME END*/

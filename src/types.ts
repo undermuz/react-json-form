@@ -23,6 +23,11 @@ export enum EnumSchemeItemType {
     Date = "date",
 }
 
+export interface IFieldWidgetSettings {
+    scheme: ISchemeItem[]
+    multiple: boolean
+}
+
 export type TypeSchemeItemSettings = Record<string, any>
 
 export interface ISchemeItem {
@@ -50,16 +55,6 @@ export type TypeValueItem = Record<string, any>
 export type TypeValue = TypeValueItem | TypeValueItem[]
 
 export type FunctionOnChange = (value: TypeValue) => void
-
-export interface IWidgetSettings {
-    id: string
-    title: string
-    description: string
-    image: string
-    value: TypeValue
-    scheme: IScheme
-}
-
 export interface JsonFormControls {
     [key: string]: FC<IInput>
     Input: FC<IInput>

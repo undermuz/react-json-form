@@ -12,11 +12,6 @@ import useForm, {
     IValues,
 } from "@undermuz/use-form"
 
-export interface IFieldWidgetSettings {
-    scheme: ISchemeItem[]
-    multiple: boolean
-}
-
 interface IFlatForm {
     primary?: boolean
     scheme: ISchemeItem[]

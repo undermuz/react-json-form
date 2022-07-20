@@ -181,7 +181,7 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
     )
 }
 
-interface IWidgetItem {
+interface IArrayFormItemProps {
     id: number
     primary?: boolean
     value: TypeValue
@@ -189,12 +189,12 @@ interface IWidgetItem {
     onChange: Function
 }
 
-const WidgetItem: React.FC<IWidgetItem> = (props) => {
+const ArrayFormItem: React.FC<IArrayFormItemProps> = (props) => {
     const { id, value, scheme, primary = false, onChange } = props
 
     useEffect(() => {
         if (!id) {
-            console.error("WidgetItem: props id is required")
+            console.error("ArrayFormItem: props id is required")
         }
     }, [])
 
@@ -240,13 +240,6 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
             const _newValue = value.map((item: Record<string, any>) =>
                 item.id == id ? { ...item, ...newValue } : item
             )
-
-            console.log("MultipleWidgetItem::handleChange", {
-                id,
-                item: newValue,
-                oldValue: value,
-                newValue: _newValue,
-            })
 
             onChange(_newValue)
         },
@@ -346,7 +339,7 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
 
             <Ui.ArrayForm.Body>
                 {currentItem !== null && (
-                    <WidgetItem
+                    <ArrayFormItem
                         key={currentItem.id}
                         id={currentItem.id}
                         primary={primary}

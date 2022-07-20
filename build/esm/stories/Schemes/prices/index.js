@@ -74,14 +74,5 @@ var scheme = {
     title: WidgetTitle,
     name: WidgetName,
 };
-var setting = {
-    id: WidgetName,
-    title: WidgetTitle,
-    description: "\u041F\u0440\u0430\u0439\u0441\u044B 2",
-    image: "/pic/5aec67ad9e3e1ee17dc8717d1e23e8c5zXnwX.png",
-    value: DEF_VALUE,
-    scheme: scheme,
-};
-export { scheme };
-export default setting;
+export default scheme;
 /*SCHEME END*/

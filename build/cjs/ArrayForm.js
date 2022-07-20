@@ -70,11 +70,11 @@ var SortableList = function (_a) {
             setActiveId(event.active.id);
         } }, { children: [(0, jsx_runtime_1.jsx)(sortable_1.SortableContext, tslib_1.__assign({ id: "list", items: tabs, strategy: sortable_1.horizontalListSortingStrategy }, { children: children })), (0, react_dom_1.createPortal)((0, jsx_runtime_1.jsx)(core_1.DragOverlay, { children: currentIndex > -1 ? ((0, jsx_runtime_1.jsx)(SortableTab, { tabId: activeId, label: "#".concat(currentIndex + 1) })) : null }), document.body), activeId !== null && (0, jsx_runtime_1.jsx)(TrashDroppable, {})] })));
 };
-var WidgetItem = function (props) {
+var ArrayFormItem = function (props) {
     var id = props.id, value = props.value, scheme = props.scheme, _a = props.primary, primary = _a === void 0 ? false : _a, onChange = props.onChange;
     (0, react_1.useEffect)(function () {
         if (!id) {
-            console.error("WidgetItem: props id is required");
+            console.error("ArrayFormItem: props id is required");
         }
     }, []);
     var handleChange = function (newValue) {
@@ -96,12 +96,6 @@ var ArrayForm = function (props) {
         if (id === void 0) { id = null; }
         var _newValue = value.map(function (item) {
             return item.id == id ? tslib_1.__assign(tslib_1.__assign({}, item), newValue) : item;
-        });
-        console.log("MultipleWidgetItem::handleChange", {
-            id: id,
-            item: newValue,
-            oldValue: value,
-            newValue: _newValue,
         });
         onChange(_newValue);
     }, [value, onChange]);
@@ -143,6 +137,6 @@ var ArrayForm = function (props) {
         }
         return item;
     }, [value, tab]);
-    return ((0, jsx_runtime_1.jsxs)(Ui.ArrayForm, tslib_1.__assign({ style: { position: "relative", zIndex: 1 } }, { children: [(0, jsx_runtime_1.jsxs)(Ui.ArrayForm.Header, { children: [(0, jsx_runtime_1.jsx)(Ui.ArrayForm.Tabs, { children: (0, jsx_runtime_1.jsx)(SortableList, tslib_1.__assign({ tabs: tabs, onSortEnd: handleSortTabs }, { children: tabs.map(function (val, index) { return ((0, jsx_runtime_1.jsx)(SortableTab, { label: "#".concat(index + 1), tabId: val.id, active: tab === val.id, onSelect: function () { return setTab(val.id); } }, val.id)); }) })) }), (0, jsx_runtime_1.jsxs)(Ui.ArrayForm.Tabs, tslib_1.__assign({ actions: true }, { children: [(0, jsx_runtime_1.jsx)(Ui.Tab, tslib_1.__assign({ onSelect: function () { return handleRemoveTab(tab); } }, { children: (0, jsx_runtime_1.jsx)(Ui.Icons.Tabs.Remove, {}) })), (0, jsx_runtime_1.jsx)(Ui.Tab, tslib_1.__assign({ onSelect: handleAddTab }, { children: (0, jsx_runtime_1.jsx)(Ui.Icons.Tabs.Add, {}) }))] }))] }), (0, jsx_runtime_1.jsx)(Ui.ArrayForm.Body, { children: currentItem !== null && ((0, jsx_runtime_1.jsx)(WidgetItem, { id: currentItem.id, primary: primary, scheme: scheme, value: currentItem, onChange: handleChange }, currentItem.id)) })] })));
+    return ((0, jsx_runtime_1.jsxs)(Ui.ArrayForm, tslib_1.__assign({ style: { position: "relative", zIndex: 1 } }, { children: [(0, jsx_runtime_1.jsxs)(Ui.ArrayForm.Header, { children: [(0, jsx_runtime_1.jsx)(Ui.ArrayForm.Tabs, { children: (0, jsx_runtime_1.jsx)(SortableList, tslib_1.__assign({ tabs: tabs, onSortEnd: handleSortTabs }, { children: tabs.map(function (val, index) { return ((0, jsx_runtime_1.jsx)(SortableTab, { label: "#".concat(index + 1), tabId: val.id, active: tab === val.id, onSelect: function () { return setTab(val.id); } }, val.id)); }) })) }), (0, jsx_runtime_1.jsxs)(Ui.ArrayForm.Tabs, tslib_1.__assign({ actions: true }, { children: [(0, jsx_runtime_1.jsx)(Ui.Tab, tslib_1.__assign({ onSelect: function () { return handleRemoveTab(tab); } }, { children: (0, jsx_runtime_1.jsx)(Ui.Icons.Tabs.Remove, {}) })), (0, jsx_runtime_1.jsx)(Ui.Tab, tslib_1.__assign({ onSelect: handleAddTab }, { children: (0, jsx_runtime_1.jsx)(Ui.Icons.Tabs.Add, {}) }))] }))] }), (0, jsx_runtime_1.jsx)(Ui.ArrayForm.Body, { children: currentItem !== null && ((0, jsx_runtime_1.jsx)(ArrayFormItem, { id: currentItem.id, primary: primary, scheme: scheme, value: currentItem, onChange: handleChange }, currentItem.id)) })] })));
 };
 exports.default = ArrayForm;
