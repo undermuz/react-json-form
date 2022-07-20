@@ -71,11 +71,11 @@
     "array-move": "^4.0.0",
     "react-datepicker": "^4.8.0",
     "react-select": "^5.4.0",
-    "styled-components": "^5.3.5",
     "underscore": "^1.13.4"
   },
   "peerDependencies": {
     "react": ">=16.0.0",
+    "styled-components": "^5.3.5",
     "react-dom": ">=16.0.0"
   },
   "devDependencies": {
