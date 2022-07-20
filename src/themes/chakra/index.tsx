@@ -4,10 +4,10 @@ import Controls from "./controls"
 import Ui from "./ui"
 import Icons from "./icons"
 
-const GrommetUi: JsonFormUi = {
+const ChakraUi: JsonFormUi = {
     ...Ui,
     Controls,
     Icons,
 }
 
-export default GrommetUi
+export default ChakraUi

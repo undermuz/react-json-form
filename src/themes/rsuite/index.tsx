@@ -5,7 +5,7 @@ import * as Components from "./components"
 import Ui from "./ui"
 import Icons from "./icons"
 
-const GrommetUi: JsonFormUi = {
+const RsuiteUi: JsonFormUi = {
     ...Ui,
     Controls,
     Icons,
@@ -14,4 +14,4 @@ const GrommetUi: JsonFormUi = {
     },
 }
 
-export default GrommetUi
+export default RsuiteUi

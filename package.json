@@ -3,8 +3,37 @@
   "homepage": "http://undermuz.github.io/react-json-form",
   "version": "1.0.1",
   "description": "Generate JSON-based form with react",
+  "exports": {
+    ".": {
+      "types": "./build/types/index.d.ts",
+      "import": "./build/esm/index.js",
+      "require": "./build/cjs/index.js"
+    },
+    "./themes/chakra": {
+      "types": "./build/types/themes/chakra/index.d.ts",
+      "import": "./build/esm/themes/chakra/index.js",
+      "require": "./build/cjs/themes/chakra/index.js"
+    },
+    "./themes/grommet": {
+      "types": "./build/types/themes/grommet/index.d.ts",
+      "import": "./build/esm/themes/grommet/index.js",
+      "require": "./build/cjs/themes/grommet/index.js"
+    },
+    "./themes/rsuite": {
+      "types": "./build/types/themes/rsuite/index.d.ts",
+      "import": "./build/esm/themes/rsuite/index.js",
+      "require": "./build/cjs/themes/rsuite/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "themes/*": [
+        "build/types/themes/*/index.d.ts"
+      ]
+    }
+  },
   "main": "build/cjs/index.js",
-  "module": "build/esm/index.js",
   "types": "build/types/index.d.js",
   "typings": "build/types/index.d.js",
   "sideEffects": false,
