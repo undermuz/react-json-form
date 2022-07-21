@@ -1,4 +1,5 @@
 import { FC, ForwardedRef, forwardRef, PropsWithChildren, useMemo } from "react"
+import styled from "styled-components"
 
 import { Box, Flex, Heading, Tag, Text } from "@chakra-ui/react"
 
@@ -15,7 +16,6 @@ import {
     JsonFormUi,
 } from "../../types"
 
-import styled from "@emotion/styled"
 import { Form, Nav } from "rsuite"
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {

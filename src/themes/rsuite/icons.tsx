@@ -1,10 +1,11 @@
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons"
+import TrashIcon from "@rsuite/icons/Trash"
+import PlusIcon from "@rsuite/icons/Plus"
 import { JsonFormIcons } from "../../types"
 
 const Icons: JsonFormIcons = {
     Tabs: {
-        Remove: () => <DeleteIcon color={"red.400"} />,
-        Add: AddIcon,
+        Remove: TrashIcon,
+        Add: PlusIcon,
     },
 }
 
