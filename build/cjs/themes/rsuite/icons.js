@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var jsx_runtime_1 = require("react/jsx-runtime");
-var icons_1 = require("@chakra-ui/icons");
+var tslib_1 = require("tslib");
+var Trash_1 = tslib_1.__importDefault(require("@rsuite/icons/Trash"));
+var Plus_1 = tslib_1.__importDefault(require("@rsuite/icons/Plus"));
 var Icons = {
     Tabs: {
-        Remove: function () { return (0, jsx_runtime_1.jsx)(icons_1.DeleteIcon, { color: "red.400" }); },
-        Add: icons_1.AddIcon,
+        Remove: Trash_1.default,
+        Add: Plus_1.default,
     },
 };
 exports.default = Icons;

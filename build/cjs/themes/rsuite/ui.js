@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("react");
+var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
 var react_2 = require("@chakra-ui/react");
 var types_1 = require("../../types");
-var styled_1 = tslib_1.__importDefault(require("@emotion/styled"));
 var rsuite_1 = require("rsuite");
 var UiContainer = function (_a) {
     var children = _a.children;
@@ -52,7 +52,7 @@ var UiArrayFormContainer = function (props) {
 var UiArrayFormHeader = function (props) {
     return ((0, jsx_runtime_1.jsx)(react_2.Flex, tslib_1.__assign({ direction: "row", backgroundColor: "gray.100", justify: "space-between", mb: 3 }, { children: props.children })));
 };
-var TrashContainer = (0, styled_1.default)(react_2.Box)(templateObject_1 || (templateObject_1 = tslib_1.__makeTemplateObject(["\n    position: absolute;\n    z-index: 2;\n    top: -30px;\n    left: 0px;\n    width: 100%;\n"], ["\n    position: absolute;\n    z-index: 2;\n    top: -30px;\n    left: 0px;\n    width: 100%;\n"])));
+var TrashContainer = (0, styled_components_1.default)(react_2.Box)(templateObject_1 || (templateObject_1 = tslib_1.__makeTemplateObject(["\n    position: absolute;\n    z-index: 2;\n    top: -30px;\n    left: 0px;\n    width: 100%;\n"], ["\n    position: absolute;\n    z-index: 2;\n    top: -30px;\n    left: 0px;\n    width: 100%;\n"])));
 var UiArrayFormTrashContainer = (0, react_1.forwardRef)(function (props, ref) {
     return ((0, jsx_runtime_1.jsxs)(TrashContainer, tslib_1.__assign({ ref: ref, animation: { type: "fadeIn", duration: 300 }, border: "2px", borderColor: "red.200", borderStyle: "dashed", backgroundColor: props.isOver ? "red.200" : "gray.100", p: 1 }, { children: [Boolean(props === null || props === void 0 ? void 0 : props.label) && (0, jsx_runtime_1.jsx)(react_2.Text, { children: props === null || props === void 0 ? void 0 : props.label }), props.children] })));
 });

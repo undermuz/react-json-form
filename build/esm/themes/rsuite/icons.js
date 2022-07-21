@@ -1,9 +1,9 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import TrashIcon from "@rsuite/icons/Trash";
+import PlusIcon from "@rsuite/icons/Plus";
 var Icons = {
     Tabs: {
-        Remove: function () { return _jsx(DeleteIcon, { color: "red.400" }); },
-        Add: AddIcon,
+        Remove: TrashIcon,
+        Add: PlusIcon,
     },
 };
 export default Icons;

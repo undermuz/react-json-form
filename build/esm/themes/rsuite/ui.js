@@ -1,9 +1,9 @@
 import { __assign, __makeTemplateObject } from "tslib";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { forwardRef, useMemo } from "react";
+import styled from "styled-components";
 import { Box, Flex, Heading, Tag, Text } from "@chakra-ui/react";
 import { EnumSchemeItemType, } from "../../types";
-import styled from "@emotion/styled";
 import { Form, Nav } from "rsuite";
 var UiContainer = function (_a) {
     var children = _a.children;
