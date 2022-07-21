@@ -1,8 +1,6 @@
 import { FC, ForwardedRef, forwardRef, PropsWithChildren, useMemo } from "react"
 import styled from "styled-components"
 
-import { Box, Flex, Heading, Tag, Text } from "@chakra-ui/react"
-
 import {
     EnumSchemeItemType,
     IField,
@@ -17,18 +15,29 @@ import {
 } from "../../types"
 
 import { Form, Nav } from "rsuite"
+import { Box, Heading, Tag, Text } from "grommet"
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
-    return <Flex direction={"column"}>{children}</Flex>
+    return <Box direction={"column"}>{children}</Box>
 }
 
 const UiBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
     const { primary, children } = props
 
     return (
-        <Flex direction={"column"} p={primary ? 4 : 0} pl={0}>
+        <Box
+            pad={
+                primary
+                    ? {
+                          top: "small",
+                          right: "small",
+                          bottom: "small",
+                      }
+                    : undefined
+            }
+        >
             {children}
-        </Flex>
+        </Box>
     )
 }
 
@@ -36,29 +45,25 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
     const { id, title, primary, children } = props
 
     return (
-        <Flex
+        <Box
             width={"100%"}
-            direction="column"
-            p={primary ? 3 : 1}
+            direction="row"
+            pad={primary ? "small" : "xxsmall"}
             justify="between"
-            background={primary ? "teal.300" : "gray.100"}
+            background={primary ? "brand" : "light-2"}
         >
-            <Flex direction="row" justify="space-between" gap="small">
+            <Box direction="row" justify="start" gap="small">
                 {Boolean(title) && (
-                    <Heading
-                        as={primary ? `h3` : `h4`}
-                        size={primary ? `lg` : `md`}
-                        margin="none"
-                    >
+                    <Heading level={primary ? 3 : 4} margin="none">
                         {title}
                     </Heading>
                 )}
 
-                {Boolean(id) && <Tag>#{id}</Tag>}
-            </Flex>
+                {Boolean(id) && <Tag value={`#${id}`} />}
+            </Box>
 
             {children}
-        </Flex>
+        </Box>
     )
 }
 
@@ -124,22 +129,17 @@ const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
     props
 ) => {
     return (
-        <Flex direction="column" style={props.style}>
+        <Box direction="column" style={props.style}>
             {props.children}
-        </Flex>
+        </Box>
     )
 }
 
 const UiArrayFormHeader: FC<PropsWithChildren<{}>> = (props) => {
     return (
-        <Flex
-            direction="row"
-            backgroundColor="gray.100"
-            justify={"space-between"}
-            mb={3}
-        >
+        <Box direction="row" justify="between">
             {props.children}
-        </Flex>
+        </Box>
     )
 }
 
@@ -159,11 +159,15 @@ const UiArrayFormTrashContainer = forwardRef<
         <TrashContainer
             ref={ref}
             animation={{ type: "fadeIn", duration: 300 }}
-            border="2px"
-            borderColor="red.200"
-            borderStyle="dashed"
-            backgroundColor={props.isOver ? "red.200" : "gray.100"}
-            p={1}
+            border={{
+                color: "status-critical",
+                size: "small",
+                style: "dashed",
+            }}
+            background={{
+                color: props.isOver ? "status-critical" : "light-2",
+            }}
+            pad="xsmall"
         >
             {Boolean(props?.label) && <Text>{props?.label}</Text>}
             {props.children}
@@ -182,7 +186,7 @@ const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
 }
 
 const UiArrayFormBody: FC<PropsWithChildren<{}>> = (props) => {
-    return <Flex direction="column">{props.children}</Flex>
+    return <Box>{props.children}</Box>
 }
 
 const RsuiteUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
