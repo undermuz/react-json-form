@@ -1,8 +1,7 @@
 import JsonForm from "./JsonForm"
-
-import { EnumSchemeItemType } from "./types"
 import UiContext from "./UiContext"
 
-export default JsonForm
+export { JsonForm, UiContext }
+export * from "./types"
 
-export { JsonForm, EnumSchemeItemType, UiContext }
+export default JsonForm
