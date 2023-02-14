@@ -69,6 +69,7 @@
     "@dnd-kit/sortable": "^7.0.1",
     "@undermuz/use-form": ">=1.0.1",
     "array-move": "^4.0.0",
+    "react-error-boundary": "^3.1.4",
     "react-select": "^5.4.0",
     "underscore": "^1.13.4"
   },
@@ -79,7 +80,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
-    "@orange_digital/chakra-datepicker": "^1.0.3",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
     "@chakra-ui/icons": "^2.0.4",
@@ -87,6 +87,7 @@
     "@emotion/babel-plugin": "^11.9.2",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@orange_digital/chakra-datepicker": "^1.0.3",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
