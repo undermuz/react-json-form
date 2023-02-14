@@ -1,16 +1,13 @@
 import { __assign } from "tslib";
 import { jsx as _jsx } from "react/jsx-runtime";
 // import Editor from "react-quill"
-import "react-datepicker/dist/react-datepicker.css";
-import GeoSelect from "./Inputs/GeoSelect";
-// import DateSelect from "./Inputs/DateSelect"
 import { EnumSchemeItemType, } from "./types";
 import JsonForm from "./JsonForm";
 import { useJsonFormUi } from "./UiContext";
 import { noop } from "underscore";
 var Input = function (props) {
-    var _a = props.name, name = _a === void 0 ? "" : _a, _b = props.value, value = _b === void 0 ? "" : _b, type = props.type, title = props.title, _c = props.settings, settings = _c === void 0 ? {} : _c;
-    var _d = props.onChange, onChange = _d === void 0 ? noop : _d, _e = props.onBlur, onBlur = _e === void 0 ? noop : _e;
+    var _a = props.value, value = _a === void 0 ? "" : _a, type = props.type, title = props.title, _b = props.settings, settings = _b === void 0 ? {} : _b;
+    var _c = props.onChange, onChange = _c === void 0 ? noop : _c;
     var Ui = useJsonFormUi();
     try {
         // if (type == "text-editor") {
@@ -23,9 +20,6 @@ var Input = function (props) {
         //         />
         //     )
         // }
-        if (type == "geo") {
-            return (_jsx(GeoSelect, { name: name, value: value, onChange: onChange, onTest: onBlur }));
-        }
         if (type == EnumSchemeItemType.Files) {
             return null;
             // return (

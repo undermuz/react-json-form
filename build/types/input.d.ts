@@ -1,5 +1,4 @@
 import { FC } from "react";
-import "react-datepicker/dist/react-datepicker.css";
 import { EnumSchemeItemType, TypeSchemeItemSettings } from "./types";
 export interface IInput {
     name?: string;

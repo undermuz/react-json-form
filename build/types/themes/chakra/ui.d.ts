@@ -1,3 +1,3 @@
 import { JsonFormUi } from "../../types";
-declare const GrommetUi: Omit<JsonFormUi, "Controls" | "Icons">;
-export default GrommetUi;
+declare const ChakraUi: Omit<JsonFormUi, "Controls" | "Icons">;
+export default ChakraUi;

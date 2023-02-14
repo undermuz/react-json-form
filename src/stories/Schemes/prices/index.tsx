@@ -56,6 +56,13 @@ const scheme: IScheme = {
             def_value: DEF_VALUE.subtitle,
         },
         {
+            name: "date",
+            title: "Дата",
+            type: EnumSchemeItemType.Date,
+            def_value: new Date(),
+            rules: [[[Boolean], "Поле обязательное"]],
+        },
+        {
             name: "prices",
             title: "Цены",
             type: EnumSchemeItemType.Widget,

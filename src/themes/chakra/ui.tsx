@@ -238,7 +238,7 @@ const UiArrayFormBody: FC<PropsWithChildren<{}>> = (props) => {
     return <Flex direction="column">{props.children}</Flex>
 }
 
-const GrommetUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
+const ChakraUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
     Container: UiContainer,
     Header: UiHeader,
     Body: UiBody,
@@ -253,4 +253,4 @@ const GrommetUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
     Tab: UiTab,
 }
 
-export default GrommetUi
+export default ChakraUi

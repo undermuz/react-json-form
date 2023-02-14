@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var jsx_runtime_1 = require("react/jsx-runtime");
 var react_select_1 = tslib_1.__importDefault(require("react-select"));
-var grommet_1 = require("grommet");
+var chakra_datepicker_1 = require("@orange_digital/chakra-datepicker");
 var react_1 = require("@chakra-ui/react");
 var underscore_1 = require("underscore");
 var ControlSelect = function (props) {
@@ -33,10 +33,7 @@ var ControlSelect = function (props) {
 var ControlDate = function (props) {
     var value = props.value;
     var onChange = props.onChange;
-    return ((0, jsx_runtime_1.jsx)(grommet_1.DateInput, { format: "dd.mm.yyyy", value: value ? value : undefined, onChange: function (_a) {
-            var value = _a.value;
-            return onChange === null || onChange === void 0 ? void 0 : onChange(value);
-        } }));
+    return ((0, jsx_runtime_1.jsx)(chakra_datepicker_1.DatePicker, { initialValue: value ? value : undefined, onDateChange: function (value) { return onChange === null || onChange === void 0 ? void 0 : onChange(value); } }));
 };
 var ControlCheckBox = function (props) {
     var name = props.name, value = props.value, title = props.title;

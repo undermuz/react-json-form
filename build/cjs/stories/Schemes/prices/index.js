@@ -25,6 +25,13 @@ var scheme = {
             def_value: defaults_1.default.subtitle,
         },
         {
+            name: "date",
+            title: "Дата",
+            type: types_1.EnumSchemeItemType.Date,
+            def_value: new Date(),
+            rules: [[[Boolean], "Поле обязательное"]],
+        },
+        {
             name: "prices",
             title: "Цены",
             type: types_1.EnumSchemeItemType.Widget,

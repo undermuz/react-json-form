@@ -1,7 +1,7 @@
 import { __assign } from "tslib";
 import { jsx as _jsx } from "react/jsx-runtime";
 import Select from "react-select";
-import { DateInput } from "grommet";
+import { DatePicker } from "@orange_digital/chakra-datepicker";
 import { Checkbox, Input, Textarea } from "@chakra-ui/react";
 import { isArray } from "underscore";
 var ControlSelect = function (props) {
@@ -31,10 +31,7 @@ var ControlSelect = function (props) {
 var ControlDate = function (props) {
     var value = props.value;
     var onChange = props.onChange;
-    return (_jsx(DateInput, { format: "dd.mm.yyyy", value: value ? value : undefined, onChange: function (_a) {
-            var value = _a.value;
-            return onChange === null || onChange === void 0 ? void 0 : onChange(value);
-        } }));
+    return (_jsx(DatePicker, { initialValue: value ? value : undefined, onDateChange: function (value) { return onChange === null || onChange === void 0 ? void 0 : onChange(value); } }));
 };
 var ControlCheckBox = function (props) {
     var name = props.name, value = props.value, title = props.title;

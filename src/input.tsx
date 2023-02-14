@@ -3,10 +3,6 @@ import { FC } from "react"
 
 // import Editor from "react-quill"
 
-import "react-datepicker/dist/react-datepicker.css"
-import GeoSelect from "./Inputs/GeoSelect"
-// import DateSelect from "./Inputs/DateSelect"
-
 import {
     EnumSchemeItemType,
     FunctionOnChange,
@@ -171,9 +167,9 @@ export interface IInput {
 }
 
 const Input: FC<IInput> = (props) => {
-    const { name = "", value = "", type, title, settings = {} } = props
+    const { value = "", type, title, settings = {} } = props
 
-    const { onChange = noop, onBlur = noop } = props
+    const { onChange = noop } = props
 
     const Ui = useJsonFormUi()
 
@@ -188,17 +184,6 @@ const Input: FC<IInput> = (props) => {
         //         />
         //     )
         // }
-
-        if (type == "geo") {
-            return (
-                <GeoSelect
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    onTest={onBlur}
-                />
-            )
-        }
 
         if (type == EnumSchemeItemType.Files) {
             return null

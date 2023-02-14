@@ -62,7 +62,7 @@ var UiArrayFormTabs = function (props) {
 var UiArrayFormBody = function (props) {
     return _jsx(Flex, __assign({ direction: "column" }, { children: props.children }));
 };
-var GrommetUi = {
+var ChakraUi = {
     Container: UiContainer,
     Header: UiHeader,
     Body: UiBody,
@@ -76,5 +76,5 @@ var GrommetUi = {
     }),
     Tab: UiTab,
 };
-export default GrommetUi;
+export default ChakraUi;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4;

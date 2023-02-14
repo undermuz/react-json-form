@@ -1,7 +1,7 @@
 import { FC } from "react"
 
 import Select from "react-select"
-import { DateInput } from "grommet"
+import { DatePicker } from "@orange_digital/chakra-datepicker"
 
 import { Checkbox, Input, Textarea } from "@chakra-ui/react"
 
@@ -60,10 +60,9 @@ const ControlDate: FC<IInput> = (props) => {
     const { onChange } = props
 
     return (
-        <DateInput
-            format="dd.mm.yyyy"
-            value={value ? value : undefined}
-            onChange={({ value }) => onChange?.(value)}
+        <DatePicker
+            initialValue={value ? value : undefined}
+            onDateChange={(value) => onChange?.(value)}
         />
     )
 }
