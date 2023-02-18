@@ -1,9 +1,10 @@
 /*SYSTEM IMPORTS*/
-import React, { useCallback } from "react"
+import type React from "react"
+import { useCallback } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 
 /* TYPES */
-import { IJsonFormProps, TypeValueItem } from "./types"
+import type { IJsonFormProps, TypeValueItem } from "./types"
 
 /* COMPONENTS */
 import ErrorFallback from "./components/ErrorFallback"

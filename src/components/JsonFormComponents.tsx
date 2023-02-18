@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren } from "react"
-import { IJsonFormProps } from "../types"
+import type { FC, PropsWithChildren } from "react"
+import type { IJsonFormProps } from "../types"
 import { useJsonFormUi } from "../UiContext"
 
 const JsonFormComponent: FC<PropsWithChildren<IJsonFormProps>> = (props) => {
@@ -27,4 +27,4 @@ const JsonFormComponent: FC<PropsWithChildren<IJsonFormProps>> = (props) => {
     )
 }
 
-export { JsonFormComponent}
+export { JsonFormComponent }

@@ -24,8 +24,8 @@ export default defineConfig({
     ],
     esbuildPlugins: [
         esbuildPluginFilePathExtensions({
-            esmExtension: "js",
-            cjsExtension: "cjs",
+            esmExtension: "mjs",
+            cjsExtension: "js",
         }),
     ],
 })

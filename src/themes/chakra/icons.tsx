@@ -1,5 +1,5 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons"
-import { JsonFormIcons } from "../../types"
+import type { JsonFormIcons } from "../../types"
 
 const Icons: JsonFormIcons = {
     Tabs: {

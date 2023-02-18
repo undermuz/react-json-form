@@ -1,4 +1,4 @@
-import { FC } from "react"
+import type { FC } from "react"
 
 import Select from "react-select"
 import { DatePicker } from "@orange_digital/chakra-datepicker"

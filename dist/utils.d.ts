@@ -1,7 +1,5 @@
-import { IValues } from '@undermuz/use-form/build/types';
-import { IUseFormSettings } from '@undermuz/use-form/build/types/useForm';
-import { I as ISchemeItem, T as TypeValueItem, d as TypeValue } from './types-f66b7c24.js';
-import '@undermuz/use-form/build/types/useForm/reducer';
+import { IValues, IUseFormSettings } from '@undermuz/use-form';
+import { I as ISchemeItem, T as TypeValueItem, d as TypeValue } from './types-9dff5d46.js';
 import 'react';
 
 declare const getDefValueForItem: (item: ISchemeItem) => any;

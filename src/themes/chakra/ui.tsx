@@ -1,11 +1,5 @@
-import {
-    CSSProperties,
-    FC,
-    ForwardedRef,
-    forwardRef,
-    PropsWithChildren,
-    useMemo,
-} from "react"
+import type { CSSProperties, FC, ForwardedRef, PropsWithChildren } from "react"
+import { forwardRef, useMemo } from "react"
 
 import {
     Box,
@@ -17,8 +11,7 @@ import {
     Text,
 } from "@chakra-ui/react"
 
-import {
-    EnumSchemeItemType,
+import type {
     IField,
     IUiArrayFormProps,
     IUiArrayFormTabsProps,
@@ -28,6 +21,7 @@ import {
     IUiTabProps,
     JsonFormUi,
 } from "../../types"
+import { EnumSchemeItemType } from "../../types"
 
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
@@ -179,6 +173,8 @@ const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
     }
 )
 
+UiTab.displayName = "UiTab"
+
 const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
     props
 ) => {
@@ -230,7 +226,11 @@ const UiArrayFormTrashContainer = forwardRef<
     )
 })
 
-const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (props) => {
+UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer"
+
+const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
+    props
+) => {
     return <Flex direction="row">{props.children}</Flex>
 }
 

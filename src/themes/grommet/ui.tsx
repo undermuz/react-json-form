@@ -1,18 +1,11 @@
-import {
-    CSSProperties,
-    FC,
-    ForwardedRef,
-    forwardRef,
-    PropsWithChildren,
-    useMemo,
-} from "react"
+import type { CSSProperties, FC, ForwardedRef, PropsWithChildren } from "react"
+import { forwardRef, useMemo } from "react"
 
 import styled, { css } from "styled-components"
 
 import { Box, Heading, Tag, Text } from "grommet"
 
-import {
-    EnumSchemeItemType,
+import type {
     IField,
     IUiArrayFormProps,
     IUiArrayFormTabsProps,
@@ -22,6 +15,7 @@ import {
     IUiTabProps,
     JsonFormUi,
 } from "../../types"
+import { EnumSchemeItemType } from "../../types"
 
 const UiContainer = styled(Box)`
     @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
@@ -182,6 +176,8 @@ const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
     }
 )
 
+UiTab.displayName = "UiTab"
+
 const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
     props
 ) => {
@@ -235,6 +231,8 @@ const UiArrayFormTrashContainer = forwardRef<
         </TrashContainer>
     )
 })
+
+UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer"
 
 const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
     props

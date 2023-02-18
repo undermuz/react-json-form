@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { q as JsonFormUi, n as JsonFormComponents } from './types-f66b7c24.js';
-import '@undermuz/use-form/build/types/useForm';
-import '@undermuz/use-form/build/types/useForm/reducer';
+import { q as JsonFormUi, n as JsonFormComponents } from './types-9dff5d46.js';
+import '@undermuz/use-form';
 
 declare const UiContext: React.Context<JsonFormUi | null>;
 declare const useJsonFormUi: () => JsonFormUi;

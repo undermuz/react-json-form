@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent } from "react"
+import type { FC, SyntheticEvent } from "react"
 
 import Select from "react-select"
 import { DateInput } from "grommet"

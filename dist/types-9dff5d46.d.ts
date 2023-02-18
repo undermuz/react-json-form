@@ -1,5 +1,4 @@
-import { IUseFormFieldRule } from '@undermuz/use-form/build/types/useForm';
-import { IError } from '@undermuz/use-form/build/types/useForm/reducer';
+import { IUseFormFieldRule, IError } from '@undermuz/use-form';
 import { FC, CSSProperties, Ref, ComponentClass, ReactNode, PropsWithChildren } from 'react';
 
 interface IInput {

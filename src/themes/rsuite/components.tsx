@@ -1,7 +1,7 @@
-import { FC, PropsWithChildren } from "react"
+import type { FC, PropsWithChildren } from "react"
 import { Panel } from "rsuite"
 import styled from "styled-components"
-import { IJsonFormProps } from "../../types"
+import type { IJsonFormProps } from "../../types"
 import { useJsonFormUi } from "../../UiContext"
 
 const UiHeader = styled.div`

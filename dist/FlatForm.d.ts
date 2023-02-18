@@ -1,8 +1,6 @@
 import React__default from 'react';
-import { I as ISchemeItem, T as TypeValueItem } from './types-f66b7c24.js';
+import { I as ISchemeItem, T as TypeValueItem } from './types-9dff5d46.js';
 import { IValues } from '@undermuz/use-form';
-import '@undermuz/use-form/build/types/useForm';
-import '@undermuz/use-form/build/types/useForm/reducer';
 
 interface IFlatForm {
     primary?: boolean;

@@ -1,14 +1,14 @@
 /*SYSTEM IMPORTS*/
-import { FC } from "react"
+import type { FC } from "react"
 
 // import Editor from "react-quill"
 
-import {
-    EnumSchemeItemType,
+import type {
     FunctionOnChange,
     IFieldWidgetSettings,
     TypeSchemeItemSettings,
 } from "./types"
+import { EnumSchemeItemType } from "./types"
 
 import JsonForm from "./JsonForm"
 import { useJsonFormUi } from "./UiContext"

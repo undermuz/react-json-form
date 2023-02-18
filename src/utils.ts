@@ -1,13 +1,9 @@
-import { IValues } from "@undermuz/use-form/build/types"
-import { IUseFormSettings } from "@undermuz/use-form/build/types/useForm"
+import type { IValues } from "@undermuz/use-form"
+import type { IUseFormSettings } from "@undermuz/use-form"
 import { useMemo } from "react"
 import { isArray } from "underscore"
-import {
-    EnumSchemeItemType,
-    ISchemeItem,
-    TypeValue,
-    TypeValueItem,
-} from "./types"
+import type { ISchemeItem, TypeValue, TypeValueItem } from "./types"
+import { EnumSchemeItemType } from "./types"
 
 export const getDefValueForItem = (item: ISchemeItem) => {
     const {

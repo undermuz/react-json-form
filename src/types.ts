@@ -1,7 +1,6 @@
-import { IUseFormFieldRule } from "@undermuz/use-form/build/types/useForm"
-import { IError } from "@undermuz/use-form/build/types/useForm/reducer"
+import type { IUseFormFieldRule, IError } from "@undermuz/use-form"
 
-import {
+import type {
     ComponentClass,
     CSSProperties,
     FC,
@@ -9,7 +8,7 @@ import {
     ReactNode,
     Ref,
 } from "react"
-import { IInput } from "./input"
+import type { IInput } from "./input"
 
 export enum EnumSchemeItemType {
     Text = "text",

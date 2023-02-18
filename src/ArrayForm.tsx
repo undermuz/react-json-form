@@ -1,24 +1,23 @@
 /*SYSTEM IMPORTS*/
-import React, {
-    FC,
-    PropsWithChildren,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from "react"
+import type { FC, PropsWithChildren } from "react"
+import type React from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 import FlatForm from "./FlatForm"
 
-import { ISchemeItem, IUiTabProps, TypeValue, TypeValueItem } from "./types"
+import type {
+    ISchemeItem,
+    IUiTabProps,
+    TypeValue,
+    TypeValueItem,
+} from "./types"
 
 import { isArray } from "underscore"
 
+import type { CollisionDetection, DragEndEvent } from "@dnd-kit/core"
 import {
     closestCenter,
-    CollisionDetection,
     DndContext,
-    DragEndEvent,
     DragOverlay,
     getFirstCollision,
     PointerSensor,

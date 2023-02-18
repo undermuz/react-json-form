@@ -1,13 +1,13 @@
-import { FC } from "react"
+import type { FC } from "react"
 
 import { CheckBox, DateInput, TextArea, TextInput } from "grommet"
 
 import Select from "react-select"
 
-import { IInput } from "../../input"
+import type { IInput } from "../../input"
 
 import { isArray } from "underscore"
-import { JsonFormControls } from "../../types"
+import type { JsonFormControls } from "../../types"
 
 interface TypeSelectValue {
     label: string

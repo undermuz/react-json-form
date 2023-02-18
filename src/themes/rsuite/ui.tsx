@@ -1,8 +1,8 @@
-import { FC, ForwardedRef, forwardRef, PropsWithChildren, useMemo } from "react"
+import type { FC, ForwardedRef, PropsWithChildren } from "react"
+import { forwardRef, useMemo } from "react"
 import styled from "styled-components"
 
-import {
-    EnumSchemeItemType,
+import type {
     IField,
     IUiArrayFormProps,
     IUiArrayFormTabsProps,
@@ -13,6 +13,7 @@ import {
     IUiTabProps,
     JsonFormUi,
 } from "../../types"
+import { EnumSchemeItemType } from "../../types"
 
 import { Form, Nav } from "rsuite"
 import { Box, Heading, Tag, Text } from "grommet"
@@ -103,7 +104,7 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
             {children}
             {errors &&
                 errors.length > 0 &&
-                errors.map((error, index: number) => {
+                errors.map((error: string, index: number) => {
                     return (
                         <div key={index} style={{ color: "red" }}>
                             {error}
@@ -124,6 +125,8 @@ const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
         )
     }
 )
+
+UiTab.displayName = "UiTab"
 
 const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
     props
@@ -174,6 +177,8 @@ const UiArrayFormTrashContainer = forwardRef<
         </TrashContainer>
     )
 })
+
+UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer"
 
 const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
     props

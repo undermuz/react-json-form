@@ -1,45 +1,60 @@
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
 // src/ArrayForm.tsx
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from "react";
-import FlatForm from "./FlatForm.js";
-import { isArray } from "underscore";
-import {
-  closestCenter,
-  DndContext,
-  DragOverlay,
-  getFirstCollision,
-  PointerSensor,
-  pointerWithin,
-  rectIntersection,
-  useDroppable,
-  useSensor,
-  useSensors
-} from "@dnd-kit/core";
-import {
-  horizontalListSortingStrategy,
-  SortableContext
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { arrayMoveImmutable } from "array-move";
-import { createPortal } from "react-dom";
-import { useJsonFormUi } from "./UiContext.js";
-import { jsx, jsxs } from "react/jsx-runtime";
+var ArrayForm_exports = {};
+__export(ArrayForm_exports, {
+  default: () => ArrayForm_default
+});
+module.exports = __toCommonJS(ArrayForm_exports);
+var import_react = require("react");
+var import_FlatForm = __toESM(require("./FlatForm.js"));
+var import_underscore = require("underscore");
+var import_core = require("@dnd-kit/core");
+var import_sortable = require("@dnd-kit/sortable");
+var import_sortable2 = require("@dnd-kit/sortable");
+var import_utilities = require("@dnd-kit/utilities");
+var import_array_move = require("array-move");
+var import_react_dom = require("react-dom");
+var import_UiContext = require("./UiContext.js");
+var import_jsx_runtime = require("react/jsx-runtime");
 var SortableTab = ({
   tabId,
   ...props
 }) => {
-  const Ui = useJsonFormUi();
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: tabId });
+  const Ui = (0, import_UiContext.useJsonFormUi)();
+  const { attributes, listeners, setNodeRef, transform, transition } = (0, import_sortable2.useSortable)({ id: tabId });
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: import_utilities.CSS.Transform.toString(transform),
     transition
   };
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
     Ui.Tab,
     {
       ...props,
@@ -51,11 +66,11 @@ var SortableTab = ({
   );
 };
 var TrashDroppable = () => {
-  const Ui = useJsonFormUi();
-  const { isOver, setNodeRef } = useDroppable({
+  const Ui = (0, import_UiContext.useJsonFormUi)();
+  const { isOver, setNodeRef } = (0, import_core.useDroppable)({
     id: "trash"
   });
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
     Ui.ArrayForm.TrashContainer,
     {
       isOver,
@@ -69,38 +84,38 @@ var SortableList = ({
   onSortEnd,
   children
 }) => {
-  const [activeId, setActiveId] = useState(null);
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
+  const [activeId, setActiveId] = (0, import_react.useState)(null);
+  const sensors = (0, import_core.useSensors)(
+    (0, import_core.useSensor)(import_core.PointerSensor, {
       activationConstraint: {
         distance: 20
       }
     })
   );
-  const currentIndex = useMemo(() => {
+  const currentIndex = (0, import_react.useMemo)(() => {
     return tabs.findIndex((_i) => _i.id === activeId);
   }, [tabs, activeId]);
-  const collisionDetectionStrategy = useCallback(
+  const collisionDetectionStrategy = (0, import_react.useCallback)(
     (args) => {
-      const pointerIntersections = pointerWithin(args);
+      const pointerIntersections = (0, import_core.pointerWithin)(args);
       const intersections = pointerIntersections.length > 0 ? (
         // If there are droppables intersecting with the pointer, return those
         pointerIntersections
-      ) : rectIntersection(args);
-      let overId = getFirstCollision(intersections, "id");
+      ) : (0, import_core.rectIntersection)(args);
+      let overId = (0, import_core.getFirstCollision)(intersections, "id");
       if (overId === "trash") {
         return intersections;
       }
       console.log(`[collisionDetectionStrategy][Over: ${overId}]`, args);
       if (overId !== null) {
-        return closestCenter(args);
+        return (0, import_core.closestCenter)(args);
       }
       return [];
     },
     [activeId, tabs]
   );
-  return /* @__PURE__ */ jsxs(
-    DndContext,
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+    import_core.DndContext,
     {
       sensors,
       collisionDetection: collisionDetectionStrategy,
@@ -113,17 +128,17 @@ var SortableList = ({
         setActiveId(event.active.id);
       },
       children: [
-        /* @__PURE__ */ jsx(
-          SortableContext,
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          import_sortable.SortableContext,
           {
             id: "list",
             items: tabs,
-            strategy: horizontalListSortingStrategy,
+            strategy: import_sortable.horizontalListSortingStrategy,
             children
           }
         ),
-        createPortal(
-          /* @__PURE__ */ jsx(DragOverlay, { children: currentIndex > -1 ? /* @__PURE__ */ jsx(
+        (0, import_react_dom.createPortal)(
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_core.DragOverlay, { children: currentIndex > -1 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             SortableTab,
             {
               tabId: activeId,
@@ -132,14 +147,14 @@ var SortableList = ({
           ) : null }),
           document.body
         ),
-        activeId !== null && /* @__PURE__ */ jsx(TrashDroppable, {})
+        activeId !== null && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrashDroppable, {})
       ]
     }
   );
 };
 var ArrayFormItem = (props) => {
   const { id, value, scheme, primary = false, onChange } = props;
-  useEffect(() => {
+  (0, import_react.useEffect)(() => {
     if (!id) {
       console.error("ArrayFormItem: props id is required");
     }
@@ -147,8 +162,8 @@ var ArrayFormItem = (props) => {
   const handleChange = (newValue) => {
     onChange(newValue, id);
   };
-  return /* @__PURE__ */ jsx(
-    FlatForm,
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    import_FlatForm.default,
     {
       primary,
       scheme,
@@ -159,15 +174,15 @@ var ArrayFormItem = (props) => {
 };
 var ArrayForm = (props) => {
   const { value, scheme, primary = false, defValue, onChange } = props;
-  const Ui = useJsonFormUi();
+  const Ui = (0, import_UiContext.useJsonFormUi)();
   const tabs = value;
-  const [tab, setTab] = useState(() => {
-    if (isArray(value) && value.length > 0) {
+  const [tab, setTab] = (0, import_react.useState)(() => {
+    if ((0, import_underscore.isArray)(value) && value.length > 0) {
       return value[0].id;
     }
     return 1;
   });
-  const handleChange = useCallback(
+  const handleChange = (0, import_react.useCallback)(
     (newValue, id = null) => {
       const _newValue = value.map(
         (item) => item.id == id ? { ...item, ...newValue } : item
@@ -211,19 +226,19 @@ var ArrayForm = (props) => {
       const newIndex = value.findIndex(
         (_i) => _i.id === over.id
       );
-      onChange(arrayMoveImmutable(value, oldIndex, newIndex));
+      onChange((0, import_array_move.arrayMoveImmutable)(value, oldIndex, newIndex));
     }
   };
-  const currentItem = useMemo(() => {
+  const currentItem = (0, import_react.useMemo)(() => {
     const item = value.find((_i) => _i.id === tab);
     if (!item) {
       return null;
     }
     return item;
   }, [value, tab]);
-  return /* @__PURE__ */ jsxs(Ui.ArrayForm, { style: { position: "relative", zIndex: 1 }, children: [
-    /* @__PURE__ */ jsxs(Ui.ArrayForm.Header, { children: [
-      /* @__PURE__ */ jsx(Ui.ArrayForm.Tabs, { children: /* @__PURE__ */ jsx(SortableList, { tabs, onSortEnd: handleSortTabs, children: tabs.map((val, index) => /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Ui.ArrayForm, { style: { position: "relative", zIndex: 1 }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Ui.ArrayForm.Header, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ui.ArrayForm.Tabs, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SortableList, { tabs, onSortEnd: handleSortTabs, children: tabs.map((val, index) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
         SortableTab,
         {
           label: `#${index + 1}`,
@@ -233,12 +248,12 @@ var ArrayForm = (props) => {
         },
         val.id
       )) }) }),
-      /* @__PURE__ */ jsxs(Ui.ArrayForm.Tabs, { actions: true, children: [
-        /* @__PURE__ */ jsx(Ui.Tab, { onSelect: () => handleRemoveTab(tab), children: /* @__PURE__ */ jsx(Ui.Icons.Tabs.Remove, {}) }),
-        /* @__PURE__ */ jsx(Ui.Tab, { onSelect: handleAddTab, children: /* @__PURE__ */ jsx(Ui.Icons.Tabs.Add, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Ui.ArrayForm.Tabs, { actions: true, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ui.Tab, { onSelect: () => handleRemoveTab(tab), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ui.Icons.Tabs.Remove, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ui.Tab, { onSelect: handleAddTab, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ui.Icons.Tabs.Add, {}) })
       ] })
     ] }),
-    /* @__PURE__ */ jsx(Ui.ArrayForm.Body, { children: currentItem !== null && /* @__PURE__ */ jsx(
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ui.ArrayForm.Body, { children: currentItem !== null && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       ArrayFormItem,
       {
         id: currentItem.id,
@@ -252,6 +267,5 @@ var ArrayForm = (props) => {
   ] });
 };
 var ArrayForm_default = ArrayForm;
-export {
-  ArrayForm_default as default
-};
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {});

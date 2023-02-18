@@ -1,5 +1,5 @@
 import { Add, Trash } from "grommet-icons"
-import { JsonFormIcons } from "../../types"
+import type { JsonFormIcons } from "../../types"
 
 const Icons: JsonFormIcons = {
     Tabs: {

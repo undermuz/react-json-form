@@ -1,16 +1,15 @@
 /*SYSTEM IMPORTS*/
-import React, { useEffect } from "react"
+import type React from "react"
+import { useEffect } from "react"
 
 /* HELPERS */
-import { EnumSchemeItemType, ISchemeItem, TypeValueItem } from "./types"
+import type { ISchemeItem, TypeValueItem } from "./types"
+import { EnumSchemeItemType } from "./types"
 import { getDefValueForItem, useSchemeToForm } from "./utils"
 import Input from "./input"
 import { useJsonFormUi } from "./UiContext"
-import useForm, {
-    ConnectToForm,
-    FormContext,
-    IValues,
-} from "@undermuz/use-form"
+import type { IValues } from "@undermuz/use-form"
+import useForm, { ConnectToForm, FormContext } from "@undermuz/use-form"
 
 interface IFlatForm {
     primary?: boolean
