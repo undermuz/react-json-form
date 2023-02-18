@@ -1,15 +1,16 @@
-import { jsx, jsxs } from "react/jsx-runtime";
+// src/themes/rsuite/ui.tsx
 import { forwardRef, useMemo } from "react";
 import styled from "styled-components";
 import {
   EnumSchemeItemType
-} from "../../types";
+} from "../../types.js";
 import { Form, Nav } from "rsuite";
 import { Box, Heading, Tag, Text } from "grommet";
-const UiContainer = ({ children }) => {
+import { jsx, jsxs } from "react/jsx-runtime";
+var UiContainer = ({ children }) => {
   return /* @__PURE__ */ jsx(Box, { direction: "column", children });
 };
-const UiBody = (props) => {
+var UiBody = (props) => {
   const { primary, children } = props;
   return /* @__PURE__ */ jsx(
     Box,
@@ -23,7 +24,7 @@ const UiBody = (props) => {
     }
   );
 };
-const UiHeader = (props) => {
+var UiHeader = (props) => {
   const { id, title, primary, children } = props;
   return /* @__PURE__ */ jsxs(
     Box,
@@ -43,7 +44,7 @@ const UiHeader = (props) => {
     }
   );
 };
-const UiFlatFormContainer = ({
+var UiFlatFormContainer = ({
   primary = false,
   children
 }) => {
@@ -52,7 +53,7 @@ const UiFlatFormContainer = ({
   }
   return /* @__PURE__ */ jsx("div", { className: "rs-form rs-form-vertical rs-form-fixed-width", children });
 };
-const UiField = (props) => {
+var UiField = (props) => {
   const { title, name, type, errors, children } = props;
   const showLabel = useMemo(() => {
     if (type === EnumSchemeItemType.Checkbox) {
@@ -71,7 +72,7 @@ const UiField = (props) => {
     })
   ] });
 };
-const UiTab = forwardRef(
+var UiTab = forwardRef(
   (props, ref) => {
     return /* @__PURE__ */ jsxs(Nav.Item, { ...props, ref, children: [
       Boolean(props.label) && props.label,
@@ -79,20 +80,20 @@ const UiTab = forwardRef(
     ] });
   }
 );
-const UiArrayFormContainer = (props) => {
+var UiArrayFormContainer = (props) => {
   return /* @__PURE__ */ jsx(Box, { direction: "column", style: props.style, children: props.children });
 };
-const UiArrayFormHeader = (props) => {
+var UiArrayFormHeader = (props) => {
   return /* @__PURE__ */ jsx(Box, { direction: "row", justify: "between", children: props.children });
 };
-const TrashContainer = styled(Box)`
+var TrashContainer = styled(Box)`
     position: absolute;
     z-index: 2;
     top: -30px;
     left: 0px;
     width: 100%;
 `;
-const UiArrayFormTrashContainer = forwardRef((props, ref) => {
+var UiArrayFormTrashContainer = forwardRef((props, ref) => {
   return /* @__PURE__ */ jsxs(
     TrashContainer,
     {
@@ -114,13 +115,13 @@ const UiArrayFormTrashContainer = forwardRef((props, ref) => {
     }
   );
 });
-const UiArrayFormTabs = (props) => {
+var UiArrayFormTabs = (props) => {
   return /* @__PURE__ */ jsx(Nav, { appearance: !props.actions ? "tabs" : void 0, children: props.children });
 };
-const UiArrayFormBody = (props) => {
+var UiArrayFormBody = (props) => {
   return /* @__PURE__ */ jsx(Box, { children: props.children });
 };
-const RsuiteUi = {
+var RsuiteUi = {
   Container: UiContainer,
   Header: UiHeader,
   Body: UiBody,

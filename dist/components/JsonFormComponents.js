@@ -1,6 +1,7 @@
+// src/components/JsonFormComponents.tsx
+import { useJsonFormUi } from "../UiContext.js";
 import { jsx, jsxs } from "react/jsx-runtime";
-import { useJsonFormUi } from "../UiContext";
-const JsonFormComponent = (props) => {
+var JsonFormComponent = (props) => {
   const {
     id,
     title,

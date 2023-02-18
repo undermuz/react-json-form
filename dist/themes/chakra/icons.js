@@ -1,6 +1,7 @@
-import { jsx } from "react/jsx-runtime";
+// src/themes/chakra/icons.tsx
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-const Icons = {
+import { jsx } from "react/jsx-runtime";
+var Icons = {
   Tabs: {
     Remove: () => /* @__PURE__ */ jsx(DeleteIcon, { color: "red.400" }),
     Add: AddIcon

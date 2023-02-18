@@ -26,16 +26,18 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/rsuite/index.tsx
 var rsuite_exports = {};
 __export(rsuite_exports, {
   default: () => rsuite_default
 });
 module.exports = __toCommonJS(rsuite_exports);
-var import_controls = __toESM(require("./controls"), 1);
-var Components = __toESM(require("./components"), 1);
-var import_ui = __toESM(require("./ui"), 1);
-var import_icons = __toESM(require("./icons"), 1);
-const RsuiteUi = {
+var import_controls = __toESM(require("./controls.cjs"), 1);
+var Components = __toESM(require("./components.cjs"), 1);
+var import_ui = __toESM(require("./ui.cjs"), 1);
+var import_icons = __toESM(require("./icons.cjs"), 1);
+var RsuiteUi = {
   ...import_ui.default,
   Controls: import_controls.default,
   Icons: import_icons.default,

@@ -27,6 +27,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.tsx
 var src_exports = {};
 __export(src_exports, {
   JsonForm: () => import_JsonForm.default,
@@ -34,9 +36,9 @@ __export(src_exports, {
   default: () => src_default
 });
 module.exports = __toCommonJS(src_exports);
-var import_JsonForm = __toESM(require("./JsonForm"), 1);
-var import_UiContext = __toESM(require("./UiContext"), 1);
-__reExport(src_exports, require("./types"), module.exports);
+var import_JsonForm = __toESM(require("./JsonForm.cjs"), 1);
+var import_UiContext = __toESM(require("./UiContext.cjs"), 1);
+__reExport(src_exports, require("./types.cjs"), module.exports);
 var src_default = import_JsonForm.default;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

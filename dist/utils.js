@@ -1,9 +1,10 @@
+// src/utils.ts
 import { useMemo } from "react";
 import { isArray } from "underscore";
 import {
   EnumSchemeItemType
-} from "./types";
-const getDefValueForItem = (item) => {
+} from "./types.js";
+var getDefValueForItem = (item) => {
   const {
     def_value = "",
     type = EnumSchemeItemType.Text,
@@ -40,7 +41,7 @@ const getDefValueForItem = (item) => {
   }
   return def_value;
 };
-const getDefValueForScheme = (scheme) => {
+var getDefValueForScheme = (scheme) => {
   return scheme.reduce(
     (new_value, current) => ({
       ...new_value,
@@ -49,12 +50,12 @@ const getDefValueForScheme = (scheme) => {
     {}
   );
 };
-const useDefSchemeValue = (scheme) => {
+var useDefSchemeValue = (scheme) => {
   return useMemo(() => {
     return getDefValueForScheme(scheme);
   }, [scheme]);
 };
-const useSafeValue = (unsafeValue, defValue, multiple = false) => {
+var useSafeValue = (unsafeValue, defValue, multiple = false) => {
   return useMemo(() => {
     if (unsafeValue === void 0 || !multiple && Object.keys(unsafeValue).length === 0 || multiple && (!isArray(unsafeValue) || unsafeValue.length == 0)) {
       if (multiple) {
@@ -65,7 +66,7 @@ const useSafeValue = (unsafeValue, defValue, multiple = false) => {
     return unsafeValue;
   }, [unsafeValue, multiple, defValue]);
 };
-const useSchemeToForm = (scheme, value, onChange) => {
+var useSchemeToForm = (scheme, value, onChange) => {
   return useMemo(() => {
     const config = {
       fields: {},

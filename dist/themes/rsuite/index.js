@@ -1,8 +1,9 @@
-import Controls from "./controls";
-import * as Components from "./components";
-import Ui from "./ui";
-import Icons from "./icons";
-const RsuiteUi = {
+// src/themes/rsuite/index.tsx
+import Controls from "./controls.js";
+import * as Components from "./components.js";
+import Ui from "./ui.js";
+import Icons from "./icons.js";
+var RsuiteUi = {
   ...Ui,
   Controls,
   Icons,

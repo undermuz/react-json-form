@@ -26,14 +26,15 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/ArrayForm.tsx
 var ArrayForm_exports = {};
 __export(ArrayForm_exports, {
   default: () => ArrayForm_default
 });
 module.exports = __toCommonJS(ArrayForm_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_react = require("react");
-var import_FlatForm = __toESM(require("./FlatForm"), 1);
+var import_FlatForm = __toESM(require("./FlatForm.cjs"), 1);
 var import_underscore = require("underscore");
 var import_core = require("@dnd-kit/core");
 var import_sortable = require("@dnd-kit/sortable");
@@ -41,8 +42,9 @@ var import_sortable2 = require("@dnd-kit/sortable");
 var import_utilities = require("@dnd-kit/utilities");
 var import_array_move = require("array-move");
 var import_react_dom = require("react-dom");
-var import_UiContext = require("./UiContext");
-const SortableTab = ({
+var import_UiContext = require("./UiContext.cjs");
+var import_jsx_runtime = require("react/jsx-runtime");
+var SortableTab = ({
   tabId,
   ...props
 }) => {
@@ -63,7 +65,7 @@ const SortableTab = ({
     }
   );
 };
-const TrashDroppable = () => {
+var TrashDroppable = () => {
   const Ui = (0, import_UiContext.useJsonFormUi)();
   const { isOver, setNodeRef } = (0, import_core.useDroppable)({
     id: "trash"
@@ -77,7 +79,7 @@ const TrashDroppable = () => {
     }
   );
 };
-const SortableList = ({
+var SortableList = ({
   tabs,
   onSortEnd,
   children
@@ -150,7 +152,7 @@ const SortableList = ({
     }
   );
 };
-const ArrayFormItem = (props) => {
+var ArrayFormItem = (props) => {
   const { id, value, scheme, primary = false, onChange } = props;
   (0, import_react.useEffect)(() => {
     if (!id) {
@@ -170,7 +172,7 @@ const ArrayFormItem = (props) => {
     }
   );
 };
-const ArrayForm = (props) => {
+var ArrayForm = (props) => {
   const { value, scheme, primary = false, defValue, onChange } = props;
   const Ui = (0, import_UiContext.useJsonFormUi)();
   const tabs = value;

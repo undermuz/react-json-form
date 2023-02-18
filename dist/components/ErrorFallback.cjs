@@ -16,6 +16,8 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/components/ErrorFallback.tsx
 var ErrorFallback_exports = {};
 __export(ErrorFallback_exports, {
   default: () => ErrorFallback_default

@@ -26,15 +26,17 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/chakra/index.tsx
 var chakra_exports = {};
 __export(chakra_exports, {
   default: () => chakra_default
 });
 module.exports = __toCommonJS(chakra_exports);
-var import_controls = __toESM(require("./controls"), 1);
-var import_ui = __toESM(require("./ui"), 1);
-var import_icons = __toESM(require("./icons"), 1);
-const ChakraUi = {
+var import_controls = __toESM(require("./controls.cjs"), 1);
+var import_ui = __toESM(require("./ui.cjs"), 1);
+var import_icons = __toESM(require("./icons.cjs"), 1);
+var ChakraUi = {
   ...import_ui.default,
   Controls: import_controls.default,
   Icons: import_icons.default

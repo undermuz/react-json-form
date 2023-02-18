@@ -1,4 +1,4 @@
-import { jsx, jsxs } from "react/jsx-runtime";
+// src/themes/chakra/ui.tsx
 import {
   forwardRef,
   useMemo
@@ -14,17 +14,18 @@ import {
 } from "@chakra-ui/react";
 import {
   EnumSchemeItemType
-} from "../../types";
+} from "../../types.js";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-const UiContainer = ({ children }) => {
+import { jsx, jsxs } from "react/jsx-runtime";
+var UiContainer = ({ children }) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", children });
 };
-const UiBody = (props) => {
+var UiBody = (props) => {
   const { primary, children } = props;
   return /* @__PURE__ */ jsx(Flex, { direction: "column", p: primary ? 4 : 0, pl: 0, children });
 };
-const UiHeader = (props) => {
+var UiHeader = (props) => {
   const { id, title, primary, children } = props;
   return /* @__PURE__ */ jsxs(
     Flex,
@@ -55,10 +56,10 @@ const UiHeader = (props) => {
     }
   );
 };
-const UiFlatFormContainer = ({ children }) => {
+var UiFlatFormContainer = ({ children }) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", children });
 };
-const Branch = styled(Flex)`
+var Branch = styled(Flex)`
     width: var(--chakra-space-3);
     ::before {
         content: "";
@@ -73,7 +74,7 @@ const Branch = styled(Flex)`
         margin-left: -1px;
     }
 `;
-const UiField = (props) => {
+var UiField = (props) => {
   const { title, isLast, primary = false, type, errors, children } = props;
   const showLabel = useMemo(() => {
     if (type === EnumSchemeItemType.Checkbox) {
@@ -119,7 +120,7 @@ const UiField = (props) => {
     }
   );
 };
-const Tab = styled(Box)`
+var Tab = styled(Box)`
     ${({ active }) => css`
         background-color: var(--chakra-colors-gray-50);
 
@@ -130,7 +131,7 @@ const Tab = styled(Box)`
         cursor: pointer;
     `}
 `;
-const UiTab = forwardRef(
+var UiTab = forwardRef(
   (props, ref) => {
     return /* @__PURE__ */ jsx(
       Tab,
@@ -146,10 +147,10 @@ const UiTab = forwardRef(
     );
   }
 );
-const UiArrayFormContainer = (props) => {
+var UiArrayFormContainer = (props) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", style: props.style, children: props.children });
 };
-const UiArrayFormHeader = (props) => {
+var UiArrayFormHeader = (props) => {
   return /* @__PURE__ */ jsx(
     Flex,
     {
@@ -161,14 +162,14 @@ const UiArrayFormHeader = (props) => {
     }
   );
 };
-const TrashContainer = styled(Box)`
+var TrashContainer = styled(Box)`
     position: absolute;
     z-index: 2;
     top: -30px;
     left: 0px;
     width: 100%;
 `;
-const UiArrayFormTrashContainer = forwardRef((props, ref) => {
+var UiArrayFormTrashContainer = forwardRef((props, ref) => {
   return /* @__PURE__ */ jsxs(
     TrashContainer,
     {
@@ -186,13 +187,13 @@ const UiArrayFormTrashContainer = forwardRef((props, ref) => {
     }
   );
 });
-const UiArrayFormTabs = (props) => {
+var UiArrayFormTabs = (props) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "row", children: props.children });
 };
-const UiArrayFormBody = (props) => {
+var UiArrayFormBody = (props) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", children: props.children });
 };
-const ChakraUi = {
+var ChakraUi = {
   Container: UiContainer,
   Header: UiHeader,
   Body: UiBody,

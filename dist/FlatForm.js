@@ -1,14 +1,15 @@
-import { jsx } from "react/jsx-runtime";
+// src/FlatForm.tsx
 import { useEffect } from "react";
-import { EnumSchemeItemType } from "./types";
-import { getDefValueForItem, useSchemeToForm } from "./utils";
-import Input from "./input";
-import { useJsonFormUi } from "./UiContext";
+import { EnumSchemeItemType } from "./types.js";
+import { getDefValueForItem, useSchemeToForm } from "./utils.js";
+import Input from "./input.js";
+import { useJsonFormUi } from "./UiContext.js";
 import useForm, {
   ConnectToForm,
   FormContext
 } from "@undermuz/use-form";
-const FlatForm = (props) => {
+import { jsx } from "react/jsx-runtime";
+var FlatForm = (props) => {
   const { scheme, value, primary = false, onChange } = props;
   const Ui = useJsonFormUi();
   const form = useForm(useSchemeToForm(scheme, value, onChange));

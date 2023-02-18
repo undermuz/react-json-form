@@ -1,3 +1,4 @@
+// src/components/ErrorFallback.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 function ErrorFallback({ error, resetErrorBoundary }) {
   return /* @__PURE__ */ jsxs("div", { role: "alert", children: [

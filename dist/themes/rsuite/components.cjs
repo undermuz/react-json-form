@@ -26,21 +26,23 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/rsuite/components.tsx
 var components_exports = {};
 __export(components_exports, {
   JsonFormComponent: () => JsonFormComponent
 });
 module.exports = __toCommonJS(components_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_rsuite = require("rsuite");
 var import_styled_components = __toESM(require("styled-components"), 1);
-var import_UiContext = require("../../UiContext");
-const UiHeader = import_styled_components.default.div`
+var import_UiContext = require("../../UiContext.cjs");
+var import_jsx_runtime = require("react/jsx-runtime");
+var UiHeader = import_styled_components.default.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 `;
-const JsonFormComponent = (props) => {
+var JsonFormComponent = (props) => {
   const { title, header = null, primary = true, children } = props;
   const Ui = (0, import_UiContext.useJsonFormUi)();
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ui.Container, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(

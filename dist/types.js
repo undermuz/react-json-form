@@ -1,3 +1,4 @@
+// src/types.ts
 var EnumSchemeItemType = /* @__PURE__ */ ((EnumSchemeItemType2) => {
   EnumSchemeItemType2["Text"] = "text";
   EnumSchemeItemType2["TextBlock"] = "text-block";

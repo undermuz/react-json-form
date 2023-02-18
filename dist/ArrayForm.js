@@ -1,11 +1,11 @@
-import { jsx, jsxs } from "react/jsx-runtime";
+// src/ArrayForm.tsx
 import {
   useCallback,
   useEffect,
   useMemo,
   useState
 } from "react";
-import FlatForm from "./FlatForm";
+import FlatForm from "./FlatForm.js";
 import { isArray } from "underscore";
 import {
   closestCenter,
@@ -27,8 +27,9 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { arrayMoveImmutable } from "array-move";
 import { createPortal } from "react-dom";
-import { useJsonFormUi } from "./UiContext";
-const SortableTab = ({
+import { useJsonFormUi } from "./UiContext.js";
+import { jsx, jsxs } from "react/jsx-runtime";
+var SortableTab = ({
   tabId,
   ...props
 }) => {
@@ -49,7 +50,7 @@ const SortableTab = ({
     }
   );
 };
-const TrashDroppable = () => {
+var TrashDroppable = () => {
   const Ui = useJsonFormUi();
   const { isOver, setNodeRef } = useDroppable({
     id: "trash"
@@ -63,7 +64,7 @@ const TrashDroppable = () => {
     }
   );
 };
-const SortableList = ({
+var SortableList = ({
   tabs,
   onSortEnd,
   children
@@ -136,7 +137,7 @@ const SortableList = ({
     }
   );
 };
-const ArrayFormItem = (props) => {
+var ArrayFormItem = (props) => {
   const { id, value, scheme, primary = false, onChange } = props;
   useEffect(() => {
     if (!id) {
@@ -156,7 +157,7 @@ const ArrayFormItem = (props) => {
     }
   );
 };
-const ArrayForm = (props) => {
+var ArrayForm = (props) => {
   const { value, scheme, primary = false, defValue, onChange } = props;
   const Ui = useJsonFormUi();
   const tabs = value;

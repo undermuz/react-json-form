@@ -1,4 +1,5 @@
 import { defineConfig } from "tsup"
+import { esbuildPluginFilePathExtensions } from "esbuild-plugin-file-path-extensions"
 
 const env = process.env.NODE_ENV
 
@@ -11,7 +12,7 @@ export default defineConfig({
     skipNodeModulesBundle: true,
     format: ["cjs", "esm"],
     minify: env === "production",
-    bundle: env === "production",
+    bundle: true,
     external: [
         "rsuite",
         "grommet",
@@ -20,5 +21,11 @@ export default defineConfig({
         "react",
         "react-dom",
         "node_modules",
+    ],
+    esbuildPlugins: [
+        esbuildPluginFilePathExtensions({
+            esmExtension: "js",
+            cjsExtension: "cjs",
+        }),
     ],
 })

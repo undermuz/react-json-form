@@ -16,14 +16,16 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/chakra/icons.tsx
 var icons_exports = {};
 __export(icons_exports, {
   default: () => icons_default
 });
 module.exports = __toCommonJS(icons_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_icons = require("@chakra-ui/icons");
-const Icons = {
+var import_jsx_runtime = require("react/jsx-runtime");
+var Icons = {
   Tabs: {
     Remove: () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_icons.DeleteIcon, { color: "red.400" }),
     Add: import_icons.AddIcon

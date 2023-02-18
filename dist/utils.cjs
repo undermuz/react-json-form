@@ -16,6 +16,8 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/utils.ts
 var utils_exports = {};
 __export(utils_exports, {
   getDefValueForItem: () => getDefValueForItem,
@@ -27,11 +29,11 @@ __export(utils_exports, {
 module.exports = __toCommonJS(utils_exports);
 var import_react = require("react");
 var import_underscore = require("underscore");
-var import_types2 = require("./types");
-const getDefValueForItem = (item) => {
+var import_types = require("./types.cjs");
+var getDefValueForItem = (item) => {
   const {
     def_value = "",
-    type = import_types2.EnumSchemeItemType.Text,
+    type = import_types.EnumSchemeItemType.Text,
     settings = {},
     multiple = false
   } = item;
@@ -48,7 +50,7 @@ const getDefValueForItem = (item) => {
     }
     return {};
   }
-  if (type == import_types2.EnumSchemeItemType.GeoCoordinates)
+  if (type == import_types.EnumSchemeItemType.GeoCoordinates)
     return {
       address: "",
       lat: 0,
@@ -65,7 +67,7 @@ const getDefValueForItem = (item) => {
   }
   return def_value;
 };
-const getDefValueForScheme = (scheme) => {
+var getDefValueForScheme = (scheme) => {
   return scheme.reduce(
     (new_value, current) => ({
       ...new_value,
@@ -74,12 +76,12 @@ const getDefValueForScheme = (scheme) => {
     {}
   );
 };
-const useDefSchemeValue = (scheme) => {
+var useDefSchemeValue = (scheme) => {
   return (0, import_react.useMemo)(() => {
     return getDefValueForScheme(scheme);
   }, [scheme]);
 };
-const useSafeValue = (unsafeValue, defValue, multiple = false) => {
+var useSafeValue = (unsafeValue, defValue, multiple = false) => {
   return (0, import_react.useMemo)(() => {
     if (unsafeValue === void 0 || !multiple && Object.keys(unsafeValue).length === 0 || multiple && (!(0, import_underscore.isArray)(unsafeValue) || unsafeValue.length == 0)) {
       if (multiple) {
@@ -90,7 +92,7 @@ const useSafeValue = (unsafeValue, defValue, multiple = false) => {
     return unsafeValue;
   }, [unsafeValue, multiple, defValue]);
 };
-const useSchemeToForm = (scheme, value, onChange) => {
+var useSchemeToForm = (scheme, value, onChange) => {
   return (0, import_react.useMemo)(() => {
     const config = {
       fields: {},

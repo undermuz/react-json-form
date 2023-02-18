@@ -1,13 +1,14 @@
-import { jsx, jsxs } from "react/jsx-runtime";
+// src/themes/rsuite/components.tsx
 import { Panel } from "rsuite";
 import styled from "styled-components";
-import { useJsonFormUi } from "../../UiContext";
-const UiHeader = styled.div`
+import { useJsonFormUi } from "../../UiContext.js";
+import { jsx, jsxs } from "react/jsx-runtime";
+var UiHeader = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 `;
-const JsonFormComponent = (props) => {
+var JsonFormComponent = (props) => {
   const { title, header = null, primary = true, children } = props;
   const Ui = useJsonFormUi();
   return /* @__PURE__ */ jsx(Ui.Container, { children: /* @__PURE__ */ jsx(

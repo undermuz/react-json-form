@@ -16,6 +16,8 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/UiContext.ts
 var UiContext_exports = {};
 __export(UiContext_exports, {
   default: () => UiContext_default,
@@ -24,9 +26,9 @@ __export(UiContext_exports, {
 });
 module.exports = __toCommonJS(UiContext_exports);
 var import_react = require("react");
-var import_JsonFormComponents = require("./components/JsonFormComponents");
-const UiContext = (0, import_react.createContext)(null);
-const useJsonFormUi = () => {
+var import_JsonFormComponents = require("./components/JsonFormComponents.cjs");
+var UiContext = (0, import_react.createContext)(null);
+var useJsonFormUi = () => {
   const Ui = (0, import_react.useContext)(UiContext);
   if (!Ui) {
     throw new Error(
@@ -35,7 +37,7 @@ const useJsonFormUi = () => {
   }
   return Ui;
 };
-const useJsonFormComponents = () => {
+var useJsonFormComponents = () => {
   const Ui = (0, import_react.useContext)(UiContext);
   let rawComponents = {};
   if (Ui == null ? void 0 : Ui.Components) {

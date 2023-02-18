@@ -1,7 +1,8 @@
+// src/UiContext.ts
 import { createContext, useContext } from "react";
-import { JsonFormComponent } from "./components/JsonFormComponents";
-const UiContext = createContext(null);
-const useJsonFormUi = () => {
+import { JsonFormComponent } from "./components/JsonFormComponents.js";
+var UiContext = createContext(null);
+var useJsonFormUi = () => {
   const Ui = useContext(UiContext);
   if (!Ui) {
     throw new Error(
@@ -10,7 +11,7 @@ const useJsonFormUi = () => {
   }
   return Ui;
 };
-const useJsonFormComponents = () => {
+var useJsonFormComponents = () => {
   const Ui = useContext(UiContext);
   let rawComponents = {};
   if (Ui == null ? void 0 : Ui.Components) {

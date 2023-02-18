@@ -1,6 +1,7 @@
-import { jsx } from "react/jsx-runtime";
+// src/themes/grommet/icons.tsx
 import { Add, Trash } from "grommet-icons";
-const Icons = {
+import { jsx } from "react/jsx-runtime";
+var Icons = {
   Tabs: {
     Remove: () => /* @__PURE__ */ jsx(Trash, { color: "status-critical" }),
     Add

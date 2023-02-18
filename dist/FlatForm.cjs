@@ -26,19 +26,21 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/FlatForm.tsx
 var FlatForm_exports = {};
 __export(FlatForm_exports, {
   default: () => FlatForm_default
 });
 module.exports = __toCommonJS(FlatForm_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_react = require("react");
-var import_types = require("./types");
-var import_utils = require("./utils");
-var import_input = __toESM(require("./input"), 1);
-var import_UiContext = require("./UiContext");
+var import_types = require("./types.cjs");
+var import_utils = require("./utils.cjs");
+var import_input = __toESM(require("./input.cjs"), 1);
+var import_UiContext = require("./UiContext.cjs");
 var import_use_form = __toESM(require("@undermuz/use-form"), 1);
-const FlatForm = (props) => {
+var import_jsx_runtime = require("react/jsx-runtime");
+var FlatForm = (props) => {
   const { scheme, value, primary = false, onChange } = props;
   const Ui = (0, import_UiContext.useJsonFormUi)();
   const form = (0, import_use_form.default)((0, import_utils.useSchemeToForm)(scheme, value, onChange));

@@ -16,14 +16,16 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/components/JsonFormComponents.tsx
 var JsonFormComponents_exports = {};
 __export(JsonFormComponents_exports, {
   JsonFormComponent: () => JsonFormComponent
 });
 module.exports = __toCommonJS(JsonFormComponents_exports);
+var import_UiContext = require("../UiContext.cjs");
 var import_jsx_runtime = require("react/jsx-runtime");
-var import_UiContext = require("../UiContext");
-const JsonFormComponent = (props) => {
+var JsonFormComponent = (props) => {
   const {
     id,
     title,

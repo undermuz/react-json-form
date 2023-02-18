@@ -26,17 +26,19 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/chakra/controls.tsx
 var controls_exports = {};
 __export(controls_exports, {
   default: () => controls_default
 });
 module.exports = __toCommonJS(controls_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_react_select = __toESM(require("react-select"), 1);
 var import_chakra_datepicker = require("@orange_digital/chakra-datepicker");
-var import_react2 = require("@chakra-ui/react");
+var import_react = require("@chakra-ui/react");
 var import_underscore = require("underscore");
-const ControlSelect = (props) => {
+var import_jsx_runtime = require("react/jsx-runtime");
+var ControlSelect = (props) => {
   const { name, value, settings = {} } = props;
   const { onChange, onBlur } = props;
   const list = (0, import_underscore.isArray)(value) ? value : [];
@@ -67,7 +69,7 @@ const ControlSelect = (props) => {
     }
   );
 };
-const ControlDate = (props) => {
+var ControlDate = (props) => {
   const { value } = props;
   const { onChange } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -78,11 +80,11 @@ const ControlDate = (props) => {
     }
   );
 };
-const ControlCheckBox = (props) => {
+var ControlCheckBox = (props) => {
   const { name, value, title } = props;
   const { onChange, onBlur } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    import_react2.Checkbox,
+    import_react.Checkbox,
     {
       checked: Boolean(value),
       name,
@@ -92,11 +94,11 @@ const ControlCheckBox = (props) => {
     }
   );
 };
-const ControlTextBlock = (props) => {
+var ControlTextBlock = (props) => {
   const { name, value, settings = {} } = props;
   const { onChange, onBlur } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    import_react2.Textarea,
+    import_react.Textarea,
     {
       value,
       name,
@@ -106,11 +108,11 @@ const ControlTextBlock = (props) => {
     }
   );
 };
-const ControlInput = (props) => {
+var ControlInput = (props) => {
   const { name, value, type } = props;
   const { onChange, onBlur } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    import_react2.Input,
+    import_react.Input,
     {
       placeholder: name,
       name,
@@ -121,7 +123,7 @@ const ControlInput = (props) => {
     }
   );
 };
-const Controls = {
+var Controls = {
   Input: ControlInput,
   TextBlock: ControlTextBlock,
   CheckBox: ControlCheckBox,

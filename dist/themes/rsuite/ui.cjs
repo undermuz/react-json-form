@@ -26,21 +26,23 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/rsuite/ui.tsx
 var ui_exports = {};
 __export(ui_exports, {
   default: () => ui_default
 });
 module.exports = __toCommonJS(ui_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_react = require("react");
 var import_styled_components = __toESM(require("styled-components"), 1);
-var import_types = require("../../types");
+var import_types = require("../../types.cjs");
 var import_rsuite = require("rsuite");
 var import_grommet = require("grommet");
-const UiContainer = ({ children }) => {
+var import_jsx_runtime = require("react/jsx-runtime");
+var UiContainer = ({ children }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { direction: "column", children });
 };
-const UiBody = (props) => {
+var UiBody = (props) => {
   const { primary, children } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
     import_grommet.Box,
@@ -54,7 +56,7 @@ const UiBody = (props) => {
     }
   );
 };
-const UiHeader = (props) => {
+var UiHeader = (props) => {
   const { id, title, primary, children } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
     import_grommet.Box,
@@ -74,7 +76,7 @@ const UiHeader = (props) => {
     }
   );
 };
-const UiFlatFormContainer = ({
+var UiFlatFormContainer = ({
   primary = false,
   children
 }) => {
@@ -83,7 +85,7 @@ const UiFlatFormContainer = ({
   }
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "rs-form rs-form-vertical rs-form-fixed-width", children });
 };
-const UiField = (props) => {
+var UiField = (props) => {
   const { title, name, type, errors, children } = props;
   const showLabel = (0, import_react.useMemo)(() => {
     if (type === import_types.EnumSchemeItemType.Checkbox) {
@@ -102,7 +104,7 @@ const UiField = (props) => {
     })
   ] });
 };
-const UiTab = (0, import_react.forwardRef)(
+var UiTab = (0, import_react.forwardRef)(
   (props, ref) => {
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_rsuite.Nav.Item, { ...props, ref, children: [
       Boolean(props.label) && props.label,
@@ -110,20 +112,20 @@ const UiTab = (0, import_react.forwardRef)(
     ] });
   }
 );
-const UiArrayFormContainer = (props) => {
+var UiArrayFormContainer = (props) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { direction: "column", style: props.style, children: props.children });
 };
-const UiArrayFormHeader = (props) => {
+var UiArrayFormHeader = (props) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { direction: "row", justify: "between", children: props.children });
 };
-const TrashContainer = (0, import_styled_components.default)(import_grommet.Box)`
+var TrashContainer = (0, import_styled_components.default)(import_grommet.Box)`
     position: absolute;
     z-index: 2;
     top: -30px;
     left: 0px;
     width: 100%;
 `;
-const UiArrayFormTrashContainer = (0, import_react.forwardRef)((props, ref) => {
+var UiArrayFormTrashContainer = (0, import_react.forwardRef)((props, ref) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
     TrashContainer,
     {
@@ -145,13 +147,13 @@ const UiArrayFormTrashContainer = (0, import_react.forwardRef)((props, ref) => {
     }
   );
 });
-const UiArrayFormTabs = (props) => {
+var UiArrayFormTabs = (props) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_rsuite.Nav, { appearance: !props.actions ? "tabs" : void 0, children: props.children });
 };
-const UiArrayFormBody = (props) => {
+var UiArrayFormBody = (props) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { children: props.children });
 };
-const RsuiteUi = {
+var RsuiteUi = {
   Container: UiContainer,
   Header: UiHeader,
   Body: UiBody,

@@ -16,6 +16,8 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/types.ts
 var types_exports = {};
 __export(types_exports, {
   EnumSchemeItemType: () => EnumSchemeItemType

@@ -26,17 +26,19 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/input.tsx
 var input_exports = {};
 __export(input_exports, {
   default: () => input_default
 });
 module.exports = __toCommonJS(input_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
-var import_types = require("./types");
-var import_JsonForm = __toESM(require("./JsonForm"), 1);
-var import_UiContext = require("./UiContext");
+var import_types = require("./types.cjs");
+var import_JsonForm = __toESM(require("./JsonForm.cjs"), 1);
+var import_UiContext = require("./UiContext.cjs");
 var import_underscore = require("underscore");
-const Input = (props) => {
+var import_jsx_runtime = require("react/jsx-runtime");
+var Input = (props) => {
   const { value = "", type, title, settings = {} } = props;
   const { onChange = import_underscore.noop } = props;
   const Ui = (0, import_UiContext.useJsonFormUi)();

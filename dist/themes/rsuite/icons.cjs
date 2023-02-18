@@ -26,6 +26,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/rsuite/icons.tsx
 var icons_exports = {};
 __export(icons_exports, {
   default: () => icons_default
@@ -33,7 +35,7 @@ __export(icons_exports, {
 module.exports = __toCommonJS(icons_exports);
 var import_Trash = __toESM(require("@rsuite/icons/Trash"), 1);
 var import_Plus = __toESM(require("@rsuite/icons/Plus"), 1);
-const Icons = {
+var Icons = {
   Tabs: {
     Remove: import_Trash.default,
     Add: import_Plus.default

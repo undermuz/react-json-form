@@ -1,11 +1,12 @@
-import { jsx } from "react/jsx-runtime";
+// src/input.tsx
 import {
   EnumSchemeItemType
-} from "./types";
-import JsonForm from "./JsonForm";
-import { useJsonFormUi } from "./UiContext";
+} from "./types.js";
+import JsonForm from "./JsonForm.js";
+import { useJsonFormUi } from "./UiContext.js";
 import { noop } from "underscore";
-const Input = (props) => {
+import { jsx } from "react/jsx-runtime";
+var Input = (props) => {
   const { value = "", type, title, settings = {} } = props;
   const { onChange = noop } = props;
   const Ui = useJsonFormUi();

@@ -26,20 +26,22 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/JsonForm.tsx
 var JsonForm_exports = {};
 __export(JsonForm_exports, {
   default: () => JsonForm_default
 });
 module.exports = __toCommonJS(JsonForm_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_react = require("react");
 var import_react_error_boundary = require("react-error-boundary");
-var import_ErrorFallback = __toESM(require("./components/ErrorFallback"), 1);
-var import_FlatForm = __toESM(require("./FlatForm"), 1);
-var import_ArrayForm = __toESM(require("./ArrayForm"), 1);
-var import_utils = require("./utils");
-var import_UiContext = require("./UiContext");
-const JsonForm = (props) => {
+var import_ErrorFallback = __toESM(require("./components/ErrorFallback.cjs"), 1);
+var import_FlatForm = __toESM(require("./FlatForm.cjs"), 1);
+var import_ArrayForm = __toESM(require("./ArrayForm.cjs"), 1);
+var import_utils = require("./utils.cjs");
+var import_UiContext = require("./UiContext.cjs");
+var import_jsx_runtime = require("react/jsx-runtime");
+var JsonForm = (props) => {
   const { multiple = false, primary = true, scheme = [], onChange } = props;
   const defValue = (0, import_utils.useDefSchemeValue)(scheme);
   const value = (0, import_utils.useSafeValue)(props.value, defValue, multiple);

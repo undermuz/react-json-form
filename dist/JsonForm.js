@@ -1,12 +1,13 @@
-import { jsx, jsxs } from "react/jsx-runtime";
+// src/JsonForm.tsx
 import { useCallback } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallback from "./components/ErrorFallback";
-import FlatForm from "./FlatForm";
-import ArrayForm from "./ArrayForm";
-import { useDefSchemeValue, useSafeValue } from "./utils";
-import { useJsonFormComponents } from "./UiContext";
-const JsonForm = (props) => {
+import ErrorFallback from "./components/ErrorFallback.js";
+import FlatForm from "./FlatForm.js";
+import ArrayForm from "./ArrayForm.js";
+import { useDefSchemeValue, useSafeValue } from "./utils.js";
+import { useJsonFormComponents } from "./UiContext.js";
+import { jsx, jsxs } from "react/jsx-runtime";
+var JsonForm = (props) => {
   const { multiple = false, primary = true, scheme = [], onChange } = props;
   const defValue = useDefSchemeValue(scheme);
   const value = useSafeValue(props.value, defValue, multiple);

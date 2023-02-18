@@ -16,14 +16,16 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/themes/grommet/icons.tsx
 var icons_exports = {};
 __export(icons_exports, {
   default: () => icons_default
 });
 module.exports = __toCommonJS(icons_exports);
-var import_jsx_runtime = require("react/jsx-runtime");
 var import_grommet_icons = require("grommet-icons");
-const Icons = {
+var import_jsx_runtime = require("react/jsx-runtime");
+var Icons = {
   Tabs: {
     Remove: () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet_icons.Trash, { color: "status-critical" }),
     Add: import_grommet_icons.Add
