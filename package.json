@@ -6,31 +6,31 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "node": "./dist/index.cjs",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.cjs"
+      "import": "./dist/index.mjs",
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./themes/chakra": {
       "types": "./dist/themes/chakra/index.d.ts",
-      "import": "./dist/themes/chakra/index.js",
-      "node": "./dist/themes/chakra/index.cjs",
-      "require": "./dist/themes/chakra/index.cjs",
-      "default": "./dist/themes/chakra/index.cjs"
+      "import": "./dist/themes/chakra/index.mjs",
+      "node": "./dist/themes/chakra/index.js",
+      "require": "./dist/themes/chakra/index.js",
+      "default": "./dist/themes/chakra/index.js"
     },
     "./themes/grommet": {
       "types": "./dist/themes/grommet/index.d.ts",
-      "import": "./dist/themes/grommet/index.js",
-      "node": "./dist/themes/grommet/index.cjs",
-      "require": "./dist/themes/grommet/index.cjs",
-      "default": "./dist/themes/grommet/index.cjs"
+      "import": "./dist/themes/grommet/index.mjs",
+      "node": "./dist/themes/grommet/index.js",
+      "require": "./dist/themes/grommet/index.js",
+      "default": "./dist/themes/grommet/index.js"
     },
     "./themes/rsuite": {
       "types": "./dist/themes/rsuite/index.d.ts",
-      "import": "./dist/themes/rsuite/index.js",
-      "node": "./dist/themes/rsuite/index.cjs",
-      "require": "./dist/themes/rsuite/index.cjs",
-      "default": "./dist/themes/rsuite/index.cjs"
+      "import": "./dist/themes/rsuite/index.mjs",
+      "node": "./dist/themes/rsuite/index.js",
+      "require": "./dist/themes/rsuite/index.js",
+      "default": "./dist/themes/rsuite/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -41,8 +41,8 @@
       ]
     }
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.js",
   "typings": "dist/index.d.js",
   "sideEffects": false,
