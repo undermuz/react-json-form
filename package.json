@@ -5,48 +5,58 @@
   "description": "Generate JSON-based form with react",
   "exports": {
     ".": {
-      "types": "./build/types/index.d.ts",
-      "import": "./build/esm/index.js",
-      "require": "./build/cjs/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "node": "./dist/index.cjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.cjs"
     },
     "./themes/chakra": {
-      "types": "./build/types/themes/chakra/index.d.ts",
-      "import": "./build/esm/themes/chakra/index.js",
-      "require": "./build/cjs/themes/chakra/index.js"
+      "types": "./dist/themes/chakra/index.d.ts",
+      "import": "./dist/themes/chakra/index.js",
+      "node": "./dist/themes/chakra/index.cjs",
+      "require": "./dist/themes/chakra/index.cjs",
+      "default": "./dist/themes/chakra/index.cjs"
     },
     "./themes/grommet": {
-      "types": "./build/types/themes/grommet/index.d.ts",
-      "import": "./build/esm/themes/grommet/index.js",
-      "require": "./build/cjs/themes/grommet/index.js"
+      "types": "./dist/themes/grommet/index.d.ts",
+      "import": "./dist/themes/grommet/index.js",
+      "node": "./dist/themes/grommet/index.cjs",
+      "require": "./dist/themes/grommet/index.cjs",
+      "default": "./dist/themes/grommet/index.cjs"
     },
     "./themes/rsuite": {
-      "types": "./build/types/themes/rsuite/index.d.ts",
-      "import": "./build/esm/themes/rsuite/index.js",
-      "require": "./build/cjs/themes/rsuite/index.js"
+      "types": "./dist/themes/rsuite/index.d.ts",
+      "import": "./dist/themes/rsuite/index.js",
+      "node": "./dist/themes/rsuite/index.cjs",
+      "require": "./dist/themes/rsuite/index.cjs",
+      "default": "./dist/themes/rsuite/index.cjs"
     },
     "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
       "themes/*": [
-        "build/types/themes/*/index.d.ts"
+        "dist/themes/*/index.d.ts"
       ]
     }
   },
-  "main": "build/cjs/index.js",
-  "types": "build/types/index.d.js",
-  "typings": "build/types/index.d.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.js",
+  "typings": "dist/index.d.js",
   "sideEffects": false,
   "files": [
-    "build/cjs/",
-    "build/esm/",
-    "build/types/"
+    "dist/"
   ],
   "scripts": {
     "test": "jest",
     "lint": "eslint ./src --ext .ts .tsx",
     "watch": "tsc -w -p config/tsconfig.esm.json",
-    "build": "node tools/cleanup && npm run build:cjs && npm run build:esm && npm run build:types",
+    "build": "npm run build:tsup",
+    "build:old": "node tools/cleanup && npm run build:cjs && npm run build:esm && npm run build:types",
+    "build:tsup": "tsup",
     "build:cjs": "tsc -p config/tsconfig.cjs.json",
     "build:esm": "tsc -p config/tsconfig.esm.json",
     "build:types": "tsc -p config/tsconfig.types.json",
@@ -127,6 +137,7 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
     "tslib": "^2.4.0",
+    "tsup": "^6.6.3",
     "typescript": "^4.5.5",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"

@@ -4,7 +4,7 @@
         "resolveJsonModule": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "target": "es5",
+        "target": "es2019",
         "module": "esnext",
         "rootDir": "src",
         "outDir": "./build",
@@ -29,7 +29,9 @@
         ".vscode",
         "coverage",
         ".npm",
-        ".yarn"
+        ".yarn",
+        "stories",
+        "src/stories"
     ],
     "include": ["src/**/*"]
 }
