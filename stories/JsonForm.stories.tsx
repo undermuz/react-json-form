@@ -12,7 +12,7 @@ import GrommetUi from "../src/themes/grommet"
 import ChakraUi from "../src/themes/chakra"
 import RsuiteUi from "../src/themes/rsuite"
 
-import { ChakraProvider, useColorMode } from "@chakra-ui/react"
+import { Button, ChakraProvider, Stack, useColorMode, Wrap, WrapItem } from "@chakra-ui/react"
 
 import "rsuite/styles/index.less"
 
@@ -41,16 +41,14 @@ interface IJsonFormStory {
     showValue: true
 }
 
-const JsonFormStoryChakraUi = ({value, setValue}) => {
+const JsonFormStoryChakraUi = ({scheme, value, setValue}) => {
     const dark = useDarkMode()
 
     const {setColorMode} = useColorMode()
 
     useEffect(() => {
-        console.log("setColorMode", dark)
         setColorMode(dark ? "dark" : "light")
     }, [dark])
-
 
     return (
         <UiContext.Provider value={ChakraUi}>
@@ -97,14 +95,8 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue
                     )}
 
                     {theme === JsonFormThemes.ChakraUi && (
-                        <ChakraProvider theme={chakraTheme}>
-                            <UiContext.Provider value={ChakraUi}>
-                                <JsonForm
-                                    {...scheme}
-                                    value={value}
-                                    onChange={setValue}
-                                />
-                            </UiContext.Provider>
+                        <ChakraProvider >
+                            <JsonFormStoryChakraUi value={value} setValue={setValue} scheme={scheme}/>
                         </ChakraProvider>
                     )}
 
@@ -117,6 +109,8 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue
                             />
                         </UiContext.Provider>
                     )}
+
+
                 </Box>
 
                 {showValue && <Box width={boxWidth} background="white" pad={"middle"}>

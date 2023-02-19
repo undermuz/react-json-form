@@ -120,17 +120,18 @@ var Tab = styled(import_react2.Button)`
 `;
 var UiTab = (0, import_react.forwardRef)(
   (props, ref) => {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
       Tab,
       {
         ...props,
-        variant: props.active ? "solid" : "ghost",
+        variant: props.active ? void 0 : "ghost",
+        colorScheme: "gray",
         onClick: props.onSelect,
         ref,
-        children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_react2.Box, { p: 1, children: [
-          Boolean(props.label) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Text, { children: props.label }),
+        children: [
+          Boolean(props.label) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: props.label }),
           props.children
-        ] })
+        ]
       }
     );
   }
@@ -140,7 +141,7 @@ var UiArrayFormContainer = (props) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Flex, { direction: "column", style: props.style, p: 3, children: props.children });
 };
 var UiArrayFormHeader = (props) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Stack, { direction: "row", spacing: 4, align: "center", children: props.children });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Flex, { direction: "row", justify: "space-between", mb: 3, children: props.children });
 };
 var TrashContainer = styled(import_react2.Box)`
     position: absolute;
@@ -169,7 +170,7 @@ var UiArrayFormTrashContainer = (0, import_react.forwardRef)((props, ref) => {
 });
 UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer";
 var UiArrayFormTabs = (props) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Flex, { direction: "row", children: props.children });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Stack, { direction: "row", spacing: 2, align: "center", children: props.children });
 };
 var UiArrayFormBody = (props) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Flex, { direction: "column", children: props.children });

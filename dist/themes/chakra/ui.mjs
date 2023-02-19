@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { EnumSchemeItemType } from "../../types.mjs";
 import _styled from "@emotion/styled";
-import { jsx, jsxs } from "react/jsx-runtime";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 var styled = _styled.default ?? _styled;
 var UiContainer = ({ children }) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", children });
@@ -96,17 +96,18 @@ var Tab = styled(Button)`
 `;
 var UiTab = forwardRef(
   (props, ref) => {
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ jsxs(
       Tab,
       {
         ...props,
-        variant: props.active ? "solid" : "ghost",
+        variant: props.active ? void 0 : "ghost",
+        colorScheme: "gray",
         onClick: props.onSelect,
         ref,
-        children: /* @__PURE__ */ jsxs(Box, { p: 1, children: [
-          Boolean(props.label) && /* @__PURE__ */ jsx(Text, { children: props.label }),
+        children: [
+          Boolean(props.label) && /* @__PURE__ */ jsx(Fragment, { children: props.label }),
           props.children
-        ] })
+        ]
       }
     );
   }
@@ -116,7 +117,7 @@ var UiArrayFormContainer = (props) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", style: props.style, p: 3, children: props.children });
 };
 var UiArrayFormHeader = (props) => {
-  return /* @__PURE__ */ jsx(Stack, { direction: "row", spacing: 4, align: "center", children: props.children });
+  return /* @__PURE__ */ jsx(Flex, { direction: "row", justify: "space-between", mb: 3, children: props.children });
 };
 var TrashContainer = styled(Box)`
     position: absolute;
@@ -145,7 +146,7 @@ var UiArrayFormTrashContainer = forwardRef((props, ref) => {
 });
 UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer";
 var UiArrayFormTabs = (props) => {
-  return /* @__PURE__ */ jsx(Flex, { direction: "row", children: props.children });
+  return /* @__PURE__ */ jsx(Stack, { direction: "row", spacing: 2, align: "center", children: props.children });
 };
 var UiArrayFormBody = (props) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", children: props.children });

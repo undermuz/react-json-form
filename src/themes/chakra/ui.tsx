@@ -170,14 +170,13 @@ const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
         return (
             <Tab
                 {...props}
-                variant={props.active ? "solid" : "ghost"}
+                variant={props.active ? undefined : "ghost"}
+                colorScheme="gray"
                 onClick={props.onSelect}
                 ref={ref as ForwardedRef<HTMLButtonElement>}
             >
-                <Box p={1}>
-                    {Boolean(props.label) && <Text>{props.label}</Text>}
-                    {props.children}
-                </Box>
+                {Boolean(props.label) && <>{props.label}</>}
+                {props.children}
             </Tab>
         )
     }
@@ -197,9 +196,9 @@ const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
 
 const UiArrayFormHeader: FC<PropsWithChildren<{}>> = (props) => {
     return (
-        <Stack direction="row" spacing={4} align="center">
+        <Flex direction="row" justify={"space-between"} mb={3}>
             {props.children}
-        </Stack>
+        </Flex>
     )
 }
 
@@ -236,7 +235,11 @@ UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer"
 const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
     props
 ) => {
-    return <Flex direction="row">{props.children}</Flex>
+    return (
+        <Stack direction="row" spacing={2} align="center">
+            {props.children}
+        </Stack>
+    )
 }
 
 const UiArrayFormBody: FC<PropsWithChildren<{}>> = (props) => {
