@@ -163,7 +163,7 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
                 {children}
             </SortableContext>
 
-            {document &&
+            {typeof document !== "undefined" &&
                 createPortal(
                     <DragOverlay>
                         {currentIndex > -1 ? (
