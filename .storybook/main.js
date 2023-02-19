@@ -8,6 +8,8 @@ module.exports = {
         "@storybook/addon-essentials",
         "@storybook/addon-interactions",
         "storybook-preset-less",
+        "storybook-dark-mode",
+        "storybook-addon-dark-mode-toggle"
     ],
     // framework: "@storybook/react",
     core: {

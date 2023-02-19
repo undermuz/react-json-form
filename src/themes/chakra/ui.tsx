@@ -1,12 +1,14 @@
-import type { CSSProperties, FC, ForwardedRef, PropsWithChildren } from "react"
+import type { FC, ForwardedRef, PropsWithChildren } from "react"
 import { forwardRef, useMemo } from "react"
 
 import {
     Box,
+    Button,
     Flex,
     FormControl,
     FormLabel,
     Heading,
+    Stack,
     Tag,
     Text,
 } from "@chakra-ui/react"
@@ -23,7 +25,6 @@ import type {
 } from "../../types"
 import { EnumSchemeItemType } from "../../types"
 
-import { css } from "@emotion/react"
 import _styled from "@emotion/styled"
 
 const styled = ((_styled as any).default ?? _styled) as typeof _styled
@@ -32,14 +33,32 @@ const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
     return <Flex direction={"column"}>{children}</Flex>
 }
 
-const UiBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
-    const { primary, children } = props
+const UiPrimaryBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
+    const { children } = props
 
     return (
-        <Flex direction={"column"} p={primary ? 4 : 0} pl={0}>
+        <Flex direction={"column"} p={4}>
             {children}
         </Flex>
     )
+}
+
+const UiSecondaryBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
+    const { children } = props
+
+    return (
+        <Flex direction={"column"} borderWidth="1px" shadow="md" p={3}>
+            {children}
+        </Flex>
+    )
+}
+
+const UiBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
+    const { primary } = props
+
+    if (primary) return <UiPrimaryBody {...props} />
+
+    return <UiSecondaryBody {...props} />
 }
 
 const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
@@ -49,9 +68,9 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
         <Flex
             width={"100%"}
             direction="column"
-            p={primary ? 3 : 1}
+            p={primary ? 3 : 2}
             justify="between"
-            background={primary ? "teal.300" : "gray.100"}
+            // background={primary ? "teal.300" : "gray.100"}
         >
             <Flex direction="row" justify="space-between" gap="small">
                 {Boolean(title) && (
@@ -76,24 +95,24 @@ const UiFlatFormContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
     return <Flex direction={"column"}>{children}</Flex>
 }
 
-const Branch = styled(Flex)`
-    width: var(--chakra-space-3);
-    ::before {
-        content: "";
-        box-sizing: content-box;
-        display: block;
-        width: 12px;
-        height: var(--branch-height, 18px);
-        padding-bottom: 18px;
-        border: solid var(--chakra-colors-gray-300);
-        border-width: 0 0 1px 1px;
-        border-bottom-left-radius: 8px;
-        margin-left: -1px;
-    }
-`
+// const Branch = styled(Flex)`
+//     width: var(--chakra-space-3);
+//     ::before {
+//         content: "";
+//         box-sizing: content-box;
+//         display: block;
+//         width: 12px;
+//         height: var(--branch-height, 18px);
+//         padding-bottom: 18px;
+//         border: solid var(--chakra-colors-gray-300);
+//         border-width: 0 0 1px 1px;
+//         border-bottom-left-radius: 8px;
+//         margin-left: -1px;
+//     }
+// `
 
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const { title, isLast, primary = false, type, errors, children } = props
+    const { title, isLast, type, errors, children } = props
 
     const showLabel = useMemo(() => {
         if (type === EnumSchemeItemType.Checkbox) {
@@ -108,13 +127,8 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
     }, [type])
 
     return (
-        <Flex
-            direction={"row"}
-            borderLeft={!primary && !isLast ? "1px solid" : undefined}
-            borderLeftColor="gray.300"
-            pb={!isLast ? 3 : undefined}
-        >
-            {!primary && (
+        <Flex direction={"row"} pb={!isLast ? 3 : undefined}>
+            {/* {!primary && (
                 <Branch
                     style={
                         {
@@ -126,7 +140,8 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
                     }
                     direction={"column"}
                 ></Branch>
-            )}
+            )} */}
+
             <Flex
                 width={"100%"}
                 pt={showLabel ? 0 : 2}
@@ -146,16 +161,8 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
     )
 }
 
-const Tab = styled(Box)<IUiTabProps>`
-    ${({ active }) => css`
-        background-color: var(--chakra-colors-gray-50);
-
-        ${active && `background-color: var(--chakra-colors-teal-50);`}
-
-        user-select: none;
-
-        cursor: pointer;
-    `}
+const Tab = styled(Button)<IUiTabProps>`
+    user-select: none;
 `
 
 const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
@@ -163,8 +170,9 @@ const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
         return (
             <Tab
                 {...props}
+                variant={props.active ? "solid" : "ghost"}
                 onClick={props.onSelect}
-                ref={ref as ForwardedRef<HTMLDivElement>}
+                ref={ref as ForwardedRef<HTMLButtonElement>}
             >
                 <Box p={1}>
                     {Boolean(props.label) && <Text>{props.label}</Text>}
@@ -181,7 +189,7 @@ const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
     props
 ) => {
     return (
-        <Flex direction="column" style={props.style}>
+        <Flex direction="column" style={props.style} p={3}>
             {props.children}
         </Flex>
     )
@@ -189,14 +197,9 @@ const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
 
 const UiArrayFormHeader: FC<PropsWithChildren<{}>> = (props) => {
     return (
-        <Flex
-            direction="row"
-            backgroundColor="gray.100"
-            justify={"space-between"}
-            mb={3}
-        >
+        <Stack direction="row" spacing={4} align="center">
             {props.children}
-        </Flex>
+        </Stack>
     )
 }
 

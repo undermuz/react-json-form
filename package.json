@@ -3,47 +3,46 @@
   "homepage": "http://undermuz.github.io/react-json-form",
   "version": "1.0.1",
   "description": "Generate JSON-based form with react",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.js",
   "typings": "dist/index.d.js",
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "module": "./dist/index.js",
-      "esmodules": "./dist/index.js",
-      "node": "./dist/index.cjs",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.cjs"
+      "import": "./dist/index.mjs",
+      "module": "./dist/index.mjs",
+      "esmodules": "./dist/index.mjs",
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./themes/chakra": {
       "types": "./dist/themes/chakra/index.d.ts",
-      "import": "./dist/themes/chakra/index.js",
-      "module": "./dist/themes/chakra/index.js",
-      "esmodules": "./dist/themes/chakra/index.js",
-      "node": "./dist/themes/chakra/index.cjs",
-      "require": "./dist/themes/chakra/index.cjs",
-      "default": "./dist/themes/chakra/index.cjs"
+      "import": "./dist/themes/chakra/index.mjs",
+      "module": "./dist/themes/chakra/index.mjs",
+      "esmodules": "./dist/themes/chakra/index.mjs",
+      "node": "./dist/themes/chakra/index.js",
+      "require": "./dist/themes/chakra/index.js",
+      "default": "./dist/themes/chakra/index.js"
     },
     "./themes/grommet": {
       "types": "./dist/themes/grommet/index.d.ts",
-      "import": "./dist/themes/grommet/index.js",
-      "module": "./dist/themes/grommet/index.js",
-      "esmodules": "./dist/themes/grommet/index.js",
-      "node": "./dist/themes/grommet/index.cjs",
-      "require": "./dist/themes/grommet/index.cjs",
-      "default": "./dist/themes/grommet/index.cjs"
+      "import": "./dist/themes/grommet/index.mjs",
+      "module": "./dist/themes/grommet/index.mjs",
+      "esmodules": "./dist/themes/grommet/index.mjs",
+      "node": "./dist/themes/grommet/index.js",
+      "require": "./dist/themes/grommet/index.js",
+      "default": "./dist/themes/grommet/index.js"
     },
     "./themes/rsuite": {
       "types": "./dist/themes/rsuite/index.d.ts",
-      "import": "./dist/themes/rsuite/index.js",
-      "module": "./dist/themes/rsuite/index.js",
-      "esmodules": "./dist/themes/rsuite/index.js",
-      "node": "./dist/themes/rsuite/index.cjs",
-      "require": "./dist/themes/rsuite/index.cjs",
-      "default": "./dist/themes/rsuite/index.cjs"
+      "import": "./dist/themes/rsuite/index.mjs",
+      "module": "./dist/themes/rsuite/index.mjs",
+      "esmodules": "./dist/themes/rsuite/index.mjs",
+      "node": "./dist/themes/rsuite/index.js",
+      "require": "./dist/themes/rsuite/index.js",
+      "default": "./dist/themes/rsuite/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -142,6 +141,8 @@
     "react-json-view": "^1.21.3",
     "rsuite": "^5.16.1",
     "storybook": "^6.5.16",
+    "storybook-addon-dark-mode-toggle": "^0.0.6",
+    "storybook-dark-mode": "^2.0.6",
     "storybook-preset-less": "^1.1.3",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
@@ -153,6 +154,10 @@
   },
   "overrides": {
     "react-json-view": {
+      "react": ">=18.0.0",
+      "react-dom": ">=18.0.0"
+    },
+    "storybook-addon-dark-mode-toggle": {
       "react": ">=18.0.0",
       "react-dom": ">=18.0.0"
     }
