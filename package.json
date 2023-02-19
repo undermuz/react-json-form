@@ -3,10 +3,16 @@
   "homepage": "http://undermuz.github.io/react-json-form",
   "version": "1.0.1",
   "description": "Generate JSON-based form with react",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.js",
+  "typings": "dist/index.d.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
+      "module": "./dist/index.mjs",
+      "esmodules": "./dist/index.mjs",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
@@ -14,6 +20,8 @@
     "./themes/chakra": {
       "types": "./dist/themes/chakra/index.d.ts",
       "import": "./dist/themes/chakra/index.mjs",
+      "module": "./dist/themes/chakra/index.mjs",
+      "esmodules": "./dist/themes/chakra/index.mjs",
       "node": "./dist/themes/chakra/index.js",
       "require": "./dist/themes/chakra/index.js",
       "default": "./dist/themes/chakra/index.js"
@@ -21,6 +29,8 @@
     "./themes/grommet": {
       "types": "./dist/themes/grommet/index.d.ts",
       "import": "./dist/themes/grommet/index.mjs",
+      "module": "./dist/themes/grommet/index.mjs",
+      "esmodules": "./dist/themes/grommet/index.mjs",
       "node": "./dist/themes/grommet/index.js",
       "require": "./dist/themes/grommet/index.js",
       "default": "./dist/themes/grommet/index.js"
@@ -28,6 +38,8 @@
     "./themes/rsuite": {
       "types": "./dist/themes/rsuite/index.d.ts",
       "import": "./dist/themes/rsuite/index.mjs",
+      "module": "./dist/themes/rsuite/index.mjs",
+      "esmodules": "./dist/themes/rsuite/index.mjs",
       "node": "./dist/themes/rsuite/index.js",
       "require": "./dist/themes/rsuite/index.js",
       "default": "./dist/themes/rsuite/index.js"
@@ -41,10 +53,6 @@
       ]
     }
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.js",
-  "typings": "dist/index.d.js",
   "sideEffects": false,
   "files": [
     "dist/"
