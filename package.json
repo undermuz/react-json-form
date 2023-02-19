@@ -46,14 +46,6 @@
     },
     "./package.json": "./package.json"
   },
-  "typesVersions": {
-    "*": {
-      "*": ["./dist/index.d.ts"],
-      "themes/*": [
-        "dist/themes/*/index.d.ts"
-      ]
-    }
-  },
   "sideEffects": false,
   "files": [
     "dist"
