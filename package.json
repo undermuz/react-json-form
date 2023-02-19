@@ -7,6 +7,13 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "themes/*": [
+        "dist/themes/*/index.d.ts"
+      ]
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
