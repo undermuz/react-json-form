@@ -50,6 +50,13 @@ const scheme: IScheme = {
             rules: [[[Boolean], "Поле обязательное"]],
         },
         {
+            name: "size",
+            title: "Размер",
+            type: EnumSchemeItemType.Select,
+            def_value: null,
+            rules: [[[Boolean], "Поле обязательное"]],
+        },
+        {
             name: "subtitle",
             title: "Подзаголовок",
             type: EnumSchemeItemType.TextBlock,

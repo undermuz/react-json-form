@@ -26,7 +26,6 @@ import type {
 import { EnumSchemeItemType } from "../../types"
 
 import _styled from "@emotion/styled"
-
 const styled = ((_styled as any).default ?? _styled) as typeof _styled
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {

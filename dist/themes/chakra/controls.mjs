@@ -1,9 +1,10 @@
 // src/themes/chakra/controls.tsx
-import Select from "react-select";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { Checkbox, Input, Textarea } from "@chakra-ui/react";
 import { isArray } from "underscore";
+import _Select from "react-select";
 import { jsx } from "react/jsx-runtime";
+var Select = _Select.default ?? _Select;
 var ControlSelect = (props) => {
   const { name, value, settings = {} } = props;
   const { onChange, onBlur } = props;

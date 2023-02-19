@@ -1,6 +1,5 @@
 import { type FC } from "react"
 
-import Select from "react-select"
 import { SingleDatepicker } from "chakra-dayzed-datepicker"
 
 import { Checkbox, Input, Textarea } from "@chakra-ui/react"
@@ -9,6 +8,9 @@ import type { IInput } from "../../input"
 import type { JsonFormControls } from "../../types"
 
 import { isArray } from "underscore"
+
+import _Select from "react-select"
+const Select = ((_Select as any).default ?? _Select) as typeof _Select
 
 interface TypeSelectValue {
     label: string

@@ -33,17 +33,18 @@ __export(controls_exports, {
   default: () => controls_default
 });
 module.exports = __toCommonJS(controls_exports);
-var import_react_select = __toESM(require("react-select"));
 var import_chakra_dayzed_datepicker = require("chakra-dayzed-datepicker");
 var import_react = require("@chakra-ui/react");
 var import_underscore = require("underscore");
+var import_react_select = __toESM(require("react-select"));
 var import_jsx_runtime = require("react/jsx-runtime");
+var Select = import_react_select.default.default ?? import_react_select.default;
 var ControlSelect = (props) => {
   const { name, value, settings = {} } = props;
   const { onChange, onBlur } = props;
   const list = (0, import_underscore.isArray)(value) ? value : [];
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    import_react_select.default,
+    Select,
     {
       isMulti: settings.multiple ? true : false,
       name,
