@@ -39,6 +39,7 @@ var import_types = require("../../types.cjs");
 var import_react3 = require("@emotion/react");
 var import_styled = __toESM(require("@emotion/styled"), 1);
 var import_jsx_runtime = require("react/jsx-runtime");
+var styled = import_styled.default.default ?? import_styled.default;
 var UiContainer = ({ children }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Flex, { direction: "column", children });
 };
@@ -80,7 +81,7 @@ var UiHeader = (props) => {
 var UiFlatFormContainer = ({ children }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react2.Flex, { direction: "column", children });
 };
-var Branch = (0, import_styled.default)(import_react2.Flex)`
+var Branch = styled(import_react2.Flex)`
     width: var(--chakra-space-3);
     ::before {
         content: "";
@@ -141,7 +142,7 @@ var UiField = (props) => {
     }
   );
 };
-var Tab = (0, import_styled.default)(import_react2.Box)`
+var Tab = styled(import_react2.Box)`
     ${({ active }) => import_react3.css`
         background-color: var(--chakra-colors-gray-50);
 
@@ -184,7 +185,7 @@ var UiArrayFormHeader = (props) => {
     }
   );
 };
-var TrashContainer = (0, import_styled.default)(import_react2.Box)`
+var TrashContainer = styled(import_react2.Box)`
     position: absolute;
     z-index: 2;
     top: -30px;

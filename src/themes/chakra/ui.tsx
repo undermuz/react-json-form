@@ -24,7 +24,9 @@ import type {
 import { EnumSchemeItemType } from "../../types"
 
 import { css } from "@emotion/react"
-import styled from "@emotion/styled"
+import _styled from "@emotion/styled"
+
+const styled = ((_styled as any).default ?? _styled) as typeof _styled
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
     return <Flex direction={"column"}>{children}</Flex>

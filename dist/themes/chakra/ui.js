@@ -11,8 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { EnumSchemeItemType } from "../../types.js";
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
+import _styled from "@emotion/styled";
 import { jsx, jsxs } from "react/jsx-runtime";
+var styled = _styled.default ?? _styled;
 var UiContainer = ({ children }) => {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", children });
 };
