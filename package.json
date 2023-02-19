@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "description": "Generate JSON-based form with react",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -100,7 +100,10 @@
   "peerDependencies": {
     "react": ">=16.0.0",
     "react-dom": ">=16.0.0",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "chakra-dayzed-datepicker": "^0.2.7",
+    "date-fns": "^2.29.3",
+    "dayzed": "^3.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -111,7 +114,6 @@
     "@emotion/babel-plugin": "^11.10.6",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@orange_digital/chakra-datepicker": "^1.0.3",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",

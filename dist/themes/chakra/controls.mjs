@@ -1,6 +1,6 @@
 // src/themes/chakra/controls.tsx
 import Select from "react-select";
-import { DatePicker } from "@orange_digital/chakra-datepicker";
+import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { Checkbox, Input, Textarea } from "@chakra-ui/react";
 import { isArray } from "underscore";
 import { jsx } from "react/jsx-runtime";
@@ -36,9 +36,9 @@ var ControlDate = (props) => {
   const { value } = props;
   const { onChange } = props;
   return /* @__PURE__ */ jsx(
-    DatePicker,
+    SingleDatepicker,
     {
-      initialValue: value ? value : void 0,
+      date: value ? value : void 0,
       onDateChange: (value2) => onChange?.(value2)
     }
   );

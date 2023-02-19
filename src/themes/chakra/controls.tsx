@@ -1,7 +1,7 @@
-import type { FC } from "react"
+import { type FC } from "react"
 
 import Select from "react-select"
-import { DatePicker } from "@orange_digital/chakra-datepicker"
+import { SingleDatepicker } from "chakra-dayzed-datepicker"
 
 import { Checkbox, Input, Textarea } from "@chakra-ui/react"
 
@@ -57,11 +57,15 @@ const ControlSelect: FC<IInput> = (props) => {
 const ControlDate: FC<IInput> = (props) => {
     const { value } = props
 
+    // const defValue = useMemo(() => {
+    //     return new Date()
+    // }, [])
+
     const { onChange } = props
 
     return (
-        <DatePicker
-            initialValue={value ? value : undefined}
+        <SingleDatepicker
+            date={value ? value : undefined}
             onDateChange={(value) => onChange?.(value)}
         />
     )

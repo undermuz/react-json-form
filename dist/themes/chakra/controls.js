@@ -34,7 +34,7 @@ __export(controls_exports, {
 });
 module.exports = __toCommonJS(controls_exports);
 var import_react_select = __toESM(require("react-select"));
-var import_chakra_datepicker = require("@orange_digital/chakra-datepicker");
+var import_chakra_dayzed_datepicker = require("chakra-dayzed-datepicker");
 var import_react = require("@chakra-ui/react");
 var import_underscore = require("underscore");
 var import_jsx_runtime = require("react/jsx-runtime");
@@ -70,9 +70,9 @@ var ControlDate = (props) => {
   const { value } = props;
   const { onChange } = props;
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    import_chakra_datepicker.DatePicker,
+    import_chakra_dayzed_datepicker.SingleDatepicker,
     {
-      initialValue: value ? value : void 0,
+      date: value ? value : void 0,
       onDateChange: (value2) => onChange?.(value2)
     }
   );
