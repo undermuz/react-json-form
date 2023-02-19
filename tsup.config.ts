@@ -7,7 +7,7 @@ export default defineConfig({
     entry: ["./src"],
     sourcemap: false,
     clean: true,
-    target: "es2019",
+    target: "es2020",
     dts: true,
     skipNodeModulesBundle: true,
     format: ["cjs", "esm"],
@@ -24,8 +24,8 @@ export default defineConfig({
     ],
     esbuildPlugins: [
         esbuildPluginFilePathExtensions({
-            esmExtension: "mjs",
-            cjsExtension: "js",
+            esmExtension: "js",
+            cjsExtension: "cjs",
         }),
     ],
 })

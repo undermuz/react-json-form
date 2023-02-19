@@ -4,13 +4,13 @@
         "resolveJsonModule": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "target": "es2019",
+        "target": "ESNext",
         "module": "esnext",
         "outDir": "./build",
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
         "jsx": "react-jsx",
-        "declaration": false,
+        "declaration": true,
         "strict": true,
         "lib": ["esnext", "dom.iterable", "dom"],
         "sourceMap": false,
@@ -19,7 +19,9 @@
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "noUnusedParameters": false,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "emitDeclarationOnly": true,
+        "strictPropertyInitialization": false
     },
     "exclude": [
         "dist",

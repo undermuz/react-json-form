@@ -1,44 +1,10 @@
-"use strict";
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
 // src/themes/grommet/ui.tsx
-var ui_exports = {};
-__export(ui_exports, {
-  default: () => ui_default
-});
-module.exports = __toCommonJS(ui_exports);
-var import_react = require("react");
-var import_styled_components = __toESM(require("styled-components"));
-var import_grommet = require("grommet");
-var import_types = require("../../types.js");
-var import_jsx_runtime = require("react/jsx-runtime");
-var UiContainer = (0, import_styled_components.default)(import_grommet.Box)`
+import { forwardRef, useMemo } from "react";
+import styled, { css } from "styled-components";
+import { Box, Heading, Tag, Text } from "grommet";
+import { EnumSchemeItemType } from "../../types.js";
+import { jsx, jsxs } from "react/jsx-runtime";
+var UiContainer = styled(Box)`
     @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
 
     * {
@@ -46,8 +12,8 @@ var UiContainer = (0, import_styled_components.default)(import_grommet.Box)`
     }
 `;
 var UiBody = ({ primary, children }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    import_grommet.Box,
+  return /* @__PURE__ */ jsx(
+    Box,
     {
       pad: primary ? {
         top: "small",
@@ -60,8 +26,8 @@ var UiBody = ({ primary, children }) => {
 };
 var UiHeader = (props) => {
   const { id, title, primary, children } = props;
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-    import_grommet.Box,
+  return /* @__PURE__ */ jsxs(
+    Box,
     {
       width: "100%",
       direction: "row",
@@ -69,9 +35,9 @@ var UiHeader = (props) => {
       justify: "between",
       background: primary ? "brand" : "light-2",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_grommet.Box, { direction: "row", justify: "start", gap: "small", children: [
-          Boolean(title) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Heading, { level: primary ? 3 : 4, margin: "none", children: title }),
-          Boolean(id) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Tag, { value: `#${id}` })
+        /* @__PURE__ */ jsxs(Box, { direction: "row", justify: "start", gap: "small", children: [
+          Boolean(title) && /* @__PURE__ */ jsx(Heading, { level: primary ? 3 : 4, margin: "none", children: title }),
+          Boolean(id) && /* @__PURE__ */ jsx(Tag, { value: `#${id}` })
         ] }),
         children
       ]
@@ -79,10 +45,10 @@ var UiHeader = (props) => {
   );
 };
 var UiFlatFormContainer = ({ children }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { children });
+  return /* @__PURE__ */ jsx(Box, { children });
 };
-var Branch = (0, import_styled_components.default)(import_grommet.Box)`
-    ${({ theme }) => import_styled_components.css`
+var Branch = styled(Box)`
+    ${({ theme }) => css`
         width: 10px;
         ::before {
             content: "";
@@ -100,17 +66,17 @@ var Branch = (0, import_styled_components.default)(import_grommet.Box)`
 `;
 var UiField = (props) => {
   const { title, isLast = false, primary = false, type, children } = props;
-  const showLabel = (0, import_react.useMemo)(() => {
-    if (type === import_types.EnumSchemeItemType.Checkbox) {
+  const showLabel = useMemo(() => {
+    if (type === EnumSchemeItemType.Checkbox) {
       return false;
     }
-    if (type === import_types.EnumSchemeItemType.Widget) {
+    if (type === EnumSchemeItemType.Widget) {
       return false;
     }
     return true;
   }, [type]);
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-    import_grommet.Box,
+  return /* @__PURE__ */ jsxs(
+    Box,
     {
       direction: "row",
       border: [
@@ -124,17 +90,17 @@ var UiField = (props) => {
         bottom: !isLast ? "small" : void 0
       },
       children: [
-        !primary && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        !primary && /* @__PURE__ */ jsx(
           Branch,
           {
             style: {
-              "--branch-height": type === import_types.EnumSchemeItemType.Checkbox ? "1px" : "34px"
+              "--branch-height": type === EnumSchemeItemType.Checkbox ? "1px" : "34px"
             },
             direction: "column"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-          import_grommet.Box,
+        /* @__PURE__ */ jsxs(
+          Box,
           {
             width: "100%",
             pad: {
@@ -144,7 +110,7 @@ var UiField = (props) => {
             direction: "column",
             justify: "center",
             children: [
-              showLabel && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Text, { as: "label", children: title }),
+              showLabel && /* @__PURE__ */ jsx(Text, { as: "label", children: title }),
               children
             ]
           }
@@ -153,12 +119,12 @@ var UiField = (props) => {
     }
   );
 };
-var Tab = (0, import_styled_components.default)(import_grommet.Box)`
+var Tab = styled(Box)`
     user-select: none;
 `;
-var UiTab = (0, import_react.forwardRef)(
+var UiTab = forwardRef(
   (props, ref) => {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    return /* @__PURE__ */ jsx(
       Tab,
       {
         ...props,
@@ -169,8 +135,8 @@ var UiTab = (0, import_react.forwardRef)(
         },
         ref,
         hoverIndicator: true,
-        children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_grommet.Box, { pad: "xsmall", children: [
-          Boolean(props == null ? void 0 : props.label) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Text, { children: props == null ? void 0 : props.label }),
+        children: /* @__PURE__ */ jsxs(Box, { pad: "xsmall", children: [
+          Boolean(props?.label) && /* @__PURE__ */ jsx(Text, { children: props?.label }),
           props.children
         ] })
       }
@@ -179,11 +145,11 @@ var UiTab = (0, import_react.forwardRef)(
 );
 UiTab.displayName = "UiTab";
 var UiArrayFormContainer = (props) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { direction: "column", style: props.style, children: props.children });
+  return /* @__PURE__ */ jsx(Box, { direction: "column", style: props.style, children: props.children });
 };
 var UiArrayFormHeader = (props) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    import_grommet.Box,
+  return /* @__PURE__ */ jsx(
+    Box,
     {
       direction: "row",
       justify: "between",
@@ -192,15 +158,15 @@ var UiArrayFormHeader = (props) => {
     }
   );
 };
-var TrashContainer = (0, import_styled_components.default)(import_grommet.Box)`
+var TrashContainer = styled(Box)`
     position: absolute;
     z-index: 2;
     top: -56px;
     left: 0px;
     width: 100%;
 `;
-var UiArrayFormTrashContainer = (0, import_react.forwardRef)((props, ref) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+var UiArrayFormTrashContainer = forwardRef((props, ref) => {
+  return /* @__PURE__ */ jsxs(
     TrashContainer,
     {
       ref,
@@ -215,7 +181,7 @@ var UiArrayFormTrashContainer = (0, import_react.forwardRef)((props, ref) => {
       },
       pad: "xsmall",
       children: [
-        Boolean(props == null ? void 0 : props.label) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Text, { children: props == null ? void 0 : props.label }),
+        Boolean(props?.label) && /* @__PURE__ */ jsx(Text, { children: props?.label }),
         props.children
       ]
     }
@@ -223,10 +189,10 @@ var UiArrayFormTrashContainer = (0, import_react.forwardRef)((props, ref) => {
 });
 UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer";
 var UiArrayFormTabs = (props) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { direction: "row", children: props.children });
+  return /* @__PURE__ */ jsx(Box, { direction: "row", children: props.children });
 };
 var UiArrayFormBody = (props) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_grommet.Box, { children: props.children });
+  return /* @__PURE__ */ jsx(Box, { children: props.children });
 };
 var GrommetUi = {
   Container: UiContainer,
@@ -243,5 +209,6 @@ var GrommetUi = {
   Tab: UiTab
 };
 var ui_default = GrommetUi;
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {});
+export {
+  ui_default as default
+};

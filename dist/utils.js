@@ -1,39 +1,11 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
 // src/utils.ts
-var utils_exports = {};
-__export(utils_exports, {
-  getDefValueForItem: () => getDefValueForItem,
-  getDefValueForScheme: () => getDefValueForScheme,
-  useDefSchemeValue: () => useDefSchemeValue,
-  useSafeValue: () => useSafeValue,
-  useSchemeToForm: () => useSchemeToForm
-});
-module.exports = __toCommonJS(utils_exports);
-var import_react = require("react");
-var import_underscore = require("underscore");
-var import_types = require("./types.js");
+import { useMemo } from "react";
+import { isArray } from "underscore";
+import { EnumSchemeItemType } from "./types.js";
 var getDefValueForItem = (item) => {
   const {
     def_value = "",
-    type = import_types.EnumSchemeItemType.Text,
+    type = EnumSchemeItemType.Text,
     settings = {},
     multiple = false
   } = item;
@@ -50,7 +22,7 @@ var getDefValueForItem = (item) => {
     }
     return {};
   }
-  if (type == import_types.EnumSchemeItemType.GeoCoordinates)
+  if (type == EnumSchemeItemType.GeoCoordinates)
     return {
       address: "",
       lat: 0,
@@ -77,13 +49,13 @@ var getDefValueForScheme = (scheme) => {
   );
 };
 var useDefSchemeValue = (scheme) => {
-  return (0, import_react.useMemo)(() => {
+  return useMemo(() => {
     return getDefValueForScheme(scheme);
   }, [scheme]);
 };
 var useSafeValue = (unsafeValue, defValue, multiple = false) => {
-  return (0, import_react.useMemo)(() => {
-    if (unsafeValue === void 0 || !multiple && Object.keys(unsafeValue).length === 0 || multiple && (!(0, import_underscore.isArray)(unsafeValue) || unsafeValue.length == 0)) {
+  return useMemo(() => {
+    if (unsafeValue === void 0 || !multiple && Object.keys(unsafeValue).length === 0 || multiple && (!isArray(unsafeValue) || unsafeValue.length == 0)) {
       if (multiple) {
         return [{ ...defValue, id: 1 }];
       }
@@ -93,7 +65,7 @@ var useSafeValue = (unsafeValue, defValue, multiple = false) => {
   }, [unsafeValue, multiple, defValue]);
 };
 var useSchemeToForm = (scheme, value, onChange) => {
-  return (0, import_react.useMemo)(() => {
+  return useMemo(() => {
     const config = {
       fields: {},
       options: {
@@ -112,11 +84,10 @@ var useSchemeToForm = (scheme, value, onChange) => {
     return config;
   }, [scheme, value, onChange]);
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
+export {
   getDefValueForItem,
   getDefValueForScheme,
   useDefSchemeValue,
   useSafeValue,
   useSchemeToForm
-});
+};
