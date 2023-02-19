@@ -137,7 +137,7 @@ var SortableList = ({
             children
           }
         ),
-        document && (0, import_react_dom.createPortal)(
+        typeof document !== "undefined" && (0, import_react_dom.createPortal)(
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_core.DragOverlay, { children: currentIndex > -1 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             SortableTab,
             {
