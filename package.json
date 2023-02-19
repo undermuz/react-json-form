@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Generate JSON-based form with react",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -48,6 +48,7 @@
   },
   "typesVersions": {
     "*": {
+      "./": ["./dist/index.d.ts"],
       "themes/*": [
         "dist/themes/*/index.d.ts"
       ]
@@ -55,7 +56,7 @@
   },
   "sideEffects": false,
   "files": [
-    "dist/"
+    "dist"
   ],
   "scripts": {
     "test": "jest",
