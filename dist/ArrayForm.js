@@ -117,7 +117,7 @@ var SortableList = ({
             children
           }
         ),
-        createPortal(
+        document && createPortal(
           /* @__PURE__ */ jsx(DragOverlay, { children: currentIndex > -1 ? /* @__PURE__ */ jsx(
             SortableTab,
             {

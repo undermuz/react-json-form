@@ -163,17 +163,18 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
                 {children}
             </SortableContext>
 
-            {createPortal(
-                <DragOverlay>
-                    {currentIndex > -1 ? (
-                        <SortableTab
-                            tabId={activeId as number}
-                            label={`#${currentIndex + 1}`}
-                        />
-                    ) : null}
-                </DragOverlay>,
-                document.body
-            )}
+            {document &&
+                createPortal(
+                    <DragOverlay>
+                        {currentIndex > -1 ? (
+                            <SortableTab
+                                tabId={activeId as number}
+                                label={`#${currentIndex + 1}`}
+                            />
+                        ) : null}
+                    </DragOverlay>,
+                    document.body
+                )}
 
             {activeId !== null && <TrashDroppable />}
         </DndContext>
