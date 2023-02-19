@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Generate JSON-based form with react",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

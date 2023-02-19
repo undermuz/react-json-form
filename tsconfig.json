@@ -6,7 +6,6 @@
         "esModuleInterop": true,
         "target": "ESNext",
         "module": "esnext",
-        "outDir": "./build",
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
         "jsx": "react-jsx",
