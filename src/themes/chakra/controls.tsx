@@ -12,6 +12,9 @@ import { isArray } from "underscore"
 import _Select from "react-select"
 const Select = ((_Select as any).default ?? _Select) as typeof _Select
 
+import _AsyncSelect from "react-select/async"
+const AsyncSelect = ((_AsyncSelect as any).default ?? _AsyncSelect) as typeof _AsyncSelect
+
 interface TypeSelectValue {
     label: string
     value: number
@@ -24,8 +27,20 @@ const ControlSelect: FC<IInput> = (props) => {
 
     const list: number[] = isArray(value) ? (value as number[]) : []
 
+    const isSync = Array.isArray(settings.options)
+
+    const SelectCmp = isSync ? Select : AsyncSelect
+
+    const rest = !isSync ? {
+        loadOptions: settings.options,
+        cacheOptions: true,
+        defaultOptions: true
+    } : {options: settings.options}
+
     return (
-        <Select
+        <SelectCmp
+        {...rest}
+
             isMulti={settings.multiple ? true : false}
             name={name}
             value={
@@ -39,7 +54,6 @@ const ControlSelect: FC<IInput> = (props) => {
                       }))
                     : value
             }
-            options={settings.options}
             onBlur={() => onBlur}
             onChange={(_value: any) => {
                 if (settings.multiple) {

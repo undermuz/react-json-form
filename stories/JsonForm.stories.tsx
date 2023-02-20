@@ -25,6 +25,7 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 }
 import { useDarkMode } from 'storybook-dark-mode'
+import ApiContext, { ApiValue } from "../src/ApiContext"
 // 3. extend the theme
 const chakraTheme = extendTheme({ config })
 
@@ -76,8 +77,20 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue
         return "100%"
     },[showScheme, showValue])
 
+    const api: ApiValue = useMemo(() => {
+        return {
+            "api::size.list": async () => {
+                console.log("[api::size.list]")
+
+                return Promise.resolve([
+                    {label: "fff", value: 2222}
+                ])
+            }
+        }
+    }, [])
+
     return (
-        <>
+        <ApiContext.Provider value={api}>
             <Box direction="row">
                 {showScheme && <Box width={boxWidth} background="white" pad={"middle"}>
                     <ReactJson src={scheme} displayObjectSize={false} />
@@ -109,15 +122,13 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue
                             />
                         </UiContext.Provider>
                     )}
-
-
                 </Box>
 
                 {showValue && <Box width={boxWidth} background="white" pad={"middle"}>
                     <ReactJson src={value} displayObjectSize={false} />
                 </Box>}
             </Box>
-        </>
+        </ApiContext.Provider>
     )
 }
 

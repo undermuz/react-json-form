@@ -53,6 +53,9 @@ const scheme: IScheme = {
             name: "size",
             title: "Размер",
             type: EnumSchemeItemType.Select,
+            settings: {
+                useApi: "api::size.list"
+            },
             def_value: null,
             rules: [[[Boolean], "Поле обязательное"]],
         },

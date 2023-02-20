@@ -1,4 +1,5 @@
 /*SYSTEM IMPORTS*/
+import { useMemo } from "react"
 import type { FC } from "react"
 
 // import Editor from "react-quill"
@@ -13,6 +14,7 @@ import { EnumSchemeItemType } from "./types"
 import JsonForm from "./JsonForm"
 import { useJsonFormUi } from "./UiContext"
 import { noop } from "underscore"
+import { useJsonFormApi } from "./ApiContext"
 
 // import * as Tests from 'helpers/ValueTests'
 // import * as Objects from 'helpers/Objects'
@@ -166,6 +168,38 @@ export interface IInput {
     onBlur?: Function
 }
 
+const InputAsyncSelect: FC<IInput & { apiName: string }> = (props) => {
+    const Ui = useJsonFormUi()
+
+    const api = useJsonFormApi(props.apiName)
+
+    const settings = useMemo(() => {
+        const _s = props.settings
+
+        return {
+            ..._s,
+            options: api,
+        }
+    }, [props.settings, api])
+
+    return <Ui.Controls.Select {...props} settings={settings} />
+}
+
+const InputSelect: FC<IInput> = (props) => {
+    const Ui = useJsonFormUi()
+
+    if (props?.settings?.useApi) {
+        return (
+            <InputAsyncSelect
+                {...props}
+                apiName={props.settings.useApi as string}
+            />
+        )
+    }
+
+    return <Ui.Controls.Select {...props} />
+}
+
 const Input: FC<IInput> = (props) => {
     const { value = "", type, title, settings = {} } = props
 
@@ -214,7 +248,7 @@ const Input: FC<IInput> = (props) => {
         }
 
         if (type == EnumSchemeItemType.Select) {
-            return <Ui.Controls.Select {...props} />
+            return <InputSelect {...props} />
         }
 
         if (type === EnumSchemeItemType.Date) {
