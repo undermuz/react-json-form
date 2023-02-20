@@ -2,7 +2,7 @@
 
 (⚠️⚠️⚠️ THIS PACKAGE IS UNDER DEVELOPING ⚠️⚠️⚠️)
 
-React library for generate JSON-based form 
+[React library for generate JSON-based form](https://www.npmjs.com/package/@undermuz/react-json-form)
 
 ## Install
 
