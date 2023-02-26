@@ -1,9 +1,10 @@
-import { act, render, screen } from "@testing-library/react"
+import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import "@testing-library/jest-dom"
 import JsonForm from "../JsonForm"
 
-import React, { FC, useState } from "react"
+import type { FC } from "react"
+import React, { useState } from "react"
 import LoginScheme from "../stories/Schemes/forms/login"
 import { ChakraProvider } from "@chakra-ui/react"
 import ChakraUi from "../themes/chakra"
@@ -51,7 +52,10 @@ describe("Flat form errors", () => {
         test("Errors will show when no data", async () => {
             await clickTo("E-mail")
             await clickTo("Password")
-            await screen.findByText("Required")
+
+            await waitFor(() => {
+                expect(screen.getByText("Required")).toBeInTheDocument()
+            })
 
             await clickTo("E-mail")
             await screen.findByText("Min length: 6; Max length: 18")
@@ -62,27 +66,44 @@ describe("Flat form errors", () => {
             await typeTo("E-mail", "invalid-email")
             await clickTo("Password")
 
-            await screen.findByText("Incorrect e-mail")
+            await waitFor(() => {
+                expect(screen.getByText("Incorrect e-mail")).toBeInTheDocument()
+            })
 
             await typeTo("Password", "12345")
             await clickTo("E-mail")
 
-            await screen.findByText("Incorrect e-mail")
-            await screen.findByText("Min length: 6; Max length: 18")
+            await waitFor(() => {
+                expect(screen.getByText("Incorrect e-mail")).toBeInTheDocument()
+            })
 
-            // await clickTo("Password")
+            await waitFor(() => {
+                expect(
+                    screen.getByText("Min length: 6; Max length: 18")
+                ).toBeInTheDocument()
+            })
+
             await typeTo("Password", "6789012345678")
 
             expect(
                 screen.queryByText("Min length: 6; Max length: 18")
             ).toBeNull()
 
-            await screen.findByText("Incorrect e-mail")
+            await waitFor(() => {
+                expect(screen.getByText("Incorrect e-mail")).toBeInTheDocument()
+            })
 
             await typeTo("Password", "9")
 
-            await screen.findByText("Incorrect e-mail")
-            await screen.findByText("Min length: 6; Max length: 18")
+            await waitFor(() => {
+                expect(screen.getByText("Incorrect e-mail")).toBeInTheDocument()
+            })
+
+            await waitFor(() => {
+                expect(
+                    screen.getByText("Min length: 6; Max length: 18")
+                ).toBeInTheDocument()
+            })
         })
 
         test("No errors will show with valid data", async () => {

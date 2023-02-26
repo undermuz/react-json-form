@@ -5,9 +5,7 @@
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
-        "prettier",
-        "prettier/@typescript-eslint",
-        "prettier/react"
+        "prettier"
     ],
     "parserOptions": {
         "ecmaVersion": 13,
@@ -59,5 +57,10 @@
         "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/ban-ts-comment": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }
