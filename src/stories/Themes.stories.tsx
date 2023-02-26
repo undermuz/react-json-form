@@ -1,34 +1,48 @@
-import { ComponentStory, ComponentMeta } from "@storybook/react"
+import type { ComponentStory, ComponentMeta } from "@storybook/react"
 import { Box } from "grommet"
-import React, { FC, useEffect, useMemo, useState } from "react"
+import type { FC } from "react"
+import { useEffect, useMemo, useState } from "react"
 
-import JsonForm from "../src/JsonForm"
+import JsonForm from "../JsonForm"
 import scheme from "./Schemes/prices"
 
-import ReactJson from "react-json-view"
-import UiContext from "../src/UiContext"
+// import ReactJson from "react-json-view"
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter"
+import json from "react-syntax-highlighter/dist/esm/languages/hljs/json"
+import docco from "react-syntax-highlighter/dist/esm/styles/hljs/atelier-cave-dark"
 
-import GrommetUi from "../src/themes/grommet"
-import ChakraUi from "../src/themes/chakra"
-import RsuiteUi from "../src/themes/rsuite"
+SyntaxHighlighter.registerLanguage("json", json)
 
-import { Button, ChakraProvider, Stack, useColorMode, Wrap, WrapItem } from "@chakra-ui/react"
+import UiContext from "../UiContext"
+
+import GrommetUi from "../themes/grommet"
+import ChakraUi from "../themes/chakra"
+import RsuiteUi from "../themes/rsuite"
+
+import {
+    Button,
+    ChakraProvider,
+    Stack,
+    useColorMode,
+    Wrap,
+    WrapItem,
+} from "@chakra-ui/react"
 
 import "rsuite/styles/index.less"
 
 // 1. import `extendTheme` function
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { extendTheme, type ThemeConfig } from "@chakra-ui/react"
 
 // 2. Add your color mode config
 const config: ThemeConfig = {
-  initialColorMode: 'light',
-  useSystemColorMode: false,
+    initialColorMode: "light",
+    useSystemColorMode: false,
 }
-import { useDarkMode } from 'storybook-dark-mode'
-import ApiContext, { ApiValue } from "../src/ApiContext"
+import { useDarkMode } from "storybook-dark-mode"
+import ApiContext from "../ApiContext"
+import type { ApiValue } from "../ApiContext"
 // 3. extend the theme
 const chakraTheme = extendTheme({ config })
-
 
 enum JsonFormThemes {
     Grommet,
@@ -38,14 +52,14 @@ enum JsonFormThemes {
 
 interface IJsonFormStory {
     theme: JsonFormThemes
-    showScheme: true,
+    showScheme: true
     showValue: true
 }
 
-const JsonFormStoryChakraUi = ({scheme, value, setValue}) => {
+const JsonFormStoryChakraUi = ({ scheme, value, setValue }) => {
     const dark = useDarkMode()
 
-    const {setColorMode} = useColorMode()
+    const { setColorMode } = useColorMode()
 
     useEffect(() => {
         setColorMode(dark ? "dark" : "light")
@@ -53,16 +67,16 @@ const JsonFormStoryChakraUi = ({scheme, value, setValue}) => {
 
     return (
         <UiContext.Provider value={ChakraUi}>
-            <JsonForm
-                {...scheme}
-                value={value}
-                onChange={setValue}
-            />
+            <JsonForm {...scheme} value={value} onChange={setValue} />
         </UiContext.Provider>
     )
 }
 
-const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue = true }) => {
+const JsonFormStory: FC<IJsonFormStory> = ({
+    theme,
+    showScheme = true,
+    showValue = true,
+}) => {
     const [value, setValue] = useState({})
 
     const boxWidth = useMemo(() => {
@@ -75,26 +89,29 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue
         }
 
         return "100%"
-    },[showScheme, showValue])
+    }, [showScheme, showValue])
 
     const api: ApiValue = useMemo(() => {
         return {
             "api::size.list": async () => {
                 console.log("[api::size.list]")
 
-                return Promise.resolve([
-                    {label: "fff", value: 2222}
-                ])
-            }
+                return Promise.resolve([{ label: "fff", value: 2222 }])
+            },
         }
     }, [])
 
     return (
         <ApiContext.Provider value={api}>
             <Box direction="row">
-                {showScheme && <Box width={boxWidth} background="white" pad={"middle"}>
-                    <ReactJson src={scheme} displayObjectSize={false} />
-                </Box>}
+                {showScheme && (
+                    <Box width={boxWidth} background="white" pad={"middle"}>
+                        {/* <ReactJson src={scheme} displayObjectSize={false} /> */}
+                        <SyntaxHighlighter language="json" style={docco}>
+                            {JSON.stringify(scheme, null, 2)}
+                        </SyntaxHighlighter>
+                    </Box>
+                )}
 
                 <Box width={boxWidth}>
                     {theme === JsonFormThemes.Grommet && (
@@ -108,8 +125,12 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue
                     )}
 
                     {theme === JsonFormThemes.ChakraUi && (
-                        <ChakraProvider >
-                            <JsonFormStoryChakraUi value={value} setValue={setValue} scheme={scheme}/>
+                        <ChakraProvider>
+                            <JsonFormStoryChakraUi
+                                value={value}
+                                setValue={setValue}
+                                scheme={scheme}
+                            />
                         </ChakraProvider>
                     )}
 
@@ -124,9 +145,14 @@ const JsonFormStory: FC<IJsonFormStory> = ({ theme, showScheme = true, showValue
                     )}
                 </Box>
 
-                {showValue && <Box width={boxWidth} background="white" pad={"middle"}>
-                    <ReactJson src={value} displayObjectSize={false} />
-                </Box>}
+                {showValue && (
+                    <Box width={boxWidth} background="white" pad={"middle"}>
+                        {/* <ReactJson src={value} displayObjectSize={false} /> */}
+                        <SyntaxHighlighter language="json" style={docco}>
+                            {JSON.stringify(value, null, 2)}
+                        </SyntaxHighlighter>
+                    </Box>
+                )}
             </Box>
         </ApiContext.Provider>
     )
@@ -137,15 +163,15 @@ const Template: ComponentStory<typeof JsonFormStory> = (args) => {
     return <JsonFormStory {...args} />
 }
 
-export const UiGrommet = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-UiGrommet.args = { theme: JsonFormThemes.Grommet }
-// JsonFormStoryGrommet.name = "Grommet UI"
-
 export const UiChakra = Template.bind({})
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 UiChakra.args = { theme: JsonFormThemes.ChakraUi }
 // JsonFormStoryChakraUi.name = "Chakra UI"
+
+export const UiGrommet = Template.bind({})
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+UiGrommet.args = { theme: JsonFormThemes.Grommet }
+// JsonFormStoryGrommet.name = "Grommet UI"
 
 export const UiRsuite = Template.bind({})
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
@@ -154,21 +180,21 @@ UiRsuite.args = { theme: JsonFormThemes.Rsuite }
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: "Example/JsonForm",
+    title: "Themes",
     component: JsonFormStory,
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {
         showScheme: {
             name: "Show form's scheme JSON",
             control: {
-                type: 'boolean'
-            }
+                type: "boolean",
+            },
         },
         showValue: {
             name: "Show form's value JSON",
             control: {
-                type: 'boolean'
-            }
+                type: "boolean",
+            },
         },
     },
 } as ComponentMeta<typeof JsonFormStory>

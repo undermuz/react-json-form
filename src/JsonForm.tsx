@@ -1,10 +1,16 @@
 /*SYSTEM IMPORTS*/
 import type { FC } from "react"
-import { useCallback } from "react"
+import { useCallback, useEffect, useState, useRef } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 
 /* TYPES */
-import type { IJsonFormProps, TypeValue, TypeValueItem } from "./types"
+import type {
+    IJsonFormProps,
+    JsonFormErrors,
+    TypeErrorItem,
+    TypeValue,
+    TypeValueItem,
+} from "./types"
 
 /* COMPONENTS */
 import ErrorFallback from "./components/ErrorFallback"
@@ -16,24 +22,39 @@ import ArrayForm from "./ArrayForm"
 import { useDefSchemeValue, useSafeValue } from "./utils"
 import { useJsonFormComponents } from "./UiContext"
 import ValueContext from "./ValueContext"
+import type { IErrors } from "@undermuz/use-form"
 
-const Form: FC<IJsonFormProps & { def: TypeValueItem; value: TypeValue }> = (
-    props
-) => {
+const Form: FC<
+    IJsonFormProps & {
+        def: TypeValueItem
+        value: TypeValue
+        errors: IErrors | TypeErrorItem[]
+        onError: (e: IErrors | TypeErrorItem[]) => void
+    }
+> = (props) => {
     const {
         multiple = false,
         primary = true,
         scheme = [],
+        errors,
         def,
         value,
         onChange,
+        onError,
     } = props
 
     const changeFlat = useCallback(
-        (newValue: Record<string, any>) => {
+        (newValue: TypeValueItem) => {
             onChange({ ...value, ...newValue })
         },
         [value, onChange]
+    )
+
+    const setErrorsFlat = useCallback(
+        (newErrors: IErrors) => {
+            onError(newErrors)
+        },
+        [errors, onError]
     )
 
     const rest = {
@@ -47,27 +68,54 @@ const Form: FC<IJsonFormProps & { def: TypeValueItem; value: TypeValue }> = (
                 {...rest}
                 value={value as TypeValueItem}
                 onChange={changeFlat}
+                onError={setErrorsFlat}
             />
         )
 
     return (
         <ArrayForm
             {...rest}
+            errors={errors as TypeErrorItem[]}
             defValue={def}
             value={value as TypeValueItem[]}
             onChange={onChange}
+            onError={onError}
         />
     )
 }
 
 const JsonForm: FC<IJsonFormProps> = (props) => {
-    const { multiple = false, scheme } = props
+    const { multiple = false, scheme, onError } = props
+
+    const [errors, setErrors] = useState<JsonFormErrors>(
+        multiple ? ([] as TypeErrorItem[]) : ({} as IErrors)
+    )
 
     const Components = useJsonFormComponents()
 
     const defValue = useDefSchemeValue(scheme)
 
     const value = useSafeValue(props.value, defValue, multiple)
+
+    const isMount = useRef(false)
+    const onErrorRef = useRef(onError)
+    onErrorRef.current = onError
+
+    useEffect(() => {
+        if (isMount.current) {
+            console.log("[JsonForm][on: Errors]", errors)
+
+            onErrorRef.current?.(errors)
+        }
+    }, [errors])
+
+    useEffect(() => {
+        isMount.current = true
+
+        return () => {
+            isMount.current = false
+        }
+    }, [])
 
     return (
         <ErrorBoundary
@@ -78,7 +126,13 @@ const JsonForm: FC<IJsonFormProps> = (props) => {
         >
             <ValueContext.Provider value={value}>
                 <Components.JsonForm {...props}>
-                    <Form {...props} value={value} def={defValue} />
+                    <Form
+                        {...props}
+                        errors={errors}
+                        value={value}
+                        def={defValue}
+                        onError={setErrors}
+                    />
                 </Components.JsonForm>
             </ValueContext.Provider>
         </ErrorBoundary>

@@ -1,4 +1,4 @@
-import { IPrice2Value, IPrice2ValuePrices } from "."
+import type { IPrice2Value, IPrice2ValuePrices } from "."
 
 export const DEF_VALUE_PRICES: IPrice2ValuePrices[] = [
     {

@@ -4,7 +4,10 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:react/jsx-runtime"
+        "plugin:react/jsx-runtime",
+        "prettier",
+        "prettier/@typescript-eslint",
+        "prettier/react"
     ],
     "parserOptions": {
         "ecmaVersion": 13,
@@ -14,7 +17,7 @@
             "jsx": true
         }
     },
-    "plugins": ["@typescript-eslint"],
+    "plugins": ["@typescript-eslint", "jest"],
     "env": {
         "browser": true,
         "commonjs": true,
@@ -22,6 +25,20 @@
         "es6": true,
         "es2022": true
     },
+    "overrides": [
+        {
+            "files": [
+                "**/*.spec.js",
+                "**/*.spec.jsx",
+                "**/*.spec.ts",
+                "**/*.spec.tsx"
+            ],
+            "plugins": ["jest"],
+            "extends": ["plugin:jest/recommended"],
+            "rules": { "jest/prefer-expect-assertions": "off" },
+            "env": { "jest": true }
+        }
+    ],
     "rules": {
         "no-unused-vars": "off",
         "react/prop-types": "off",

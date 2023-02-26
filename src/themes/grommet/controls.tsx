@@ -2,7 +2,12 @@ import type { FC } from "react"
 
 import { CheckBox, DateInput, TextArea, TextInput } from "grommet"
 
-import Select from "react-select"
+import _Select from "react-select"
+const Select = ((_Select as any).default ?? _Select) as typeof _Select
+
+import _AsyncSelect from "react-select/async"
+const AsyncSelect = ((_AsyncSelect as any).default ??
+    _AsyncSelect) as typeof _AsyncSelect
 
 import type { IInput } from "../../input"
 
@@ -17,29 +22,47 @@ interface TypeSelectValue {
 const ControlSelect: FC<IInput> = (props) => {
     const { name, value, settings = {} } = props
 
+    const { options, multiple, ...otherSettings } = settings
+
     const { onChange, onBlur } = props
 
     const list: number[] = isArray(value) ? (value as number[]) : []
 
+    const isSync = Array.isArray(options)
+
+    const SelectCmp = isSync ? Select : AsyncSelect
+
+    const rest = {
+        isClearable: true,
+        ...otherSettings,
+        ...(!isSync
+            ? {
+                  loadOptions: options,
+                  cacheOptions: true,
+                  defaultOptions: true,
+              }
+            : { options: options }),
+    }
+
     return (
-        <Select
-            isMulti={settings.multiple ? true : false}
+        <SelectCmp
+            {...rest}
+            isMulti={multiple ? true : false}
             name={name}
             value={
-                settings.multiple
+                multiple
                     ? list.map((_val) => ({
                           label:
-                              settings.options.find(
+                              options.find(
                                   (_i: TypeSelectValue) => _i.value == _val
                               )?.label || "(Not found)",
                           value: _val,
                       }))
                     : value
             }
-            options={settings.options}
-            onBlur={() => onBlur}
+            onBlur={() => onBlur?.()}
             onChange={(_value: any) => {
-                if (settings.multiple) {
+                if (multiple) {
                     const _list: TypeSelectValue[] = isArray(_value)
                         ? (_value as TypeSelectValue[])
                         : []

@@ -6,6 +6,8 @@ import {
     Button,
     Flex,
     FormControl,
+    FormErrorMessage,
+    FormHelperText,
     FormLabel,
     Heading,
     Stack,
@@ -111,7 +113,15 @@ const UiFlatFormContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
 // `
 
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const { title, isLast, type, errors, children } = props
+    const {
+        title,
+        description = null,
+        isLast,
+        // name,
+        type,
+        errors,
+        children,
+    } = props
 
     const showLabel = useMemo(() => {
         if (type === EnumSchemeItemType.Checkbox) {
@@ -125,22 +135,10 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
         return true
     }, [type])
 
+    const isError = errors?.length > 0
+
     return (
         <Flex direction={"row"} pb={!isLast ? 3 : undefined}>
-            {/* {!primary && (
-                <Branch
-                    style={
-                        {
-                            "--branch-height":
-                                type === EnumSchemeItemType.Checkbox
-                                    ? "1px"
-                                    : "34px",
-                        } as CSSProperties
-                    }
-                    direction={"column"}
-                ></Branch>
-            )} */}
-
             <Flex
                 width={"100%"}
                 pt={showLabel ? 0 : 2}
@@ -148,12 +146,22 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
                 direction={"column"}
                 justify="center"
             >
-                <FormControl isInvalid={errors?.length > 0}>
-                    {showLabel && (
-                        <FormLabel htmlFor="email">{title}</FormLabel>
-                    )}
+                <FormControl isInvalid={isError}>
+                    {showLabel && <FormLabel>{title}</FormLabel>}
 
                     {children}
+
+                    {description !== null && !isError && (
+                        <FormHelperText>{description}</FormHelperText>
+                    )}
+
+                    {errors?.map((errorText, index) => {
+                        return (
+                            <FormErrorMessage key={index}>
+                                {errorText}
+                            </FormErrorMessage>
+                        )
+                    })}
                 </FormControl>
             </Flex>
         </Flex>

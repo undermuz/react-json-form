@@ -1,4 +1,4 @@
-import type { IUseFormFieldRule, IError } from "@undermuz/use-form"
+import type { IError, IErrors } from "@undermuz/use-form"
 
 import type {
     ComponentClass,
@@ -11,6 +11,7 @@ import type {
 import type { IInput } from "./input"
 
 export enum EnumSchemeItemType {
+    Input = "input",
     Text = "text",
     TextBlock = "text-block",
     TextEditor = "text-editor",
@@ -22,23 +23,36 @@ export enum EnumSchemeItemType {
     Date = "date",
 }
 
-export interface IFieldWidgetSettings {
-    scheme: ISchemeItem[]
-    multiple: boolean
-}
-
 export type TypeSchemeItemSettings = Record<string, any>
+
+export type FieldRuleSingleFunction = (v: any) => boolean
+export type FieldRuleGenericFunction<T extends Array<any> = any[]> = (
+    ...args: T
+) => FieldRuleSingleFunction
+
+export type FieldRuleFunction =
+    | FieldRuleSingleFunction
+    | FieldRuleGenericFunction
+
+export type JsonFormFieldRule = [Array<FieldRuleFunction | string>, string?]
 
 export interface ISchemeItem {
     name: string
     title: string
+    description?: string
+    placeholder?: string
     type?: EnumSchemeItemType
     def_value?: any
     single?: boolean
     multiple?: boolean
-    rules?: IUseFormFieldRule[] | undefined
+    rules?: JsonFormFieldRule[] | undefined
     settings?: TypeSchemeItemSettings
     scheme?: ISchemeItem[]
+}
+
+export interface IFieldWidgetSettings {
+    scheme: ISchemeItem[]
+    multiple: boolean
 }
 
 export interface IScheme {
@@ -50,10 +64,19 @@ export interface IScheme {
     multiple: boolean
 }
 
+export type TypeErrorItem = {
+    id: number
+    value: IErrors | TypeErrorItem
+}
+
 export type TypeValueItem = Record<string, any>
 export type TypeValue = TypeValueItem | TypeValueItem[]
 
 export type FunctionOnChange = (value: TypeValue) => void
+
+export type FieldTests = {
+    [p: string]: FieldRuleFunction
+}
 export interface JsonFormControls {
     [key: string]: FC<IInput>
     Input: FC<IInput>
@@ -82,6 +105,7 @@ export interface IUiTabProps {
 
 export interface IField {
     title: string
+    description?: string
     name: string
     isLast: boolean
     primary?: boolean
@@ -106,16 +130,21 @@ export interface JsonFormIcons {
     }
 }
 
+export type JsonFormErrors = IErrors | TypeErrorItem[]
+
 export interface IJsonFormParams {
     value: TypeValue
     primary?: boolean
     header?: ReactNode
     onChange: FunctionOnChange
+    onError?: (e: JsonFormErrors) => void
 }
 
 export type IJsonFormProps = IJsonFormParams &
     Partial<Pick<IScheme, "id" | "title">> &
-    Pick<IScheme, "multiple" | "scheme">
+    Pick<IScheme, "multiple" | "scheme"> & {
+        tests?: FieldTests
+    }
 
 export interface JsonFormComponents {
     JsonForm: FC<PropsWithChildren<IJsonFormProps>>

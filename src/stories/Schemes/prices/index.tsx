@@ -1,6 +1,7 @@
-import { MouseEventHandler } from "react"
+import type { MouseEventHandler } from "react"
 // import { isNumber } from "underscore"
-import { EnumSchemeItemType, IScheme } from "../../../src/types"
+import { EnumSchemeItemType } from "../../../types"
+import type { IScheme } from "../../../types"
 
 import DEF_VALUE from "./defaults"
 
@@ -37,27 +38,27 @@ export interface IPrice2 {
 const WidgetName = "Price2"
 const WidgetTitle = "Прайсы 2"
 
-const isNumberic = (v: any) => !isNaN(parseInt(v as string))
-
 const scheme: IScheme = {
     id: WidgetName,
     scheme: [
         {
             name: "title",
             title: "Заголовок",
+            placeholder: "Введите заголовок...",
+            description: "Главный заголовок формы",
             type: EnumSchemeItemType.Text,
             def_value: DEF_VALUE.title,
-            rules: [[[Boolean], "Поле обязательное"]],
+            rules: [[["Boolean"], "Поле обязательное"]],
         },
         {
             name: "size",
             title: "Размер",
             type: EnumSchemeItemType.Select,
             settings: {
-                useApi: "api::size.list"
+                useApi: "api::size.list",
             },
             def_value: null,
-            rules: [[[Boolean], "Поле обязательное"]],
+            rules: [[["Boolean"], "Поле обязательное"]],
         },
         {
             name: "subtitle",
@@ -70,7 +71,7 @@ const scheme: IScheme = {
             title: "Дата",
             type: EnumSchemeItemType.Date,
             def_value: new Date(),
-            rules: [[[Boolean], "Поле обязательное"]],
+            rules: [[["Boolean"], "Поле обязательное"]],
         },
         {
             name: "prices",
@@ -84,7 +85,7 @@ const scheme: IScheme = {
                     title: "Заголовок",
                     type: EnumSchemeItemType.Text,
                     def_value: "",
-                    rules: [[[Boolean], "Поле обязательное"]],
+                    rules: [[["Boolean"], "Поле обязательное"]],
                 },
                 {
                     name: "price",
@@ -92,8 +93,8 @@ const scheme: IScheme = {
                     type: EnumSchemeItemType.Text,
                     def_value: 0,
                     rules: [
-                        [[Boolean], "Поле обязательное"],
-                        [[isNumberic], "Должно быть числом"],
+                        [["Boolean"], "Поле обязательное"],
+                        [["isNumeric"], "Должно быть числом"],
                     ],
                 },
                 {

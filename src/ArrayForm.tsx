@@ -8,7 +8,7 @@ import FlatForm from "./FlatForm"
 import type {
     ISchemeItem,
     IUiTabProps,
-    TypeValue,
+    TypeErrorItem,
     TypeValueItem,
 } from "./types"
 
@@ -38,6 +38,7 @@ import { CSS } from "@dnd-kit/utilities"
 import { arrayMoveImmutable } from "array-move"
 import { createPortal } from "react-dom"
 import { useJsonFormUi } from "./UiContext"
+import type { IErrors } from "@undermuz/use-form"
 
 interface SortableTabProps {
     tabId: number
@@ -184,13 +185,14 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
 interface IArrayFormItemProps {
     id: number
     primary?: boolean
-    value: TypeValue
+    value: TypeValueItem
     scheme: ISchemeItem[]
-    onChange: Function
+    onChange: (v: TypeValueItem, id: number | null) => void
+    onError: (v: IErrors, id: number | null) => void
 }
 
 const ArrayFormItem: React.FC<IArrayFormItemProps> = (props) => {
-    const { id, value, scheme, primary = false, onChange } = props
+    const { id, value, scheme, primary = false, onChange, onError } = props
 
     useEffect(() => {
         if (!id) {
@@ -198,30 +200,51 @@ const ArrayFormItem: React.FC<IArrayFormItemProps> = (props) => {
         }
     }, [])
 
-    const handleChange = (newValue: TypeValue) => {
-        onChange(newValue, id)
-    }
+    const change = useCallback(
+        (newValue: TypeValueItem) => {
+            onChange(newValue, id)
+        },
+        [id, onChange]
+    )
+
+    const setErrors = useCallback(
+        (newErrors: IErrors) => {
+            onError(newErrors, id)
+        },
+        [id, onError]
+    )
 
     return (
         <FlatForm
             primary={primary}
             scheme={scheme}
             value={value}
-            onChange={handleChange}
+            onChange={change}
+            onError={setErrors}
         />
     )
 }
 
 interface IArrayForm {
     value: TypeValueItem[]
+    errors: TypeErrorItem[]
     primary?: boolean
     defValue: TypeValueItem
     scheme: ISchemeItem[]
-    onChange: Function
+    onChange: (v: TypeValueItem[]) => void
+    onError: (v: TypeErrorItem[]) => void
 }
 
 const ArrayForm: React.FC<IArrayForm> = (props) => {
-    const { value, scheme, primary = false, defValue, onChange } = props
+    const {
+        value,
+        errors,
+        scheme,
+        primary = false,
+        defValue,
+        onChange,
+        onError,
+    } = props
 
     const Ui = useJsonFormUi()
 
@@ -235,9 +258,9 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
         return 1
     })
 
-    const handleChange = useCallback(
-        (newValue: Record<string, any>, id = null) => {
-            const _newValue = value.map((item: Record<string, any>) =>
+    const change = useCallback(
+        (newValue: TypeValueItem, id: number | null = null) => {
+            const _newValue = value.map((item) =>
                 item.id == id ? { ...item, ...newValue } : item
             )
 
@@ -246,43 +269,54 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
         [value, onChange]
     )
 
-    const handleAddTab = () => {
-        const _value: TypeValueItem[] = value as TypeValueItem[]
+    const setErrors = useCallback(
+        (newErrors: IErrors, id: number | null = null) => {
+            const _newValue = errors.map((item) =>
+                item.id == id ? { ...item, value: newErrors } : item
+            )
 
+            onError(_newValue)
+        },
+        [errors, onError]
+    )
+
+    const addTab = () => {
         const def_value = {
             ...defValue,
-            id: Math.max(..._value.map((item) => item.id)) + 1,
+            id: Math.max(...value.map((item) => item.id)) + 1,
         }
 
-        const newList = [..._value, def_value]
+        const newList = [...value, def_value]
 
         onChange(newList)
 
         setTab(newList.length - 1)
     }
 
-    const handleRemoveTab = (tab_id: number) => {
-        const _value: TypeValueItem[] = value as TypeValueItem[]
+    const removeTab = (tab_id: number) => {
+        if (value.length <= 1) {
+            return
+        }
 
-        if (_value.length > 1) {
-            if (window.confirm("Вы действительно хотите удалить?")) {
-                const new_value = _value.filter((tab) => tab.id != tab_id)
+        if (!window.confirm("Вы действительно хотите удалить?")) {
+            return
+        }
 
-                onChange(new_value)
+        const new_value = value.filter((tab) => tab.id != tab_id)
 
-                if (tab == tab_id) {
-                    setTab(new_value[0].id)
-                }
-            }
+        onChange(new_value)
+
+        if (tab == tab_id) {
+            setTab(new_value[0].id)
         }
     }
 
-    const handleSortTabs = (event: DragEndEvent) => {
+    const sortTabs = (event: DragEndEvent) => {
         const { active, over } = event
 
         if (active && over && active.id !== over.id) {
             if (over.id === "trash") {
-                handleRemoveTab(active.id as number)
+                removeTab(active.id as number)
 
                 return
             }
@@ -313,7 +347,7 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
         <Ui.ArrayForm style={{ position: "relative", zIndex: 1 }}>
             <Ui.ArrayForm.Header>
                 <Ui.ArrayForm.Tabs>
-                    <SortableList tabs={tabs} onSortEnd={handleSortTabs}>
+                    <SortableList tabs={tabs} onSortEnd={sortTabs}>
                         {tabs.map((val, index) => (
                             <SortableTab
                                 key={val.id}
@@ -327,11 +361,11 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
                 </Ui.ArrayForm.Tabs>
 
                 <Ui.ArrayForm.Tabs actions>
-                    <Ui.Tab onSelect={() => handleRemoveTab(tab)}>
+                    <Ui.Tab onSelect={() => removeTab(tab)}>
                         <Ui.Icons.Tabs.Remove />
                     </Ui.Tab>
 
-                    <Ui.Tab onSelect={handleAddTab}>
+                    <Ui.Tab onSelect={addTab}>
                         <Ui.Icons.Tabs.Add />
                     </Ui.Tab>
                 </Ui.ArrayForm.Tabs>
@@ -345,7 +379,8 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
                         primary={primary}
                         scheme={scheme}
                         value={currentItem}
-                        onChange={handleChange}
+                        onChange={change}
+                        onError={setErrors}
                     />
                 )}
             </Ui.ArrayForm.Body>

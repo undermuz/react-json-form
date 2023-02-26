@@ -1,99 +1,88 @@
 /*SYSTEM IMPORTS*/
 import type React from "react"
+import type { FC } from "react"
 import { useEffect } from "react"
 
 /* HELPERS */
-import type { ISchemeItem, TypeValueItem } from "./types"
+import type { FieldTests, ISchemeItem, TypeValueItem } from "./types"
 import { EnumSchemeItemType } from "./types"
 import { getDefValueForItem, useSchemeToForm } from "./utils"
-import Input from "./input"
+
 import { useJsonFormUi } from "./UiContext"
-import type { IValues } from "@undermuz/use-form"
-import useForm, { ConnectToForm, FormContext } from "@undermuz/use-form"
+import type { IErrors, IValues } from "@undermuz/use-form"
+import useForm, { useFormContext, FormContext } from "@undermuz/use-form"
+import FormField from "./FormField"
 
 interface IFlatForm {
     primary?: boolean
     scheme: ISchemeItem[]
     value: TypeValueItem
+    tests?: FieldTests
     onChange: (v: IValues) => void
+    onError: (v: IErrors) => void
+}
+
+const FlatFormFields: FC<{ scheme: ISchemeItem[]; isFormPrimary: boolean }> = ({
+    scheme,
+    isFormPrimary,
+}) => {
+    const form = useFormContext()
+    const Ui = useJsonFormUi()
+
+    return (
+        <Ui.FlatForm primary={isFormPrimary}>
+            {scheme.map((schemeItem, index) => {
+                const { name } = schemeItem
+
+                return (
+                    <FormField
+                        {...schemeItem}
+                        key={index}
+                        isFormPrimary={isFormPrimary}
+                        isLast={index === scheme.length - 1}
+                        errors={form.errors[name]}
+                    />
+                )
+            })}
+        </Ui.FlatForm>
+    )
 }
 
 const FlatForm: React.FC<IFlatForm> = (props) => {
-    const { scheme, value, primary = false, onChange } = props
+    const { scheme, value, primary = false, tests, onChange, onError } = props
 
-    const Ui = useJsonFormUi()
+    const formConfig = useSchemeToForm({
+        scheme,
+        value,
+        tests,
+        onChange,
+        onError,
+    })
 
-    const form = useForm(useSchemeToForm(scheme, value, onChange))
+    const form = useForm(formConfig)
 
+    /* Set default values */
     useEffect(() => {
         const new_value: TypeValueItem = {}
 
-        scheme.forEach((scheme_item) => {
-            const { name, type = EnumSchemeItemType.Text } = scheme_item
+        for (const schemeItem of scheme) {
+            const { name, type = EnumSchemeItemType.Text } = schemeItem
 
-            const def_value = getDefValueForItem(scheme_item)
+            const def_value = getDefValueForItem(schemeItem)
 
-            if (!value[name]) {
-                if (type === EnumSchemeItemType.Widget) {
-                    new_value[name] = def_value
-                } else if (type !== EnumSchemeItemType.Checkbox) {
-                    new_value[name] = def_value
-                }
+            if (value[name] || type === EnumSchemeItemType.Checkbox) {
+                continue
             }
-        })
 
-        console.log("[FlatForm][Set default values]", {
-            ...value,
-            ...new_value,
-        })
+            new_value[name] = def_value
+        }
 
         onChange({ ...value, ...new_value })
     }, [])
 
     return (
         <FormContext.Provider value={form}>
-            <Ui.FlatForm primary={primary}>
-                {scheme.map((scheme_item, index) => {
-                    const {
-                        title,
-                        name,
-                        type = EnumSchemeItemType.Widget,
-                        settings = {},
-                    } = scheme_item
-
-                    let field_settings = {}
-
-                    if (type == EnumSchemeItemType.Widget) {
-                        const { scheme, multiple = false } = scheme_item
-
-                        field_settings = { scheme, multiple }
-                    } else if (type == EnumSchemeItemType.Select) {
-                        field_settings = settings
-                    } else if (type == EnumSchemeItemType.Files) {
-                        field_settings = { settings }
-                    }
-
-                    return (
-                        <Ui.Field
-                            key={index}
-                            isLast={index === scheme.length - 1}
-                            type={type}
-                            name={name}
-                            primary={primary}
-                            title={title}
-                            errors={form.errors[name]}
-                        >
-                            <ConnectToForm name={name}>
-                                <Input
-                                    type={type}
-                                    title={title}
-                                    settings={field_settings}
-                                />
-                            </ConnectToForm>
-                        </Ui.Field>
-                    )
-                })}
-            </Ui.FlatForm>
+            <FlatFormFields scheme={scheme} isFormPrimary={primary} />
         </FormContext.Provider>
     )
 }

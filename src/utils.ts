@@ -1,9 +1,88 @@
-import type { IValues } from "@undermuz/use-form"
-import type { IUseFormSettings } from "@undermuz/use-form"
+import type {
+    IUseFormFieldRule,
+    IValues,
+    IUseFormSettings,
+    UseFormFieldRuleFunction,
+    IErrors,
+} from "@undermuz/use-form"
 import { useMemo } from "react"
 import { isArray } from "underscore"
-import type { ISchemeItem, TypeValue, TypeValueItem } from "./types"
+import type {
+    FieldRuleGenericFunction,
+    FieldRuleSingleFunction,
+    FieldTests,
+    ISchemeItem,
+    JsonFormFieldRule,
+    TypeValue,
+    TypeValueItem,
+} from "./types"
 import { EnumSchemeItemType } from "./types"
+
+export const isNumeric = (v: any) => !isNaN(parseInt(v as string))
+export const isEmail = (value: string) =>
+    value + "" == "" || value.indexOf("@") > -1
+export const isPhone = (value: string) => {
+    const phoneFilterExp = /[^\+\d]/gim
+    const phoneValidateExp = /^\+\d{7,}/gim
+
+    value = value.replace(phoneFilterExp, "")
+
+    if (value[0] == "8" || value[0] == "7") {
+        value = `+7${value.substring(1)}`
+    }
+
+    return phoneValidateExp.test(value)
+}
+
+export const isEmailOrPhone = (value: string) => {
+    if (isEmail(value)) {
+        return true
+    }
+
+    if (isPhone(value)) {
+        return true
+    }
+
+    return false
+}
+
+export const isRegexp: FieldRuleGenericFunction<[RegExp]> =
+    (regexp: RegExp) => (value: unknown) =>
+        regexp.test(`${value}`)
+
+export const isNotRegexp: FieldRuleGenericFunction<[RegExp]> =
+    (regexp: RegExp) => (value: unknown) =>
+        !regexp.test(`${value}`)
+
+export const isString = (value: unknown) => typeof value === "string"
+
+export const isStringMaxLength: FieldRuleGenericFunction<[number]> =
+    (length: number) => (value: unknown) =>
+        isString(value) && (value as string).length <= length
+
+export const isStringMinLength: FieldRuleGenericFunction<[number]> =
+    (length: number) => (value: unknown) =>
+        isString(value) && (value as string).length >= length
+
+export const isStringMinMaxLength: FieldRuleGenericFunction<[number, number]> =
+    (min_length: number, max_length: number) => (value: unknown) =>
+        isString(value) &&
+        (value as string).length >= min_length &&
+        (value as string).length <= max_length
+
+export const defaultFieldTests: FieldTests = {
+    isNumeric,
+    isEmail,
+    isPhone,
+    isEmailOrPhone,
+    Boolean,
+    isRegexp,
+    isNotRegexp,
+    isString,
+    isStringMaxLength,
+    isStringMinLength,
+    isStringMinMaxLength,
+}
 
 export const getDefValueForItem = (item: ISchemeItem) => {
     const {
@@ -89,11 +168,64 @@ export const useSafeValue = (
     }, [unsafeValue, multiple, defValue])
 }
 
-export const useSchemeToForm = (
-    scheme: ISchemeItem[],
-    value: TypeValueItem,
+const getRules = (
+    rules?: JsonFormFieldRule[],
+    tests: FieldTests = defaultFieldTests
+): IUseFormFieldRule[] => {
+    if (!rules) return [] as IUseFormFieldRule[]
+
+    const newRules: IUseFormFieldRule[] = []
+
+    for (const rule of rules) {
+        const [funcs, text] = rule
+
+        const newFuncs: UseFormFieldRuleFunction[] = []
+
+        for (let index = 0; index < funcs.length; index++) {
+            const func = funcs[index]
+
+            if (typeof func !== "string") {
+                newFuncs.push(func as FieldRuleSingleFunction)
+
+                continue
+            }
+
+            const [funcName, funcArgs] = func.split(":")
+
+            if (!tests[funcName]) {
+                throw new Error(`Cannot find test by name: ${funcName}`)
+            }
+
+            if (funcArgs) {
+                const fn = tests[funcName] as FieldRuleGenericFunction
+
+                newFuncs.push(fn(...JSON.parse(funcArgs)))
+            } else {
+                const fn = tests[funcName] as FieldRuleSingleFunction
+
+                newFuncs.push(fn)
+            }
+        }
+
+        newRules.push([newFuncs, text] as IUseFormFieldRule)
+    }
+
+    return newRules
+}
+
+export interface IUseSchemeToFormProps {
+    scheme: ISchemeItem[]
+    value: TypeValueItem
+    tests?: FieldTests
     onChange: (v: IValues) => void
+    onError: (v: IErrors) => void
+}
+
+export const useSchemeToForm = (
+    props: IUseSchemeToFormProps
 ): IUseFormSettings => {
+    const { scheme, value, tests, onChange, onError } = props
+
     return useMemo<IUseFormSettings>(() => {
         const config: IUseFormSettings = {
             fields: {},
@@ -102,16 +234,19 @@ export const useSchemeToForm = (
             },
             value,
             onChange,
+            onError,
         }
 
-        scheme.forEach((item) => {
+        for (const item of scheme) {
+            const rules = getRules(item.rules, tests)
+
             config.fields[item.name] = {
                 label: item.title,
-                rules: item.rules,
+                rules,
                 initialValue: item.def_value,
             }
-        })
+        }
 
         return config
-    }, [scheme, value, onChange])
+    }, [scheme, value, onChange, onError])
 }

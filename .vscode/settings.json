@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
+        "docco",
         "esbuild",
         "esmodules",
+        "hljs",
         "tsup"
     ]
 }

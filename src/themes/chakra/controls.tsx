@@ -9,11 +9,14 @@ import type { JsonFormControls } from "../../types"
 
 import { isArray } from "underscore"
 
-import _Select from "react-select"
-const Select = ((_Select as any).default ?? _Select) as typeof _Select
+import { AsyncSelect, Select } from "chakra-react-select"
 
-import _AsyncSelect from "react-select/async"
-const AsyncSelect = ((_AsyncSelect as any).default ?? _AsyncSelect) as typeof _AsyncSelect
+// import _Select from "react-select"
+// const Select = ((_Select as any).default ?? _Select) as typeof _Select
+
+// import _AsyncSelect from "react-select/async"
+// const AsyncSelect = ((_AsyncSelect as any).default ??
+//     _AsyncSelect) as typeof _AsyncSelect
 
 interface TypeSelectValue {
     label: string
@@ -23,40 +26,47 @@ interface TypeSelectValue {
 const ControlSelect: FC<IInput> = (props) => {
     const { name, value, settings = {} } = props
 
+    const { options, multiple, ...otherSettings } = settings
+
     const { onChange, onBlur } = props
 
     const list: number[] = isArray(value) ? (value as number[]) : []
 
-    const isSync = Array.isArray(settings.options)
+    const isSync = Array.isArray(options)
 
     const SelectCmp = isSync ? Select : AsyncSelect
 
-    const rest = !isSync ? {
-        loadOptions: settings.options,
-        cacheOptions: true,
-        defaultOptions: true
-    } : {options: settings.options}
+    const rest = {
+        isClearable: true,
+        ...otherSettings,
+        ...(!isSync
+            ? {
+                  loadOptions: options,
+                  cacheOptions: true,
+                  defaultOptions: true,
+              }
+            : { options: options }),
+    }
 
     return (
         <SelectCmp
-        {...rest}
-
-            isMulti={settings.multiple ? true : false}
+            {...rest}
+            isMulti={multiple ? true : false}
             name={name}
             value={
-                settings.multiple
+                multiple
                     ? list.map((_val) => ({
                           label:
-                              settings.options.find(
+                              options.find(
                                   (_i: TypeSelectValue) => _i.value == _val
                               )?.label || "(Not found)",
                           value: _val,
                       }))
                     : value
             }
-            onBlur={() => onBlur}
+            onBlur={() => onBlur?.()}
             onChange={(_value: any) => {
-                if (settings.multiple) {
+                if (multiple) {
                     const _list: TypeSelectValue[] = isArray(_value)
                         ? (_value as TypeSelectValue[])
                         : []
@@ -123,15 +133,16 @@ const ControlTextBlock: FC<IInput> = (props) => {
 }
 
 const ControlInput: FC<IInput> = (props) => {
-    const { name, value, type } = props
+    const { name, placeholder = "", value, type, settings = {} } = props
 
     const { onChange, onBlur } = props
 
     return (
         <Input
-            placeholder={name}
+            {...settings}
+            placeholder={placeholder}
             name={name}
-            type={type || "text"}
+            type={settings?.inputType || type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
             onBlur={(e) => onBlur?.(e.currentTarget.value)}

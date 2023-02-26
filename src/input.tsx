@@ -158,6 +158,7 @@ import { useJsonFormApi } from "./ApiContext"
 
 export interface IInput {
     name?: string
+    placeholder?: string
     value?: any
     type: EnumSchemeItemType
     hasError?: boolean
