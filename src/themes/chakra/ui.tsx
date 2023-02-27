@@ -21,6 +21,7 @@ import type {
     IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
     IUiBodyProps,
+    IUiFlatFormProps,
     IUiHeaderProps,
     IUiTabProps,
     JsonFormUi,
@@ -92,8 +93,18 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
     )
 }
 
-const UiFlatFormContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
-    return <Flex direction={"column"}>{children}</Flex>
+const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
+    children,
+    isShow,
+}) => {
+    return (
+        <Flex
+            direction={"column"}
+            style={{ display: isShow ? undefined : "none" }}
+        >
+            {children}
+        </Flex>
+    )
 }
 
 // const Branch = styled(Flex)`
@@ -156,6 +167,10 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
                     )}
 
                     {errors?.map((errorText, index) => {
+                        if (typeof errorText !== "string") {
+                            return null
+                        }
+
                         return (
                             <FormErrorMessage key={index}>
                                 {errorText}

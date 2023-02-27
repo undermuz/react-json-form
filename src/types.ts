@@ -66,7 +66,7 @@ export interface IScheme {
 
 export type TypeErrorItem = {
     id: number
-    value: IErrors | TypeErrorItem
+    value: IErrors | TypeErrorItem[]
 }
 
 export type TypeValueItem = Record<string, any>
@@ -155,6 +155,7 @@ export interface IUiArrayFormTabsProps {
 }
 
 export interface IUiFlatFormProps {
+    isShow: boolean
     primary?: boolean
 }
 

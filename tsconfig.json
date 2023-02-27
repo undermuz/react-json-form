@@ -21,7 +21,6 @@
         "noUnusedLocals": true,
         "noUnusedParameters": false,
         "skipLibCheck": true,
-        "emitDeclarationOnly": true,
         "strictPropertyInitialization": false
     },
     "exclude": [

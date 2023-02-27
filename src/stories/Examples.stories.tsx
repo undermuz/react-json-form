@@ -4,7 +4,6 @@ import type { FC } from "react"
 import { useEffect, useMemo, useState } from "react"
 
 import JsonForm from "../JsonForm"
-import scheme from "./Schemes/forms/login"
 
 // import ReactJson from "react-json-view"
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter"
@@ -24,15 +23,12 @@ import "rsuite/styles/index.less"
 import { useDarkMode } from "storybook-dark-mode"
 import ApiContext from "../ApiContext"
 import type { ApiValue } from "../ApiContext"
-
-enum JsonFormThemes {
-    Grommet,
-    ChakraUi,
-    Rsuite,
-}
+import LoginScheme from "./Schemes/forms/login"
+import type { IScheme } from "../types"
+import SignUpScheme from "./Schemes/forms/signup"
 
 interface IJsonFormStory {
-    theme: JsonFormThemes
+    scheme: IScheme
     showScheme: true
     showValue: true
 }
@@ -54,6 +50,7 @@ const JsonFormStoryChakraUi = ({ scheme, value, setValue }) => {
 }
 
 const JsonFormStory: FC<IJsonFormStory> = ({
+    scheme,
     showScheme = true,
     showValue = true,
 }) => {
@@ -121,20 +118,11 @@ const Template: ComponentStory<typeof JsonFormStory> = (args) => {
     return <JsonFormStory {...args} />
 }
 
-export const UiChakra = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-UiChakra.args = { theme: JsonFormThemes.ChakraUi }
-// JsonFormStoryChakraUi.name = "Chakra UI"
+export const LoginForm = Template.bind({})
+LoginForm.args = { scheme: LoginScheme }
 
-export const UiGrommet = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-UiGrommet.args = { theme: JsonFormThemes.Grommet }
-// JsonFormStoryGrommet.name = "Grommet UI"
-
-export const UiRsuite = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-UiRsuite.args = { theme: JsonFormThemes.Rsuite }
-// JsonFormStoryChakraUi.name = "Rsuite UI"
+export const SignUpForm = Template.bind({})
+SignUpForm.args = { scheme: SignUpScheme }
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

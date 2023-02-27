@@ -19,30 +19,13 @@ import GrommetUi from "../themes/grommet"
 import ChakraUi from "../themes/chakra"
 import RsuiteUi from "../themes/rsuite"
 
-import {
-    Button,
-    ChakraProvider,
-    Stack,
-    useColorMode,
-    Wrap,
-    WrapItem,
-} from "@chakra-ui/react"
+import { ChakraProvider, useColorMode } from "@chakra-ui/react"
 
 import "rsuite/styles/index.less"
 
-// 1. import `extendTheme` function
-import { extendTheme, type ThemeConfig } from "@chakra-ui/react"
-
-// 2. Add your color mode config
-const config: ThemeConfig = {
-    initialColorMode: "light",
-    useSystemColorMode: false,
-}
 import { useDarkMode } from "storybook-dark-mode"
 import ApiContext from "../ApiContext"
 import type { ApiValue } from "../ApiContext"
-// 3. extend the theme
-const chakraTheme = extendTheme({ config })
 
 enum JsonFormThemes {
     Grommet,

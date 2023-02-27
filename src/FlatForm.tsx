@@ -14,6 +14,7 @@ import useForm, { useFormContext, FormContext } from "@undermuz/use-form"
 import FormField from "./FormField"
 
 interface IFlatForm {
+    isShow?: boolean
     primary?: boolean
     scheme: ISchemeItem[]
     value: TypeValueItem
@@ -22,15 +23,16 @@ interface IFlatForm {
     onError: (v: IErrors) => void
 }
 
-const FlatFormFields: FC<{ scheme: ISchemeItem[]; isFormPrimary: boolean }> = ({
-    scheme,
-    isFormPrimary,
-}) => {
+const FlatFormFields: FC<{
+    scheme: ISchemeItem[]
+    isFormPrimary: boolean
+    isShow?: boolean
+}> = ({ scheme, isFormPrimary, isShow = true }) => {
     const form = useFormContext()
     const Ui = useJsonFormUi()
 
     return (
-        <Ui.FlatForm primary={isFormPrimary}>
+        <Ui.FlatForm primary={isFormPrimary} isShow={isShow}>
             {scheme.map((schemeItem, index) => {
                 const { name } = schemeItem
 
@@ -49,7 +51,15 @@ const FlatFormFields: FC<{ scheme: ISchemeItem[]; isFormPrimary: boolean }> = ({
 }
 
 const FlatForm: React.FC<IFlatForm> = (props) => {
-    const { scheme, value, primary = false, tests, onChange, onError } = props
+    const {
+        scheme,
+        value,
+        isShow = true,
+        primary = false,
+        tests,
+        onChange,
+        onError,
+    } = props
 
     const formConfig = useSchemeToForm({
         scheme,
@@ -82,7 +92,11 @@ const FlatForm: React.FC<IFlatForm> = (props) => {
 
     return (
         <FormContext.Provider value={form}>
-            <FlatFormFields scheme={scheme} isFormPrimary={primary} />
+            <FlatFormFields
+                isShow={isShow}
+                scheme={scheme}
+                isFormPrimary={primary}
+            />
         </FormContext.Provider>
     )
 }

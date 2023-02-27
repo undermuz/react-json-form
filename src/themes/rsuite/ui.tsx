@@ -104,10 +104,14 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
             {children}
             {errors &&
                 errors.length > 0 &&
-                errors.map((error: string, index: number) => {
+                errors.map((errorText, index) => {
+                    if (typeof errorText !== "string") {
+                        return null
+                    }
+
                     return (
                         <div key={index} style={{ color: "red" }}>
-                            {error}
+                            {errorText}
                         </div>
                     )
                 })}

@@ -184,15 +184,24 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
 
 interface IArrayFormItemProps {
     id: number
+    isShow?: boolean
     primary?: boolean
     value: TypeValueItem
     scheme: ISchemeItem[]
     onChange: (v: TypeValueItem, id: number | null) => void
-    onError: (v: IErrors, id: number | null) => void
+    onError: (v: IErrors, id: number) => void
 }
 
 const ArrayFormItem: React.FC<IArrayFormItemProps> = (props) => {
-    const { id, value, scheme, primary = false, onChange, onError } = props
+    const {
+        id,
+        value,
+        scheme,
+        isShow = true,
+        primary = false,
+        onChange,
+        onError,
+    } = props
 
     useEffect(() => {
         if (!id) {
@@ -216,6 +225,7 @@ const ArrayFormItem: React.FC<IArrayFormItemProps> = (props) => {
 
     return (
         <FlatForm
+            isShow={isShow}
             primary={primary}
             scheme={scheme}
             value={value}
@@ -237,7 +247,7 @@ interface IArrayForm {
 
 const ArrayForm: React.FC<IArrayForm> = (props) => {
     const {
-        value,
+        value: _value,
         errors,
         scheme,
         primary = false,
@@ -248,12 +258,16 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
 
     const Ui = useJsonFormUi()
 
+    const value = useMemo(() => {
+        if (!Array.isArray(_value)) return []
+
+        return _value
+    }, [_value])
+
     const tabs = value as TabList
 
     const [tab, setTab] = useState(() => {
-        if (isArray(value) && value.length > 0) {
-            return value[0].id
-        }
+        if (value.length > 0) return value[0].id
 
         return 1
     })
@@ -270,12 +284,26 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
     )
 
     const setErrors = useCallback(
-        (newErrors: IErrors, id: number | null = null) => {
-            const _newValue = errors.map((item) =>
-                item.id == id ? { ...item, value: newErrors } : item
-            )
+        (newErrors: IErrors, id: number) => {
+            const isExists = errors.some((e) => e.id === id)
 
-            onError(_newValue)
+            if (isExists) {
+                const _newValue = errors.map((item) =>
+                    item.id == id ? { ...item, value: newErrors } : item
+                )
+
+                onError(_newValue)
+
+                return
+            }
+
+            onError([
+                ...errors,
+                {
+                    id,
+                    value: newErrors,
+                },
+            ])
         },
         [errors, onError]
     )
@@ -305,6 +333,7 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
         const new_value = value.filter((tab) => tab.id != tab_id)
 
         onChange(new_value)
+        /* TODO: Remove from errors too */
 
         if (tab == tab_id) {
             setTab(new_value[0].id)
@@ -332,16 +361,6 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
             onChange(arrayMoveImmutable(value, oldIndex, newIndex))
         }
     }
-
-    const currentItem = useMemo(() => {
-        const item = value.find((_i) => _i.id === tab)
-
-        if (!item) {
-            return null
-        }
-
-        return item
-    }, [value, tab])
 
     return (
         <Ui.ArrayForm style={{ position: "relative", zIndex: 1 }}>
@@ -372,17 +391,20 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
             </Ui.ArrayForm.Header>
 
             <Ui.ArrayForm.Body>
-                {currentItem !== null && (
-                    <ArrayFormItem
-                        key={currentItem.id}
-                        id={currentItem.id}
-                        primary={primary}
-                        scheme={scheme}
-                        value={currentItem}
-                        onChange={change}
-                        onError={setErrors}
-                    />
-                )}
+                {value.map((item) => {
+                    return (
+                        <ArrayFormItem
+                            key={item.id}
+                            isShow={item.id === tab}
+                            id={item.id}
+                            primary={primary}
+                            scheme={scheme}
+                            value={item}
+                            onChange={change}
+                            onError={setErrors}
+                        />
+                    )
+                })}
             </Ui.ArrayForm.Body>
         </Ui.ArrayForm>
     )

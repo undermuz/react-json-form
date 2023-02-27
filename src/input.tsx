@@ -7,6 +7,7 @@ import type { FC } from "react"
 import type {
     FunctionOnChange,
     IFieldWidgetSettings,
+    JsonFormErrors,
     TypeSchemeItemSettings,
 } from "./types"
 import { EnumSchemeItemType } from "./types"
@@ -164,6 +165,7 @@ export interface IInput {
     hasError?: boolean
     title: string
     settings: TypeSchemeItemSettings
+    onError?: Function
     onChange?: Function
     onFocus?: Function
     onBlur?: Function
@@ -204,7 +206,7 @@ const InputSelect: FC<IInput> = (props) => {
 const Input: FC<IInput> = (props) => {
     const { value = "", type, title, settings = {} } = props
 
-    const { onChange = noop } = props
+    const { onChange = noop, onError = noop } = props
 
     const Ui = useJsonFormUi()
 
@@ -237,6 +239,10 @@ const Input: FC<IInput> = (props) => {
         if (type == EnumSchemeItemType.Widget) {
             const _settings = settings as IFieldWidgetSettings
 
+            const _onError = (e: JsonFormErrors) => {
+                onError([e])
+            }
+
             return (
                 <JsonForm
                     value={value}
@@ -244,6 +250,7 @@ const Input: FC<IInput> = (props) => {
                     primary={false}
                     {..._settings}
                     onChange={onChange as FunctionOnChange}
+                    onError={_onError}
                 />
             )
         }
