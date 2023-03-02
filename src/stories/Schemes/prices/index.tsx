@@ -35,84 +35,87 @@ export interface IPrice2 {
 
 /*SCHEME BEGIN*/
 
-const WidgetName = "Price2"
-const WidgetTitle = "Прайсы 2"
+const WidgetName = "offer"
+const WidgetTitle = "Offer"
 
 const scheme: IScheme = {
     id: WidgetName,
     scheme: [
         {
             name: "title",
-            title: "Заголовок",
-            placeholder: "Введите заголовок...",
-            description: "Главный заголовок формы",
+            title: "Title",
+            placeholder: "Type a fun title...",
+            description: "The main title of a page",
             type: EnumSchemeItemType.Text,
             def_value: DEF_VALUE.title,
-            rules: [[["Boolean"], "Поле обязательное"]],
+            rules: [[["Boolean"], "Required"]],
         },
         {
             name: "size",
-            title: "Размер",
+            title: "Offer Size",
             type: EnumSchemeItemType.Select,
             settings: {
                 useApi: "api::size.list",
             },
             def_value: null,
-            rules: [[["Boolean"], "Поле обязательное"]],
+            rules: [[["Boolean"], "Required"]],
         },
         {
             name: "subtitle",
-            title: "Подзаголовок",
+            title: "Subtitle",
             type: EnumSchemeItemType.TextBlock,
             def_value: DEF_VALUE.subtitle,
         },
         {
             name: "date",
-            title: "Дата",
+            title: "Date",
             type: EnumSchemeItemType.Date,
             def_value: new Date(),
-            rules: [[["Boolean"], "Поле обязательное"]],
+            rules: [[["Boolean"], "Required"]],
         },
         {
             name: "prices",
-            title: "Цены",
+            title: "Prices",
             type: EnumSchemeItemType.Widget,
             multiple: true,
             def_value: DEF_VALUE.prices,
+            settings: {
+                viewType: "tabs",
+            },
             scheme: [
                 {
                     name: "title",
-                    title: "Заголовок",
+                    title: "Title",
                     type: EnumSchemeItemType.Text,
                     def_value: "",
-                    rules: [[["Boolean"], "Поле обязательное"]],
+                    rules: [[["Boolean"], "Required"]],
                 },
                 {
                     name: "price",
-                    title: "Значение",
+                    title: "Price value",
                     type: EnumSchemeItemType.Text,
                     def_value: 0,
                     rules: [
-                        [["Boolean"], "Поле обязательное"],
+                        [["Boolean"], "Required"],
                         [["isNumeric"], "Должно быть числом"],
                     ],
                 },
                 {
                     name: "is_active",
-                    title: "Активная?",
+                    title: "Is active?",
                     type: EnumSchemeItemType.Checkbox,
                     def_value: false,
                 },
                 {
                     name: "list",
-                    title: "Пункты",
+                    title: "Advantages",
                     type: EnumSchemeItemType.Widget,
                     multiple: true,
                     def_value: [],
                     scheme: [
                         {
                             name: "title",
-                            title: "Заголовок",
+                            title: "Title",
                             type: EnumSchemeItemType.Text,
                             def_value: "",
                         },

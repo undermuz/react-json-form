@@ -28,11 +28,14 @@ const Form: FC<
     IJsonFormProps & {
         def: TypeValueItem
         value: TypeValue
+        level: number
         errors: IErrors | TypeErrorItem[]
         onError: (e: IErrors | TypeErrorItem[]) => void
     }
 > = (props) => {
     const {
+        viewType,
+        level = 1,
         multiple = false,
         primary = true,
         scheme = [],
@@ -58,6 +61,7 @@ const Form: FC<
     )
 
     const rest = {
+        level,
         primary,
         scheme,
     }
@@ -75,6 +79,7 @@ const Form: FC<
     return (
         <ArrayForm
             {...rest}
+            viewType={viewType}
             errors={errors as TypeErrorItem[]}
             defValue={def}
             value={value as TypeValueItem[]}
@@ -85,7 +90,7 @@ const Form: FC<
 }
 
 const JsonForm: FC<IJsonFormProps> = (props) => {
-    const { multiple = false, scheme, onError } = props
+    const { multiple = false, scheme, level = 1, onError } = props
 
     const [errors, setErrors] = useState<JsonFormErrors>(
         multiple ? ([] as TypeErrorItem[]) : ({} as IErrors)
@@ -128,6 +133,7 @@ const JsonForm: FC<IJsonFormProps> = (props) => {
                 <Components.JsonForm {...props}>
                     <Form
                         {...props}
+                        level={level}
                         errors={errors}
                         value={value}
                         def={defValue}

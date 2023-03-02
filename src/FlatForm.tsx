@@ -16,6 +16,7 @@ import FormField from "./FormField"
 interface IFlatForm {
     isShow?: boolean
     primary?: boolean
+    level: number
     scheme: ISchemeItem[]
     value: TypeValueItem
     tests?: FieldTests
@@ -27,7 +28,8 @@ const FlatFormFields: FC<{
     scheme: ISchemeItem[]
     isFormPrimary: boolean
     isShow?: boolean
-}> = ({ scheme, isFormPrimary, isShow = true }) => {
+    level: number
+}> = ({ scheme, isFormPrimary, level, isShow = true }) => {
     const form = useFormContext()
     const Ui = useJsonFormUi()
 
@@ -40,6 +42,7 @@ const FlatFormFields: FC<{
                     <FormField
                         {...schemeItem}
                         key={index}
+                        level={level}
                         isFormPrimary={isFormPrimary}
                         isLast={index === scheme.length - 1}
                         errors={form.errors[name]}
@@ -54,6 +57,7 @@ const FlatForm: React.FC<IFlatForm> = (props) => {
     const {
         scheme,
         value,
+        level,
         isShow = true,
         primary = false,
         tests,
@@ -93,6 +97,7 @@ const FlatForm: React.FC<IFlatForm> = (props) => {
     return (
         <FormContext.Provider value={form}>
             <FlatFormFields
+                level={level}
                 isShow={isShow}
                 scheme={scheme}
                 isFormPrimary={primary}

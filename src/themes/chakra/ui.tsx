@@ -45,11 +45,25 @@ const UiPrimaryBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
     )
 }
 
-const UiSecondaryBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
+const UiDeepBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
     const { children } = props
 
     return (
-        <Flex direction={"column"} borderWidth="1px" shadow="md" p={3}>
+        <Flex direction={"column"} borderWidth={"1px"} shadow="md" p={3}>
+            {children}
+        </Flex>
+    )
+}
+
+const UiSecondaryBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
+    const { children, level } = props
+
+    if (level > 2) {
+        return <UiDeepBody {...props} />
+    }
+
+    return (
+        <Flex direction={"column"} p={0}>
             {children}
         </Flex>
     )
@@ -64,13 +78,26 @@ const UiBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
 }
 
 const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
-    const { id, title, primary, children } = props
+    const { id, title, level, primary, children } = props
+
+    const pads = useMemo(() => {
+        if (primary) {
+            return 3
+        }
+
+        if (level <= 2) {
+            return 0
+        }
+
+        return 2
+    }, [primary, level])
 
     return (
         <Flex
             width={"100%"}
             direction="column"
-            p={primary ? 3 : 2}
+            p={pads}
+            pb={2}
             justify="between"
             // background={primary ? "teal.300" : "gray.100"}
         >

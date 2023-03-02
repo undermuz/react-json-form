@@ -79,7 +79,11 @@ const JsonFormStory: FC<IJsonFormStory> = ({
             "api::size.list": async () => {
                 console.log("[api::size.list]")
 
-                return Promise.resolve([{ label: "fff", value: 2222 }])
+                return Promise.resolve([
+                    { label: "Big", value: 1 },
+                    { label: "Middle", value: 2 },
+                    { label: "Small", value: 3 },
+                ])
             },
         }
     }, [])

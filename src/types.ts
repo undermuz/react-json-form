@@ -88,11 +88,13 @@ export interface JsonFormControls {
 
 export type IUiHeaderProps = Partial<Pick<IScheme, "id" | "title">> & {
     primary?: boolean
+    level: number
 }
 
 export type IUiBodyProps = Partial<Pick<IScheme, "id" | "title">> & {
     primary?: boolean
     multiple?: boolean
+    level: number
 }
 
 export interface IUiTabProps {
@@ -144,6 +146,8 @@ export type IJsonFormProps = IJsonFormParams &
     Partial<Pick<IScheme, "id" | "title">> &
     Pick<IScheme, "multiple" | "scheme"> & {
         tests?: FieldTests
+        viewType?: string
+        level?: number
     }
 
 export interface JsonFormComponents {

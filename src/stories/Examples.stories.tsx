@@ -16,7 +16,7 @@ import UiContext from "../UiContext"
 
 import ChakraUi from "../themes/chakra"
 
-import { ChakraProvider, useColorMode } from "@chakra-ui/react"
+import { ChakraProvider, Stack, useColorMode } from "@chakra-ui/react"
 
 import "rsuite/styles/index.less"
 
@@ -24,7 +24,7 @@ import { useDarkMode } from "storybook-dark-mode"
 import ApiContext from "../ApiContext"
 import type { ApiValue } from "../ApiContext"
 import LoginScheme from "./Schemes/forms/login"
-import type { IScheme } from "../types"
+import { EnumSchemeItemType, type IScheme } from "../types"
 import SignUpScheme from "./Schemes/forms/signup"
 
 interface IJsonFormStory {
@@ -33,7 +33,7 @@ interface IJsonFormStory {
     showValue: true
 }
 
-const JsonFormStoryChakraUi = ({ scheme, value, setValue }) => {
+const JsonFormStoryChakraUi = ({ scheme, value, setValue, setErrors }) => {
     const dark = useDarkMode()
 
     const { setColorMode } = useColorMode()
@@ -44,7 +44,12 @@ const JsonFormStoryChakraUi = ({ scheme, value, setValue }) => {
 
     return (
         <UiContext.Provider value={ChakraUi}>
-            <JsonForm {...scheme} value={value} onChange={setValue} />
+            <JsonForm
+                {...scheme}
+                value={value}
+                onChange={setValue}
+                onError={setErrors}
+            />
         </UiContext.Provider>
     )
 }
@@ -55,6 +60,7 @@ const JsonFormStory: FC<IJsonFormStory> = ({
     showValue = true,
 }) => {
     const [value, setValue] = useState({})
+    const [errors, setErrors] = useState({})
 
     const boxWidth = useMemo(() => {
         if (showScheme && showValue) {
@@ -95,6 +101,7 @@ const JsonFormStory: FC<IJsonFormStory> = ({
                         <JsonFormStoryChakraUi
                             value={value}
                             setValue={setValue}
+                            setErrors={setErrors}
                             scheme={scheme}
                         />
                     </ChakraProvider>
@@ -102,10 +109,15 @@ const JsonFormStory: FC<IJsonFormStory> = ({
 
                 {showValue && (
                     <Box width={boxWidth} background="white" pad={"middle"}>
-                        {/* <ReactJson src={value} displayObjectSize={false} /> */}
-                        <SyntaxHighlighter language="json" style={docco}>
-                            {JSON.stringify(value, null, 2)}
-                        </SyntaxHighlighter>
+                        <Stack direction={"column"}>
+                            {/* <ReactJson src={value} displayObjectSize={false} /> */}
+                            <SyntaxHighlighter language="json" style={docco}>
+                                {JSON.stringify(value, null, 2)}
+                            </SyntaxHighlighter>
+                            <SyntaxHighlighter language="json" style={docco}>
+                                {JSON.stringify(errors, null, 2)}
+                            </SyntaxHighlighter>
+                        </Stack>
                     </Box>
                 )}
             </Box>
@@ -123,6 +135,28 @@ LoginForm.args = { scheme: LoginScheme }
 
 export const SignUpForm = Template.bind({})
 SignUpForm.args = { scheme: SignUpScheme }
+
+// export const TestForm = Template.bind({})
+// TestForm.args = {
+//     scheme: {
+//         id: "test",
+//         scheme: [
+//             {
+//                 name: "email",
+//                 title: "Код клиента",
+//                 placeholder:
+//                     "Введите код полученный в смс, например: 456432245",
+//                 type: EnumSchemeItemType.Input,
+//                 def_value: "",
+//                 rules: [[["Boolean"], "Required"]],
+//             },
+//         ],
+//         single: true,
+//         multiple: false,
+//         title: "Подписание документов в клинике Линлайн",
+//         name: "test",
+//     },
+// }
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

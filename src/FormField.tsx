@@ -7,17 +7,20 @@ import { EnumSchemeItemType } from "./types"
 import { ConnectToForm } from "@undermuz/use-form"
 import { useJsonFormUi } from "./UiContext"
 
-const getFieldSettings = (schemeItem: ISchemeItem) => {
-    const { type = EnumSchemeItemType.Widget, settings = {} } = schemeItem
+type IFormFieldProps = ISchemeItem & {
+    isLast: boolean
+    errors: IError
+    isFormPrimary: boolean
+    level: number
+}
+
+const getFieldSettings = (props: IFormFieldProps) => {
+    const { type = EnumSchemeItemType.Widget, settings = {}, level } = props
 
     if (type == EnumSchemeItemType.Widget) {
-        const { scheme, multiple = false } = schemeItem
+        const { scheme, multiple = false } = props
 
-        return { scheme, multiple }
-    }
-
-    if (type == EnumSchemeItemType.Select) {
-        return settings
+        return { ...settings, scheme, multiple, level: level + 1 }
     }
 
     if (type == EnumSchemeItemType.Files) {
@@ -27,9 +30,7 @@ const getFieldSettings = (schemeItem: ISchemeItem) => {
     return settings
 }
 
-const FormField: FC<
-    ISchemeItem & { isLast: boolean; errors: IError; isFormPrimary: boolean }
-> = (props) => {
+const FormField: FC<IFormFieldProps> = (props) => {
     const Ui = useJsonFormUi()
 
     const {

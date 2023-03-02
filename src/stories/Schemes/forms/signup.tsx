@@ -40,22 +40,38 @@ const SignUpScheme: IScheme = {
             ],
         },
         {
-            name: "about",
-            title: "About",
+            name: "password_repeat",
+            title: "Repeat password",
+            type: EnumSchemeItemType.Input,
+            settings: {
+                inputType: "password",
+            },
+            def_value: "",
+            rules: [
+                [["Boolean"], "Required"],
+                [
+                    ["isStringMinMaxLength:[6,18]"],
+                    "Min length: 6; Max length: 18",
+                ],
+            ],
+        },
+        {
+            name: "company",
+            title: "Create company",
             type: EnumSchemeItemType.Widget,
             multiple: false,
             def_value: {},
             scheme: [
                 {
-                    name: "title",
-                    title: "Заголовок",
+                    name: "name",
+                    title: "Company name",
                     type: EnumSchemeItemType.Text,
                     def_value: "",
-                    rules: [[["Boolean"], "Поле обязательное"]],
+                    rules: [[["Boolean"], "Required"]],
                 },
                 {
-                    name: "price",
-                    title: "Значение",
+                    name: "size",
+                    title: "Company size (abt)",
                     type: EnumSchemeItemType.Text,
                     def_value: 0,
                     rules: [
@@ -64,24 +80,59 @@ const SignUpScheme: IScheme = {
                     ],
                 },
                 {
-                    name: "is_active",
-                    title: "Активная?",
+                    name: "open_source",
+                    title: "Open source?",
                     type: EnumSchemeItemType.Checkbox,
                     def_value: false,
                 },
                 {
-                    name: "list",
-                    title: "Пункты",
+                    name: "projects",
+                    title: "Main projects",
                     type: EnumSchemeItemType.Widget,
                     multiple: true,
                     def_value: [],
                     scheme: [
                         {
                             name: "title",
-                            title: "Заголовок",
+                            title: "Name",
                             rules: [[["Boolean"], "Required"]],
                             type: EnumSchemeItemType.Text,
                             def_value: "",
+                        },
+                        {
+                            name: "description",
+                            title: "Description",
+                            rules: [[["Boolean"], "Required"]],
+                            type: EnumSchemeItemType.TextBlock,
+                            def_value: "",
+                        },
+                    ],
+                },
+                {
+                    name: "employee",
+                    title: "Employee",
+                    type: EnumSchemeItemType.Widget,
+                    multiple: true,
+                    def_value: [],
+                    settings: {
+                        viewType: "tabs",
+                    },
+                    scheme: [
+                        {
+                            name: "name",
+                            title: "Name",
+                            type: EnumSchemeItemType.Text,
+                        },
+
+                        {
+                            name: "email",
+                            title: "E-mail",
+                            placeholder: "ex: youremail@mail.com",
+                            type: EnumSchemeItemType.Input,
+                            settings: {
+                                inputType: "email",
+                            },
+                            rules: [[["isEmail"], "Incorrect e-mail"]],
                         },
                     ],
                 },

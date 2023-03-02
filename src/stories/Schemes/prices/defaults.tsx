@@ -41,27 +41,27 @@ export const DEF_VALUE_PRICES: IPrice2ValuePrices[] = [
         list: [
             {
                 id: 1,
-                title: "Lorem ipsum dolor",
+                title: "Lorem ipsum dolor 2",
             },
             {
                 id: 2,
-                title: "Sit amet consectetur adipiscing",
+                title: "Sit amet consectetur adipiscing 2",
             },
             {
                 id: 3,
-                title: "Elit sed do eiusmod tempor",
+                title: "Elit sed do eiusmod tempor 2",
             },
             {
                 id: 4,
-                title: "Incididunt ut labore",
+                title: "Incididunt ut labore 2",
             },
             {
                 id: 5,
-                title: "Et dolore magna aliqua incididunt",
+                title: "Et dolore magna aliqua incididunt 2",
             },
             {
                 id: 6,
-                title: "Elit sed do eiusmod tempor",
+                title: "Elit sed do eiusmod tempor 2",
             },
         ],
     },
@@ -73,36 +73,36 @@ export const DEF_VALUE_PRICES: IPrice2ValuePrices[] = [
         list: [
             {
                 id: 1,
-                title: "Lorem ipsum dolor",
+                title: "Lorem ipsum dolor 3",
             },
             {
                 id: 2,
-                title: "Sit amet consectetur adipiscing",
+                title: "Sit amet consectetur adipiscing 3",
             },
             {
                 id: 3,
-                title: "Elit sed do eiusmod tempor",
+                title: "Elit sed do eiusmod tempor 3",
             },
             {
                 id: 4,
-                title: "Incididunt ut labore",
+                title: "Incididunt ut labore 3",
             },
             {
                 id: 5,
-                title: "Et dolore magna aliqua incididunt",
+                title: "Et dolore magna aliqua incididunt 3",
             },
             {
                 id: 6,
-                title: "Elit sed do eiusmod tempor",
+                title: "Elit sed do eiusmod tempor 3",
             },
         ],
     },
 ]
 
 export const DEF_VALUE: IPrice2Value = {
-    title: "Мы лучшие в мирdddе!",
-    subtitle: "Закажите сейчас и получите скидку 50%",
-    button_text: "Купить",
+    title: "We are the best company 🚀",
+    subtitle: "Buy now and get 50% off",
+    button_text: "Order now",
     prices: DEF_VALUE_PRICES,
 }
 

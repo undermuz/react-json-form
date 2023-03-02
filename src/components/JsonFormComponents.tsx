@@ -6,6 +6,7 @@ const JsonFormComponent: FC<PropsWithChildren<IJsonFormProps>> = (props) => {
     const {
         id,
         title,
+        level = 1,
         header = null,
         multiple = false,
         primary = true,
@@ -16,11 +17,11 @@ const JsonFormComponent: FC<PropsWithChildren<IJsonFormProps>> = (props) => {
 
     return (
         <Ui.Container>
-            <Ui.Header id={id} primary={primary} title={title}>
+            <Ui.Header id={id} primary={primary} level={level} title={title}>
                 {header}
             </Ui.Header>
 
-            <Ui.Body primary={primary} multiple={multiple}>
+            <Ui.Body primary={primary} level={level} multiple={multiple}>
                 {children}
             </Ui.Body>
         </Ui.Container>
