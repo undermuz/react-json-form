@@ -11,7 +11,6 @@ import {
     FormLabel,
     Heading,
     Stack,
-    Tag,
     Text,
 } from "@chakra-ui/react"
 
@@ -78,7 +77,7 @@ const UiBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
 }
 
 const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
-    const { id, title, level, primary, children } = props
+    const { title, level, primary, children } = props
 
     const pads = useMemo(() => {
         if (primary) {
@@ -112,7 +111,7 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
                     </Heading>
                 )}
 
-                {Boolean(id) && <Tag>#{id}</Tag>}
+                {/* {Boolean(id) && <Tag>#{id}</Tag>} */}
             </Flex>
 
             {children}

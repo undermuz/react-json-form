@@ -22,7 +22,7 @@ export const useJsonFormComponents = (): JsonFormComponents => {
     let rawComponents: Partial<JsonFormComponents> = {}
 
     if (Ui?.Components) {
-        rawComponents = Ui?.Components as Partial<JsonFormComponents>
+        rawComponents = Ui.Components
     }
 
     return {

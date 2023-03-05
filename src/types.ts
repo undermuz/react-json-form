@@ -142,7 +142,7 @@ export interface IJsonFormParams {
     onError?: (e: JsonFormErrors) => void
 }
 
-export type IJsonFormProps = IJsonFormParams &
+export type IJsonFormProps = PropsWithChildren & IJsonFormParams &
     Partial<Pick<IScheme, "id" | "title">> &
     Pick<IScheme, "multiple" | "scheme"> & {
         tests?: FieldTests

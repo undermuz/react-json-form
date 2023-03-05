@@ -1,17 +1,16 @@
 import type { FC } from "react"
 import type { ISchemeItem } from "./types"
-import type { IError } from "@undermuz/use-form"
+import { useFormContext, ConnectToForm } from "@undermuz/use-form"
 
 import Input from "./input"
 import { EnumSchemeItemType } from "./types"
-import { ConnectToForm } from "@undermuz/use-form"
 import { useJsonFormUi } from "./UiContext"
 
-type IFormFieldProps = ISchemeItem & {
-    isLast: boolean
-    errors: IError
+export type IFormFieldProps = ISchemeItem & {
+    isLast?: boolean
     isFormPrimary: boolean
     level: number
+    as?: any
 }
 
 const getFieldSettings = (props: IFormFieldProps) => {
@@ -32,10 +31,13 @@ const getFieldSettings = (props: IFormFieldProps) => {
 
 const FormField: FC<IFormFieldProps> = (props) => {
     const Ui = useJsonFormUi()
+    const form = useFormContext()
+
+    const errors = form.errors[props.name]
 
     const {
-        isLast,
-        errors,
+        as: Cmp = Ui.Field,
+        isLast = false,
         isFormPrimary,
         title,
         description,
@@ -45,7 +47,7 @@ const FormField: FC<IFormFieldProps> = (props) => {
     } = props
 
     return (
-        <Ui.Field
+        <Cmp
             isLast={isLast}
             type={type}
             name={name}
@@ -62,7 +64,7 @@ const FormField: FC<IFormFieldProps> = (props) => {
                     settings={getFieldSettings(props)}
                 />
             </ConnectToForm>
-        </Ui.Field>
+        </Cmp>
     )
 }
 
