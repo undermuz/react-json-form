@@ -53,7 +53,7 @@ const scheme = {
     id: "login-form-v1",
     single: true,
     multiple: false,
-    title: "My login form",
+    title: "Login",
     name: "login-form-v1",
     scheme: [
         {
