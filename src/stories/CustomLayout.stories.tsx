@@ -1,13 +1,13 @@
 import type { ComponentMeta } from "@storybook/react"
 
-import JsonFormStory from "./CustomLayout/base"
+import JsonFormStory from "./custom-layout/base"
 
-import WrappForm from "./CustomLayout/WrappForm"
-import WrappFieldBlock from "./CustomLayout/WrappFieldBlock"
-import WrappEachField from "./CustomLayout/WrappEachField"
-import VerticalStack from "./CustomLayout/VerticalStack"
-import HorizontalStack from "./CustomLayout/HorizontalStack"
-import GridLayout from "./CustomLayout/GridLayout"
+import WrappForm from "./custom-layout/WrappForm"
+import WrappFieldBlock from "./custom-layout/WrappFieldBlock"
+import WrappEachField from "./custom-layout/WrappEachField"
+import VerticalStack from "./custom-layout/VerticalStack"
+import HorizontalStack from "./custom-layout/HorizontalStack"
+import GridLayout from "./custom-layout/GridLayout"
 
 export {
     WrappForm,

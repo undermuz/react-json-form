@@ -116,8 +116,32 @@ const YourForm = () => {
 
 ![Result](/screenshots/login-form.png)
 
+## Built-in themes
+
+[Storybook: ChakraUi](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-chakra)
+
+[Storybook: Rsuite](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-rsuite)
+
+[Storybook: Grommet](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-grommet)
+
 ## Examples
 
-[Storybook: Grommet](https://undermuz.github.io/react-json-form/?path=/story/example-jsonform--ui-grommet)
-[Storybook: ChakraUi](https://undermuz.github.io/react-json-form/?path=/story/example-jsonform--ui-chakra)
-[Storybook: Rsuite](https://undermuz.github.io/react-json-form/?path=/story/example-jsonform--ui-rsuite)
+### Forms
+
+[Storybook: Login form](https://undermuz.github.io/react-json-form/?path=/story/examples--login-form)
+
+[Storybook: Signup form](https://undermuz.github.io/react-json-form/?path=/story/examples--sign-up-form)
+
+### Custom layout
+
+[Storybook: Wrapp form](https://undermuz.github.io/react-json-form/?path=/story/customlayout--wrapp-form)
+
+[Storybook: Wrapp fields block](https://undermuz.github.io/react-json-form/?path=/story/customlayout--wrapp-field-block)
+
+[Storybook: Wrapp each field](https://undermuz.github.io/react-json-form/?path=/story/customlayout--wrapp-each-field)
+
+[Storybook: Vertical stack](https://undermuz.github.io/react-json-form/?path=/story/customlayout--vertical-stack)
+
+[Storybook: Horizontal stack](https://undermuz.github.io/react-json-form/?path=/story/customlayout--horizontal-stack)
+
+[Storybook: Grid layout](https://undermuz.github.io/react-json-form/?path=/story/customlayout--grid-layout)
