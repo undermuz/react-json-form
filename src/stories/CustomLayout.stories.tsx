@@ -19,7 +19,7 @@ export {
 }
 
 export default {
-    title: "CustomLayout",
+    title: "Custom layout",
     component: JsonFormStory,
     argTypes: {},
 } as ComponentMeta<typeof JsonFormStory>

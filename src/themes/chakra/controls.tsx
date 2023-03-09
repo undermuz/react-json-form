@@ -9,7 +9,9 @@ import type { JsonFormControls } from "../../types"
 
 import { isArray } from "underscore"
 
-import { AsyncSelect, Select } from "chakra-react-select"
+import ChakraReactSelect from "chakra-react-select"
+
+const { AsyncSelect, Select } = ChakraReactSelect
 
 // import _Select from "react-select"
 // const Select = ((_Select as any).default ?? _Select) as typeof _Select

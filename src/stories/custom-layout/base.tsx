@@ -10,12 +10,7 @@ import UiContext from "../../UiContext"
 
 import ChakraUi from "../../themes/chakra"
 
-import {
-    Box as ChakraBox,
-    ChakraProvider,
-    useColorMode,
-    HStack,
-} from "@chakra-ui/react"
+import { Box as ChakraBox, useColorMode } from "@chakra-ui/react"
 
 import { useDarkMode } from "storybook-dark-mode"
 import ApiContext from "../../ApiContext"
@@ -27,6 +22,7 @@ import {
     type TypeValue,
     type IScheme,
 } from "../../types"
+import BaseStoryLayout from "../base"
 
 const JFChakraUi: FC<
     PropsWithChildren & {
@@ -141,9 +137,9 @@ const JsonFormStory: FC<IJsonFormStory> = ({
 
     return (
         <ApiContext.Provider value={api}>
-            <ChakraProvider>
-                <HStack alignItems={"flex-start"}>
-                    <ChakraBox w="40%" p={"md"}>
+            <BaseStoryLayout
+                left={
+                    <>
                         <SyntaxHighlighter language="jsx" style={style}>
                             {code}
                         </SyntaxHighlighter>
@@ -155,23 +151,21 @@ const JsonFormStory: FC<IJsonFormStory> = ({
                                 2
                             )}`}
                         </SyntaxHighlighter>
-                    </ChakraBox>
-
-                    <ChakraBox w="60%">
-                        <JFChakraUi
-                            value={value}
-                            setValue={setValue}
-                            setErrors={setErrors}
-                            scheme={{
-                                ...scheme,
-                                title,
-                            }}
-                        >
-                            {children}
-                        </JFChakraUi>
-                    </ChakraBox>
-                </HStack>
-            </ChakraProvider>
+                    </>
+                }
+            >
+                <JFChakraUi
+                    value={value}
+                    setValue={setValue}
+                    setErrors={setErrors}
+                    scheme={{
+                        ...scheme,
+                        title,
+                    }}
+                >
+                    {children}
+                </JFChakraUi>
+            </BaseStoryLayout>
         </ApiContext.Provider>
     )
 }

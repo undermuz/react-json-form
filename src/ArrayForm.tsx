@@ -12,8 +12,6 @@ import type {
     TypeValueItem,
 } from "./types"
 
-import { isArray } from "underscore"
-
 import type { CollisionDetection, DragEndEvent } from "@dnd-kit/core"
 import {
     closestCenter,
@@ -31,9 +29,8 @@ import {
 import {
     horizontalListSortingStrategy,
     SortableContext,
+    useSortable,
 } from "@dnd-kit/sortable"
-
-import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { arrayMoveImmutable } from "array-move"
 import { createPortal } from "react-dom"
@@ -249,7 +246,7 @@ interface IUseTabsProps {
 }
 
 const useTabs = (props: IUseTabsProps) => {
-    const { value, errors, defValue, onChange, onError } = props
+    const { value, defValue, onChange } = props
 
     const [tab, setTab] = useState(() => {
         if (value.length > 0) return value[0].id
@@ -340,7 +337,6 @@ const ArrayForm: React.FC<IArrayForm> = (props) => {
         primary = false,
         viewType = "stack",
         level,
-        defValue,
         onChange,
         onError,
     } = props

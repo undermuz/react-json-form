@@ -6,26 +6,19 @@ import {
     useEffect,
     type PropsWithChildren,
     Children,
-    type ReactElement,
-    cloneElement,
     createContext,
     useMemo,
 } from "react"
 
 /* HELPERS */
-import type {
-    FieldTests,
-    ISchemeItem,
-    IUiFlatFormProps,
-    TypeValueItem,
-} from "./types"
+import type { FieldTests, ISchemeItem, TypeValueItem } from "./types"
 import { EnumSchemeItemType } from "./types"
 import { getDefValueForItem, useSchemeToForm } from "./utils"
 
 import type { IErrors, IValues } from "@undermuz/use-form"
 import useForm, { FormContext } from "@undermuz/use-form"
 import FormField from "./FormField"
-import JsonFormLayout, { JFL_FlatFormName } from "./components/JsonFormLayout"
+import JsonFormLayout from "./components/JsonFormLayout"
 
 export type IFlatFormParams = {
     scheme: ISchemeItem[]

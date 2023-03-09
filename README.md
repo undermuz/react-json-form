@@ -49,7 +49,7 @@ const YourForm = () => {
 5. Add form's scheme
 
 ```jsx
-const scheme = {
+const scheme: IScheme = {
     id: "login-form-v1",
     single: true,
     multiple: false,
@@ -128,20 +128,20 @@ const YourForm = () => {
 
 ### Forms
 
-[Storybook: Login form](https://undermuz.github.io/react-json-form/?path=/story/examples--login-form)
+[Storybook: Login form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--login-form)
 
-[Storybook: Signup form](https://undermuz.github.io/react-json-form/?path=/story/examples--sign-up-form)
+[Storybook: Signup form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--signup-form)
 
 ### Custom layout
 
-[Storybook: Wrapp form](https://undermuz.github.io/react-json-form/?path=/story/customlayout--wrapp-form)
+[Storybook: Wrapp form](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-form)
 
-[Storybook: Wrapp fields block](https://undermuz.github.io/react-json-form/?path=/story/customlayout--wrapp-field-block)
+[Storybook: Wrapp fields block](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-field-block)
 
-[Storybook: Wrapp each field](https://undermuz.github.io/react-json-form/?path=/story/customlayout--wrapp-each-field)
+[Storybook: Wrapp each field](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-each-field)
 
-[Storybook: Vertical stack](https://undermuz.github.io/react-json-form/?path=/story/customlayout--vertical-stack)
+[Storybook: Vertical stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--vertical-stack)
 
-[Storybook: Horizontal stack](https://undermuz.github.io/react-json-form/?path=/story/customlayout--horizontal-stack)
+[Storybook: Horizontal stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--horizontal-stack)
 
-[Storybook: Grid layout](https://undermuz.github.io/react-json-form/?path=/story/customlayout--grid-layout)
+[Storybook: Grid layout](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--grid-layout)
