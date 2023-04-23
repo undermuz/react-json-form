@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import type { FC, PropsWithChildren } from "react"
 import type { ISchemeItem } from "./types"
 import { useFormContext, ConnectToForm } from "@undermuz/use-form"
 
@@ -29,7 +29,10 @@ const getFieldSettings = (props: IFormFieldProps) => {
     return settings
 }
 
-const FormField: FC<IFormFieldProps> = (props) => {
+const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
+    children,
+    ...props
+}) => {
     const Ui = useJsonFormUi()
     const form = useFormContext()
 
@@ -62,7 +65,9 @@ const FormField: FC<IFormFieldProps> = (props) => {
                     placeholder={placeholder}
                     title={title}
                     settings={getFieldSettings(props)}
-                />
+                >
+                    {children}
+                </Input>
             </ConnectToForm>
         </Cmp>
     )

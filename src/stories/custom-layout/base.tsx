@@ -103,6 +103,52 @@ export const scheme: IScheme = {
             type: EnumSchemeItemType.Checkbox,
             def_value: true,
         },
+        {
+            name: "prices",
+            title: "Prices",
+            type: EnumSchemeItemType.Widget,
+            multiple: true,
+            scheme: [
+                {
+                    name: "title",
+                    title: "Title",
+                    type: EnumSchemeItemType.Text,
+                    def_value: "",
+                    rules: [[["Boolean"], "Required"]],
+                },
+                {
+                    name: "price",
+                    title: "Price value",
+                    type: EnumSchemeItemType.Text,
+                    def_value: 0,
+                    rules: [
+                        [["Boolean"], "Required"],
+                        [["isNumeric"], "Должно быть числом"],
+                    ],
+                },
+                {
+                    name: "is_active",
+                    title: "Is active?",
+                    type: EnumSchemeItemType.Checkbox,
+                    def_value: false,
+                },
+                {
+                    name: "list",
+                    title: "Advantages",
+                    type: EnumSchemeItemType.Widget,
+                    multiple: true,
+                    def_value: [],
+                    scheme: [
+                        {
+                            name: "title",
+                            title: "Title",
+                            type: EnumSchemeItemType.Text,
+                            def_value: "",
+                        },
+                    ],
+                },
+            ],
+        },
     ],
     single: true,
     multiple: false,

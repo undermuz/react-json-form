@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useRef } from "react"
 
 import JsonForm from "../../JsonForm"
 
@@ -10,21 +10,38 @@ import UiContext from "../../UiContext"
 
 import ChakraUi from "../../themes/chakra"
 
-import { useColorMode } from "@chakra-ui/react"
+import { Button, useColorMode } from "@chakra-ui/react"
 
 import { useDarkMode } from "storybook-dark-mode"
 import ApiContext from "../../ApiContext"
 import type { ApiValue } from "../../ApiContext"
-import { type IScheme } from "../../types"
+import type {
+    TypeValue,
+    IJsonFormRefObject,
+    IScheme,
+    TypeErrorItem,
+} from "../../types"
 import BaseStoryLayout from "../base"
+import JsonFormLayout from "../../components/JsonFormLayout"
+import { useSubmit } from "../../useSubmit"
+import type { IErrors } from "@undermuz/use-form"
 
 export interface BaseExampleFormProps {
     scheme: IScheme
-    showScheme: true
-    showValue: true
+    onSubmit: (
+        values: TypeValue,
+        errors: null | IErrors | TypeErrorItem[],
+        isValid: boolean
+    ) => void
 }
 
-const JsonFormStoryChakraUi = ({ scheme, value, setValue, setErrors }) => {
+const JsonFormStoryChakraUi = ({
+    scheme,
+    value,
+    setValue,
+    setErrors,
+    onSubmit,
+}) => {
     const dark = useDarkMode()
 
     const { setColorMode } = useColorMode()
@@ -33,15 +50,29 @@ const JsonFormStoryChakraUi = ({ scheme, value, setValue, setErrors }) => {
         setColorMode(dark ? "dark" : "light")
     }, [dark])
 
+    const jsonFormRef = useRef<IJsonFormRefObject>(null)
+
+    const submit = useSubmit(jsonFormRef, onSubmit)
+
     return (
-        <UiContext.Provider value={ChakraUi}>
-            <JsonForm
-                {...(scheme as IScheme)}
-                value={value}
-                onChange={setValue}
-                onError={setErrors}
-            />
-        </UiContext.Provider>
+        <form onSubmit={submit}>
+            <UiContext.Provider value={ChakraUi}>
+                <JsonForm
+                    {...(scheme as IScheme)}
+                    ref={jsonFormRef}
+                    value={value}
+                    onChange={setValue}
+                    onError={setErrors}
+                >
+                    <JsonFormLayout.Form>
+                        <JsonFormLayout.Fields />
+                        <Button variant={"solid"} type="submit">
+                            Submit
+                        </Button>
+                    </JsonFormLayout.Form>
+                </JsonForm>
+            </UiContext.Provider>
+        </form>
     )
 }
 
@@ -51,15 +82,33 @@ const [errors, setErrors] = useState({})
 `
 
 const Code2 = `
-<JsonForm
-    {...scheme}
-    value={value}
-    onChange={setValue}
-    onError={setErrors}
-/>
+const jsonFormRef = useRef<IJsonFormRefObject>(null)
+
+const submit = useSubmit(jsonFormRef, onSubmit)
+
+return (
+    <form onSubmit={submit}>
+        <UiContext.Provider value={ChakraUi}>
+            <JsonForm
+                {...(scheme as IScheme)}
+                ref={jsonFormRef}
+                value={value}
+                onChange={setValue}
+                onError={setErrors}
+            >
+                <JsonFormLayout.Form>
+                    <JsonFormLayout.Fields />
+                    <Button variant={"solid"} type="submit">
+                        Submit
+                    </Button>
+                </JsonFormLayout.Form>
+            </JsonForm>
+        </UiContext.Provider>
+    </form>
+)
 `
 
-const BaseExampleForm: FC<BaseExampleFormProps> = ({ scheme }) => {
+const BaseExampleForm: FC<BaseExampleFormProps> = ({ scheme, onSubmit }) => {
     const [value, setValue] = useState({})
     const [errors, setErrors] = useState({})
 
@@ -110,6 +159,7 @@ const BaseExampleForm: FC<BaseExampleFormProps> = ({ scheme }) => {
             >
                 <JsonFormStoryChakraUi
                     value={value}
+                    onSubmit={onSubmit}
                     setValue={setValue}
                     setErrors={setErrors}
                     scheme={scheme}

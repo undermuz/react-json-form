@@ -1,5 +1,5 @@
 /*SYSTEM IMPORTS*/
-import { useMemo } from "react"
+import { type PropsWithChildren, useMemo } from "react"
 import type { FC } from "react"
 
 // import Editor from "react-quill"
@@ -203,8 +203,8 @@ const InputSelect: FC<IInput> = (props) => {
     return <Ui.Controls.Select {...props} />
 }
 
-const Input: FC<IInput> = (props) => {
-    const { value = "", type, title, settings = {} } = props
+const Input: FC<PropsWithChildren & IInput> = (props) => {
+    const { value = "", type, title, settings = {}, children } = props
 
     const { onChange = noop, onError = noop } = props
 
@@ -251,7 +251,9 @@ const Input: FC<IInput> = (props) => {
                     {..._settings}
                     onChange={onChange as FunctionOnChange}
                     onError={_onError}
-                />
+                >
+                    {children}
+                </JsonForm>
             )
         }
 

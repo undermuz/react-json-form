@@ -1,10 +1,10 @@
 /*SYSTEM IMPORTS*/
-import type { FC } from "react"
-import { useCallback } from "react"
+import { forwardRef, useCallback } from "react"
 
 /* TYPES */
 import type {
     IJsonFormProps,
+    IJsonFormRefObject,
     TypeErrorItem,
     TypeValue,
     TypeValueItem,
@@ -18,15 +18,15 @@ import ArrayForm from "./ArrayForm"
 /* HELPERS */
 import type { IErrors } from "@undermuz/use-form"
 
-const Form: FC<
-    IJsonFormProps & {
-        def: TypeValueItem
-        value: TypeValue
-        level: number
-        errors: IErrors | TypeErrorItem[]
-        onError: (e: IErrors | TypeErrorItem[]) => void
-    }
-> = (props) => {
+type FormProps = IJsonFormProps & {
+    def: TypeValueItem
+    value: TypeValue
+    level: number
+    errors: IErrors | TypeErrorItem[]
+    onError: (e: IErrors | TypeErrorItem[]) => void
+}
+
+const Form = forwardRef<IJsonFormRefObject, FormProps>((props, ref) => {
     const {
         viewType,
         level = 1,
@@ -66,6 +66,7 @@ const Form: FC<
         return (
             <FlatForm
                 {...rest}
+                ref={ref}
                 value={value as TypeValueItem}
                 onChange={changeFlat}
                 onError={setErrorsFlat}
@@ -83,6 +84,8 @@ const Form: FC<
             onError={onError}
         />
     )
-}
+})
+
+Form.displayName = "Form"
 
 export default Form

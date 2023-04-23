@@ -1,5 +1,4 @@
 /*SYSTEM IMPORTS*/
-import type React from "react"
 import {
     type FC,
     memo,
@@ -8,10 +7,16 @@ import {
     Children,
     createContext,
     useMemo,
+    forwardRef,
 } from "react"
 
 /* HELPERS */
-import type { FieldTests, ISchemeItem, TypeValueItem } from "./types"
+import type {
+    FieldTests,
+    IJsonFormRefObject,
+    ISchemeItem,
+    TypeValueItem,
+} from "./types"
 import { EnumSchemeItemType } from "./types"
 import { getDefValueForItem, useSchemeToForm } from "./utils"
 
@@ -108,18 +113,18 @@ const FieldsBlock: FC<PropsWithChildren & IFlatFormParams> = memo((props) => {
 
 FieldsBlock.displayName = "FieldsBlock"
 
-const FlatForm: React.FC<
-    PropsWithChildren & {
-        isShow?: boolean
-        primary?: boolean
-        level: number
-        scheme: ISchemeItem[]
-        value: TypeValueItem
-        tests?: FieldTests
-        onChange: (v: IValues) => void
-        onError: (v: IErrors) => void
-    }
-> = (props) => {
+type FlatFormProps = PropsWithChildren & {
+    isShow?: boolean
+    primary?: boolean
+    level: number
+    scheme: ISchemeItem[]
+    value: TypeValueItem
+    tests?: FieldTests
+    onChange: (v: IValues) => void
+    onError: (v: IErrors) => void
+}
+
+const FlatForm = forwardRef<IJsonFormRefObject, FlatFormProps>((props, ref) => {
     const {
         scheme,
         value,
@@ -161,6 +166,41 @@ const FlatForm: React.FC<
         onChange({ ...value, ...new_value })
     }, [])
 
+    useEffect(() => {
+        const setRef = (value: IJsonFormRefObject | null) => {
+            if (typeof ref === "function") {
+                ref(value)
+            } else if (ref !== null) {
+                ref.current = value
+            }
+        }
+
+        setRef({
+            validate(checkOnlyFilled = true) {
+                const [hasErrors, formErrors] =
+                    form.hasFormErrors(checkOnlyFilled)
+
+                if (hasErrors) {
+                    form.validate(checkOnlyFilled)
+
+                    return formErrors
+                }
+
+                return null
+            },
+            values() {
+                return form.getValues()
+            },
+            errors() {
+                return form.getErrors()
+            },
+        })
+
+        return () => {
+            setRef(null)
+        }
+    }, [])
+
     return (
         <FormContext.Provider value={form}>
             <FieldsBlock
@@ -173,6 +213,8 @@ const FlatForm: React.FC<
             </FieldsBlock>
         </FormContext.Provider>
     )
-}
+})
+
+FlatForm.displayName = "FlatForm"
 
 export default FlatForm

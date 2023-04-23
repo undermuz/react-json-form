@@ -9,9 +9,10 @@ import type { JsonFormControls } from "../../types"
 
 import { isArray } from "underscore"
 
-import ChakraReactSelect from "chakra-react-select"
+// import ChakraReactSelect from "chakra-react-select"
+// const { AsyncSelect, Select } = ChakraReactSelect
 
-const { AsyncSelect, Select } = ChakraReactSelect
+import { AsyncSelect, Select } from "chakra-react-select"
 
 // import _Select from "react-select"
 // const Select = ((_Select as any).default ?? _Select) as typeof _Select
@@ -135,16 +136,24 @@ const ControlTextBlock: FC<IInput> = (props) => {
 }
 
 const ControlInput: FC<IInput> = (props) => {
-    const { name, placeholder = "", value, type, settings = {} } = props
+    const {
+        name,
+        placeholder = "",
+        value,
+        type,
+        settings: _rawSettings = {},
+    } = props
 
     const { onChange, onBlur } = props
+
+    const { inputType, ...settings } = _rawSettings
 
     return (
         <Input
             {...settings}
             placeholder={placeholder}
             name={name}
-            type={settings?.inputType || type || "text"}
+            type={inputType || type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
             onBlur={(e) => onBlur?.(e.currentTarget.value)}
