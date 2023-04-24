@@ -59,7 +59,6 @@ const SignUpScheme: IScheme = {
             name: "company",
             title: "Create company",
             type: EnumSchemeItemType.Widget,
-            multiple: false,
             def_value: {},
             scheme: [
                 {
@@ -139,10 +138,7 @@ const SignUpScheme: IScheme = {
             ],
         },
     ],
-    single: true,
-    multiple: false,
-    title: WidgetTitle,
-    name: WidgetName,
+    title: WidgetTitle
 }
 
 export default SignUpScheme

@@ -46,10 +46,7 @@ const LoginScheme: IScheme = {
             def_value: true,
         },
     ],
-    single: true,
-    multiple: false,
-    title: WidgetTitle,
-    name: WidgetName,
+    title: WidgetTitle
 }
 
 export default LoginScheme

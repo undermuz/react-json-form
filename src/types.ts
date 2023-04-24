@@ -58,10 +58,8 @@ export interface IFieldWidgetSettings {
 export interface IScheme {
     id: string
     title: string
-    name: string
     scheme: ISchemeItem[]
-    single: boolean
-    multiple: boolean
+    multiple?: boolean
 }
 
 export type TypeErrorItem = {

@@ -124,10 +124,7 @@ const scheme: IScheme = {
             ],
         },
     ],
-    single: true,
-    multiple: false,
     title: WidgetTitle,
-    name: WidgetName,
 }
 
 export default scheme

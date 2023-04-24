@@ -109,7 +109,7 @@ export const scheme: IScheme = {
             type: EnumSchemeItemType.Widget,
             multiple: true,
             settings: {
-                fillArrayDefault: false
+                // fillArrayDefault: false
             },
             scheme: [
                 {
@@ -134,14 +134,11 @@ export const scheme: IScheme = {
                     title: "Is active?",
                     type: EnumSchemeItemType.Checkbox,
                     def_value: false,
-                }
+                },
             ],
         },
     ],
-    single: true,
-    multiple: false,
     title: "Simple",
-    name: "simple",
 }
 
 type IJsonFormStory = PropsWithChildren & {

@@ -32,9 +32,15 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
     })
 
     const addTab = () => {
+        let maxId = Math.max(...value.map((item) => item.id))
+
+        if (isNaN(maxId) || !isFinite(maxId) || maxId < 0) {
+            maxId = 0
+        }
+
         const def_value = {
             ...defValue,
-            id: Math.max(...value.map((item) => item.id)) + 1,
+            id: maxId + 1,
         }
 
         const newList = [...value, def_value]
@@ -45,10 +51,10 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
     }
 
     const removeTab = (tab_id: number) => {
-        if (value.length <= 1) {
-            window.alert("Вы не можете удалить самое первое значение")
-            return
-        }
+        // if (value.length <= 1) {
+        //     window.alert("Вы не можете удалить самое первое значение")
+        //     return
+        // }
 
         if (!window.confirm("Вы действительно хотите удалить?")) {
             return
