@@ -108,6 +108,9 @@ export const scheme: IScheme = {
             title: "Prices",
             type: EnumSchemeItemType.Widget,
             multiple: true,
+            settings: {
+                fillArrayDefault: false
+            },
             scheme: [
                 {
                     name: "title",

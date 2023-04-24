@@ -22,7 +22,13 @@ import Form from "./Form"
 
 const JsonForm = forwardRef<IJsonFormRefObject, IJsonFormProps>(
     (props, ref) => {
-        const { multiple = false, scheme, level = 1, onError } = props
+        const {
+            multiple = false,
+            scheme,
+            level = 1,
+            fillArrayDefault = true,
+            onError,
+        } = props
 
         const [errors, setErrors] = useState<JsonFormErrors>(
             multiple ? ([] as TypeErrorItem[]) : ({} as IErrors)
@@ -32,7 +38,7 @@ const JsonForm = forwardRef<IJsonFormRefObject, IJsonFormProps>(
 
         const defValue = useDefSchemeValue(scheme)
 
-        const value = useSafeValue(props.value, defValue, multiple)
+        const value = useSafeValue(props.value, defValue, multiple, fillArrayDefault)
 
         const isMount = useRef(false)
         const onErrorRef = useRef(onError)

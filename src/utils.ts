@@ -149,7 +149,8 @@ export const useDefSchemeValue = (scheme: ISchemeItem[]) => {
 export const useSafeValue = (
     unsafeValue: TypeValue,
     defValue: TypeValueItem,
-    multiple: boolean = false
+    multiple: boolean = false,
+    fillArrayDefault: boolean = true
 ) => {
     return useMemo(() => {
         if (
@@ -158,6 +159,10 @@ export const useSafeValue = (
             (multiple && (!isArray(unsafeValue) || unsafeValue.length == 0))
         ) {
             if (multiple) {
+                if (!fillArrayDefault) {
+                    return []
+                }
+
                 return [{ ...defValue, id: 1 }]
             }
 

@@ -155,6 +155,7 @@ export type IJsonFormProps = PropsWithChildren &
         tests?: FieldTests
         viewType?: string
         level?: number
+        fillArrayDefault?: boolean
     }
 
 export interface JsonFormComponents {
