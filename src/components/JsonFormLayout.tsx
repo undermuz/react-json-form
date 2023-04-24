@@ -98,11 +98,12 @@ JFL_FormField.displayName = JFL_FormFieldName
 
 export const JFL_ArrayFormItemName = "__JFL__ArrayFormItemName"
 
-const JFL_ArrayFormItem: FC<{
-    itemId?: number
-    itemIndex?: number
-    as?: any
-}> = ({ itemId, itemIndex, as }) => {
+const JFL_ArrayFormItem: FC<
+    PropsWithChildren & {
+        itemId?: number
+        itemIndex?: number
+    }
+> = ({ itemId, itemIndex, ...other }) => {
     const { value, changeTab, setTabErrors, ...rest } =
         useContext(ArrayFormContext)
 
@@ -121,6 +122,7 @@ const JFL_ArrayFormItem: FC<{
             id={itemValue.id}
             value={itemValue}
             {...rest}
+            {...other}
             onChange={changeTab}
             onError={setTabErrors}
         />

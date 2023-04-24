@@ -113,7 +113,7 @@ const FieldsBlock: FC<PropsWithChildren & IFlatFormParams> = memo((props) => {
 
 FieldsBlock.displayName = "FieldsBlock"
 
-type FlatFormProps = PropsWithChildren & {
+type FlatFormProps = {
     isShow?: boolean
     primary?: boolean
     level: number
@@ -124,7 +124,10 @@ type FlatFormProps = PropsWithChildren & {
     onError: (v: IErrors) => void
 }
 
-const FlatForm = forwardRef<IJsonFormRefObject, FlatFormProps>((props, ref) => {
+const FlatForm = forwardRef<
+    IJsonFormRefObject,
+    PropsWithChildren & FlatFormProps
+>((props, ref) => {
     const {
         scheme,
         value,

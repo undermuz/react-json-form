@@ -1,5 +1,5 @@
 import type { IErrors } from "@undermuz/use-form"
-import { type FC, useCallback, useEffect } from "react"
+import { type FC, useCallback, useEffect, type PropsWithChildren } from "react"
 import FlatForm from "./FlatForm"
 import type { ISchemeItem, TypeValueItem } from "./types"
 
@@ -14,7 +14,7 @@ interface IArrayFormItemProps {
     onError: (v: IErrors, id: number) => void
 }
 
-const ArrayFormItem: FC<IArrayFormItemProps> = (props) => {
+const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
     const {
         id,
         value,
@@ -22,6 +22,7 @@ const ArrayFormItem: FC<IArrayFormItemProps> = (props) => {
         level,
         isShow = true,
         primary = false,
+        children,
         onChange,
         onError,
     } = props
@@ -55,7 +56,9 @@ const ArrayFormItem: FC<IArrayFormItemProps> = (props) => {
             value={value}
             onChange={change}
             onError={setErrors}
-        />
+        >
+            {children}
+        </FlatForm>
     )
 }
 

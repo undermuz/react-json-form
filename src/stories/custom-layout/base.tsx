@@ -131,22 +131,7 @@ export const scheme: IScheme = {
                     title: "Is active?",
                     type: EnumSchemeItemType.Checkbox,
                     def_value: false,
-                },
-                {
-                    name: "list",
-                    title: "Advantages",
-                    type: EnumSchemeItemType.Widget,
-                    multiple: true,
-                    def_value: [],
-                    scheme: [
-                        {
-                            name: "title",
-                            title: "Title",
-                            type: EnumSchemeItemType.Text,
-                            def_value: "",
-                        },
-                    ],
-                },
+                }
             ],
         },
     ],
