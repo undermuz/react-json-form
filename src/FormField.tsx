@@ -5,12 +5,14 @@ import { useFormContext, ConnectToForm } from "@undermuz/use-form"
 import Input from "./input"
 import { EnumSchemeItemType } from "./types"
 import { useJsonFormUi } from "./UiContext"
+import type { IChildFormsSetRef } from "./FlatForm"
 
 export type IFormFieldProps = ISchemeItem & {
     isLast?: boolean
     isFormPrimary: boolean
     level: number
     as?: any
+    onFormsRef?: IChildFormsSetRef
 }
 
 const getFieldSettings = (props: IFormFieldProps) => {
@@ -47,6 +49,7 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
         placeholder,
         name,
         type = EnumSchemeItemType.Widget,
+        onFormsRef,
     } = props
 
     return (
@@ -65,6 +68,7 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
                     placeholder={placeholder}
                     title={title}
                     settings={getFieldSettings(props)}
+                    onFormsRef={onFormsRef}
                 >
                     {children}
                 </Input>

@@ -5,7 +5,7 @@ import { ErrorBoundary } from "react-error-boundary"
 /* TYPES */
 import type {
     IJsonFormProps,
-    IJsonFormRefObject,
+    IJsonFormRef,
     JsonFormErrors,
     TypeErrorItem,
 } from "./types"
@@ -20,70 +20,74 @@ import ValueContext from "./ValueContext"
 import type { IErrors } from "@undermuz/use-form"
 import Form from "./Form"
 
-const JsonForm = forwardRef<IJsonFormRefObject, IJsonFormProps>(
-    (props, ref) => {
-        const {
-            multiple = false,
-            scheme,
-            level = 1,
-            fillArrayDefault = true,
-            onError,
-        } = props
+const JsonForm = forwardRef<IJsonFormRef, IJsonFormProps>((props, ref) => {
+    const {
+        multiple = false,
+        scheme,
+        level = 1,
+        fillArrayDefault = true,
+        onError,
+    } = props
 
-        const [errors, setErrors] = useState<JsonFormErrors>(
-            multiple ? ([] as TypeErrorItem[]) : ({} as IErrors)
-        )
+    const isMount = useRef(false)
 
-        const Components = useJsonFormComponents()
+    const [errors, setErrors] = useState<JsonFormErrors>(
+        multiple ? ([] as TypeErrorItem[]) : ({} as IErrors)
+    )
 
-        const defValue = useDefSchemeValue(scheme)
+    const Components = useJsonFormComponents()
 
-        const value = useSafeValue(props.value, defValue, multiple, fillArrayDefault)
+    const defValue = useDefSchemeValue(scheme)
 
-        const isMount = useRef(false)
-        const onErrorRef = useRef(onError)
-        onErrorRef.current = onError
+    const value = useSafeValue(
+        props.value,
+        defValue,
+        multiple,
+        fillArrayDefault
+    )
 
-        useEffect(() => {
-            if (isMount.current) {
-                console.log("[JsonForm][on: Errors]", errors)
+    const onErrorRef = useRef(onError)
+    onErrorRef.current = onError
 
-                onErrorRef.current?.(errors)
-            }
-        }, [errors])
+    useEffect(() => {
+        if (isMount.current) {
+            console.log("[JsonForm][on: Errors]", errors)
 
-        useEffect(() => {
-            isMount.current = true
+            onErrorRef.current?.(errors)
+        }
+    }, [errors])
 
-            return () => {
-                isMount.current = false
-            }
-        }, [])
+    useEffect(() => {
+        isMount.current = true
 
-        return (
-            <ErrorBoundary
-                FallbackComponent={ErrorFallback}
-                onReset={() => {
-                    // reset the state of your app so the error doesn't happen again
-                }}
-            >
-                <ValueContext.Provider value={value}>
-                    <Components.JsonForm {...props}>
-                        <Form
-                            {...props}
-                            ref={ref}
-                            level={level}
-                            errors={errors}
-                            value={value}
-                            def={defValue}
-                            onError={setErrors}
-                        />
-                    </Components.JsonForm>
-                </ValueContext.Provider>
-            </ErrorBoundary>
-        )
-    }
-)
+        return () => {
+            isMount.current = false
+        }
+    }, [])
+
+    return (
+        <ErrorBoundary
+            FallbackComponent={ErrorFallback}
+            onReset={() => {
+                // reset the state of your app so the error doesn't happen again
+            }}
+        >
+            <ValueContext.Provider value={value}>
+                <Components.JsonForm {...props}>
+                    <Form
+                        {...props}
+                        ref={ref}
+                        level={level}
+                        errors={errors}
+                        value={value}
+                        def={defValue}
+                        onError={setErrors}
+                    />
+                </Components.JsonForm>
+            </ValueContext.Provider>
+        </ErrorBoundary>
+    )
+})
 
 JsonForm.displayName = "JsonForm"
 

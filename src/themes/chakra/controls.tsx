@@ -107,7 +107,7 @@ const ControlCheckBox: FC<IInput> = (props) => {
 
     return (
         <Checkbox
-            checked={Boolean(value)}
+            isChecked={Boolean(value)}
             name={name}
             onChange={(event) => onChange?.(event.target.checked)}
             onMouseLeave={(e) =>

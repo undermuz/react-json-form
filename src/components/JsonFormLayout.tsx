@@ -57,6 +57,7 @@ const JFL_FormFields: FC<IFormFieldsParams> = (props) => {
             scheme: value.scheme,
             isFormPrimary: value.isFormPrimary,
             level: value.level,
+            onFormsRef: value.onFormsRef,
         }
     }, [value])
 

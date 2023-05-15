@@ -1,7 +1,7 @@
 import type { IErrors } from "@undermuz/use-form"
 import { type FC, useCallback, useEffect, type PropsWithChildren } from "react"
 import FlatForm from "./FlatForm"
-import type { ISchemeItem, TypeValueItem } from "./types"
+import type { IJsonFormRef, ISchemeItem, TypeValueItem } from "./types"
 
 interface IArrayFormItemProps {
     id: number
@@ -10,6 +10,7 @@ interface IArrayFormItemProps {
     level: number
     value: TypeValueItem
     scheme: ISchemeItem[]
+    onRef?: ({ id, ref }: { id: number; ref: IJsonFormRef | null }) => void
     onChange: (v: TypeValueItem, id: number | null) => void
     onError: (v: IErrors, id: number) => void
 }
@@ -22,6 +23,7 @@ const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
         level,
         isShow = true,
         primary = false,
+        onRef,
         children,
         onChange,
         onError,
@@ -41,6 +43,15 @@ const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
         [id, onError]
     )
 
+    const ref = useCallback(
+        (ref: IJsonFormRef | null) => {
+            console.log(`[ArrayFormItem: #${id}][ref]`, ref, onRef)
+
+            onRef?.({ id, ref })
+        },
+        [onRef]
+    )
+
     useEffect(() => {
         if (!id) {
             console.error("ArrayFormItem: props id is required")
@@ -49,6 +60,7 @@ const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
 
     return (
         <FlatForm
+            ref={ref}
             level={level}
             isShow={isShow}
             primary={primary}

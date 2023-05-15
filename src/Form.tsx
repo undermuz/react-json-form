@@ -4,7 +4,7 @@ import { forwardRef, useCallback } from "react"
 /* TYPES */
 import type {
     IJsonFormProps,
-    IJsonFormRefObject,
+    IJsonFormRef,
     TypeErrorItem,
     TypeValue,
     TypeValueItem,
@@ -22,16 +22,19 @@ type FormProps = IJsonFormProps & {
     def: TypeValueItem
     value: TypeValue
     level: number
+    fillArrayDefault?: boolean
     errors: IErrors | TypeErrorItem[]
     onError: (e: IErrors | TypeErrorItem[]) => void
 }
 
-const Form = forwardRef<IJsonFormRefObject, FormProps>((props, ref) => {
+const Form = forwardRef<IJsonFormRef, FormProps>((props, ref) => {
     const {
+        id,
         viewType,
         level = 1,
         multiple = false,
         primary = true,
+        fillArrayDefault = true,
         scheme = [],
         children,
         errors,
@@ -56,6 +59,7 @@ const Form = forwardRef<IJsonFormRefObject, FormProps>((props, ref) => {
     )
 
     const rest = {
+        id,
         level,
         primary,
         scheme,
@@ -76,6 +80,8 @@ const Form = forwardRef<IJsonFormRefObject, FormProps>((props, ref) => {
     return (
         <ArrayForm
             {...rest}
+            ref={ref}
+            fillArrayDefault={fillArrayDefault}
             viewType={viewType}
             errors={errors as TypeErrorItem[]}
             defValue={def}

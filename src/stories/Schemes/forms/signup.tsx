@@ -56,6 +56,22 @@ const SignUpScheme: IScheme = {
             ],
         },
         {
+            name: "skills",
+            title: "Your skills",
+            type: EnumSchemeItemType.Widget,
+            multiple: true,
+            def_value: [],
+            scheme: [
+                {
+                    name: "title",
+                    title: "Name",
+                    rules: [[["Boolean"], "Required"]],
+                    type: EnumSchemeItemType.Text,
+                    def_value: "",
+                },
+            ],
+        },
+        {
             name: "company",
             title: "Create company",
             type: EnumSchemeItemType.Widget,
@@ -138,7 +154,7 @@ const SignUpScheme: IScheme = {
             ],
         },
     ],
-    title: WidgetTitle
+    title: WidgetTitle,
 }
 
 export default SignUpScheme

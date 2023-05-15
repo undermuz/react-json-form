@@ -41,7 +41,7 @@ export interface ISchemeItem {
     title: string
     description?: string
     placeholder?: string
-    type?: EnumSchemeItemType
+    type?: EnumSchemeItemType | string
     def_value?: any
     single?: boolean
     multiple?: boolean
@@ -98,6 +98,7 @@ export type IUiBodyProps = Partial<Pick<IScheme, "id" | "title">> & {
 export interface IUiTabProps {
     label?: string
     active?: boolean
+    alt?: string
     style?: CSSProperties | undefined
     ref?: Ref<HTMLElement> | undefined
     onSelect?: (...args: any[]) => any
@@ -145,6 +146,10 @@ export interface IJsonFormRefObject {
     values: () => TypeValue
     errors: () => IErrors | TypeErrorItem[]
 }
+
+export type IJsonFormRefArray = IJsonFormRefObject[]
+
+export type IJsonFormRef = IJsonFormRefObject | IJsonFormRefArray
 
 export type IJsonFormProps = PropsWithChildren &
     IJsonFormParams &

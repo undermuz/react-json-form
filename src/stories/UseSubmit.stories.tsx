@@ -1,11 +1,12 @@
 import type { ComponentMeta } from "@storybook/react"
-import BaseExampleForm from "./utils/base"
-import UseSubmit from "./utils/useSubmit"
+import BaseExampleForm from "./useSubmit/base"
+import Login from "./useSubmit/login"
+import ComplexForm from "./useSubmit/complexForm"
 
-export { UseSubmit }
+export { Login, ComplexForm }
 
 export default {
-    title: "Utils",
+    title: "useSubmit",
     component: BaseExampleForm,
     argTypes: { onSubmit: { action: "submit" } },
 } as ComponentMeta<typeof BaseExampleForm>

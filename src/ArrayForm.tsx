@@ -1,9 +1,19 @@
 /*SYSTEM IMPORTS*/
-import { Children, createContext, type FC, type PropsWithChildren } from "react"
+import {
+    Children,
+    createContext,
+    forwardRef,
+    useEffect,
+    type FC,
+    type PropsWithChildren,
+} from "react"
 import type React from "react"
 import { useCallback, useMemo, useState } from "react"
 
 import type {
+    IJsonFormRef,
+    IJsonFormRefArray,
+    IJsonFormRefObject,
     ISchemeItem,
     IUiTabProps,
     TypeErrorItem,
@@ -35,10 +45,12 @@ import { useJsonFormUi } from "./UiContext"
 import type { IErrors } from "@undermuz/use-form"
 import ArrayFormItem from "./ArrayFormItem"
 import useTabs, { type IUseTabs } from "./utils/useTabs"
+import type { IChildFormRefs } from "./FlatForm"
 
 export interface IArrayForm {
     value: TypeValueItem[]
     errors: TypeErrorItem[]
+    fillArrayDefault?: boolean
     viewType?: string
     primary?: boolean
     level: number
@@ -52,6 +64,7 @@ export type IArrayFormParams = IUseTabs &
     IArrayForm & {
         changeTab: (newValue: TypeValueItem, id: number | null) => void
         setTabErrors: (newErrors: IErrors, id: number) => void
+        onRef?: ({ id, ref }: { id: number; ref: IJsonFormRef | null }) => void
     }
 
 export const ArrayFormContext = createContext<IArrayFormParams>({
@@ -74,9 +87,34 @@ export const ArrayFormContext = createContext<IArrayFormParams>({
 })
 
 const ArrayFormStack: FC<IArrayFormParams> = (props) => {
-    const { value, addTab, removeTab, changeTab, setTabErrors, ...rest } = props
+    const {
+        value,
+        addTab,
+        removeTab,
+        changeTab,
+        setTabErrors,
+        fillArrayDefault,
+        onRef,
+        ...rest
+    } = props
 
     const Ui = useJsonFormUi()
+
+    if (!value.length) {
+        return (
+            <Ui.ArrayForm style={{ position: "relative", zIndex: 1 }}>
+                <Ui.ArrayForm.Header>
+                    <Ui.ArrayForm.Tabs actions>
+                        <Ui.Tab onSelect={addTab}>
+                            <Ui.Icons.Tabs.Add title="add-tab" />
+                        </Ui.Tab>
+                    </Ui.ArrayForm.Tabs>
+                </Ui.ArrayForm.Header>
+
+                <Ui.ArrayForm.Body></Ui.ArrayForm.Body>
+            </Ui.ArrayForm>
+        )
+    }
 
     return (
         <>
@@ -92,12 +130,14 @@ const ArrayFormStack: FC<IArrayFormParams> = (props) => {
                             </Ui.ArrayForm.Tabs>
 
                             <Ui.ArrayForm.Tabs actions>
-                                <Ui.Tab onSelect={() => removeTab(item.id)}>
-                                    <Ui.Icons.Tabs.Remove />
-                                </Ui.Tab>
+                                {(!fillArrayDefault || value.length > 1) && (
+                                    <Ui.Tab onSelect={() => removeTab(item.id)}>
+                                        <Ui.Icons.Tabs.Remove title="remove-tab" />
+                                    </Ui.Tab>
+                                )}
 
                                 <Ui.Tab onSelect={addTab}>
-                                    <Ui.Icons.Tabs.Add />
+                                    <Ui.Icons.Tabs.Add title="add-tab" />
                                 </Ui.Tab>
                             </Ui.ArrayForm.Tabs>
                         </Ui.ArrayForm.Header>
@@ -270,6 +310,7 @@ const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
         setTabErrors,
         sortTabs,
         setTab,
+        fillArrayDefault,
         ...rest
     } = props
 
@@ -295,10 +336,11 @@ const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
                 </Ui.ArrayForm.Tabs>
 
                 <Ui.ArrayForm.Tabs actions>
-                    <Ui.Tab onSelect={() => removeTab(tab)}>
-                        <Ui.Icons.Tabs.Remove />
-                    </Ui.Tab>
-
+                    {(!fillArrayDefault || value.length > 1) && (
+                        <Ui.Tab onSelect={() => removeTab(tab)}>
+                            <Ui.Icons.Tabs.Remove />
+                        </Ui.Tab>
+                    )}
                     <Ui.Tab onSelect={addTab}>
                         <Ui.Icons.Tabs.Add />
                     </Ui.Tab>
@@ -323,91 +365,141 @@ const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
         </Ui.ArrayForm>
     )
 }
-const ArrayForm: FC<PropsWithChildren & IArrayForm> = (props) => {
-    const {
-        value: _value,
-        errors,
-        viewType = "stack",
-        onChange,
-        onError,
-        children: _children,
-    } = props
+const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
+    (props, ref) => {
+        const {
+            value: _value,
+            errors,
+            viewType = "stack",
+            onChange,
+            onError,
+            children: _children,
+        } = props
 
-    const value = useMemo(() => {
-        if (!Array.isArray(_value)) return []
+        const setErrors = useCallback(
+            (newErrors: IErrors, id: number) => {
+                const isExists = errors.some((e) => e.id === id)
 
-        return _value
-    }, [_value])
+                if (!isExists) {
+                    onError([
+                        ...errors,
+                        {
+                            id,
+                            value: newErrors,
+                        },
+                    ])
 
-    const tabs = useTabs(props)
+                    return
+                }
 
-    const change = useCallback(
-        (newValue: TypeValueItem, id: number | null = null) => {
-            const _newValue = value.map((item) =>
-                item.id == id ? { ...item, ...newValue } : item
-            )
+                const _newValue = errors.map((item) =>
+                    item.id == id ? { ...item, value: newErrors } : item
+                )
 
-            onChange(_newValue)
-        },
-        [value, onChange]
-    )
-
-    const setErrors = useCallback(
-        (newErrors: IErrors, id: number) => {
-            const isExists = errors.some((e) => e.id === id)
-
-            if (!isExists) {
-                onError([
-                    ...errors,
-                    {
-                        id,
-                        value: newErrors,
-                    },
-                ])
-
-                return
-            }
-
-            const _newValue = errors.map((item) =>
-                item.id == id ? { ...item, value: newErrors } : item
-            )
-
-            onError(_newValue)
-        },
-        [errors, onError]
-    )
-
-    const params = useMemo<IArrayFormParams>(() => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { children, ...rest } = props
-
-        const _params: IArrayFormParams = {
-            ...rest,
-            ...tabs,
-            changeTab: change,
-            setTabErrors: setErrors,
-            value,
-        }
-
-        return _params
-    }, [...Object.values(props), ...Object.values(tabs), change, setErrors])
-
-    const count = Children.count(_children)
-
-    const children =
-        count > 0 ? (
-            _children
-        ) : viewType === "stack" ? (
-            <ArrayFormStack {...params} />
-        ) : (
-            <ArrayFormTabs {...params} />
+                onError(_newValue)
+            },
+            [errors, onError]
         )
 
-    return (
-        <ArrayFormContext.Provider value={params}>
-            {children}
-        </ArrayFormContext.Provider>
-    )
-}
+        const value = useMemo(() => {
+            if (!Array.isArray(_value)) return []
+
+            return _value
+        }, [_value])
+
+        const onTabRemove = useCallback(
+            (tabId: number) => {
+                setErrors({}, tabId)
+            },
+            [setErrors]
+        )
+
+        const tabs = useTabs({ ...props, onTabRemove })
+
+        const change = useCallback(
+            (newValue: TypeValueItem, id: number | null = null) => {
+                const _newValue = value.map((item) =>
+                    item.id == id ? { ...item, ...newValue } : item
+                )
+
+                onChange(_newValue)
+            },
+            [value, onChange]
+        )
+
+        const [childForms, setChildForms] = useState<IChildFormRefs>({})
+
+        const params = useMemo<IArrayFormParams>(() => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { children, ...rest } = props
+
+            const _params: IArrayFormParams = {
+                ...rest,
+                ...tabs,
+                changeTab: change,
+                setTabErrors: setErrors,
+                onRef: ({ id, ref }) => {
+                    console.log("[ArrayForm][onRef]", id, ref)
+
+                    setChildForms((prev) => ({
+                        ...prev,
+                        [id]: ref,
+                    }))
+                },
+                value,
+            }
+
+            return _params
+        }, [...Object.values(props), ...Object.values(tabs), change, setErrors])
+
+        const count = Children.count(_children)
+
+        const children =
+            count > 0 ? (
+                _children
+            ) : viewType === "stack" ? (
+                <ArrayFormStack {...params} />
+            ) : (
+                <ArrayFormTabs {...params} />
+            )
+
+        /* Ref */
+        useEffect(() => {
+            const setRef = (value: IJsonFormRefArray | null) => {
+                if (typeof ref === "function") {
+                    ref(value)
+                } else if (ref !== null) {
+                    ref.current = value
+                }
+            }
+
+            const indexes = Object.keys(childForms)
+
+            console.log("[ArrayForm][on: childForms]", indexes)
+
+            setRef(
+                indexes.map((index) => {
+                    const ref = childForms[index]
+
+                    console.log(`[ArrayForm][on: childForms][#${index}]`, ref)
+
+                    return ref as IJsonFormRefObject
+                })
+            )
+
+            return () => {
+                setRef(null)
+            }
+        }, [childForms])
+
+        return (
+            <ArrayFormContext.Provider value={params}>
+                {children}
+            </ArrayFormContext.Provider>
+        )
+    }
+)
+
+ArrayForm.displayName = "ArrayForm"
 
 export default ArrayForm

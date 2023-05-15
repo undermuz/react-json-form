@@ -3,7 +3,7 @@ import type { JsonFormIcons } from "../../types"
 
 const Icons: JsonFormIcons = {
     Tabs: {
-        Remove: () => <DeleteIcon color={"red.400"} />,
+        Remove: (props) => <DeleteIcon color={"red.400"} {...props} />,
         Add: AddIcon,
     },
 }

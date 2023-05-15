@@ -11,7 +11,7 @@ interface IUseTabsProps {
     defValue: TypeValueItem
 
     onChange: (v: TypeValueItem[]) => void
-    onError: (v: TypeErrorItem[]) => void
+    onTabRemove: (tabId: number) => void
 }
 
 export interface IUseTabs {
@@ -23,10 +23,10 @@ export interface IUseTabs {
 }
 
 const useTabs = (props: IUseTabsProps): IUseTabs => {
-    const { value, defValue, onChange } = props
+    const { value, defValue, onChange, onTabRemove } = props
 
-    const [tab, setTab] = useState(() => {
-        if (value.length > 0) return value[0].id
+    const [tab, setTab] = useState<number>(() => {
+        if (value.length > 0) return value[0].id as number
 
         return 1
     })
@@ -47,7 +47,7 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
 
         onChange(newList)
 
-        setTab(newList.length - 1)
+        setTab(newList[newList.length - 1].id as number)
     }
 
     const removeTab = (tab_id: number) => {
@@ -60,13 +60,17 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
             return
         }
 
-        const new_value = value.filter((tab) => tab.id != tab_id)
+        const new_value = value.filter((tab) => tab.id !== tab_id)
 
         onChange(new_value)
-        /* TODO: Remove from errors too */
+        onTabRemove(tab_id)
 
         if (tab === tab_id) {
-            setTab(new_value[0].id)
+            if (new_value[0]) {
+                setTab(new_value[0].id as number)
+            } else {
+                setTab(1)
+            }
         }
     }
 

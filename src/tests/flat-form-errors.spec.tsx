@@ -5,11 +5,11 @@ import JsonForm from "../JsonForm"
 
 import type { FC } from "react"
 import React, { useState } from "react"
-import LoginScheme from "../stories/Schemes/forms/login"
 import { ChakraProvider } from "@chakra-ui/react"
 import ChakraUi from "../themes/chakra"
 import UiContext from "../UiContext"
 import type { JsonFormErrors } from "../types"
+import LoginScheme from "./schemes/login"
 
 const clickTo = async (name: string) => {
     await act(async () => {

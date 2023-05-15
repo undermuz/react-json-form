@@ -8,14 +8,14 @@ import LoginScheme from "../stories/Schemes/forms/login"
 import { Button, ChakraProvider } from "@chakra-ui/react"
 import ChakraUi from "../themes/chakra"
 import UiContext from "../UiContext"
-import type { IJsonFormRefObject, TypeErrorItem, TypeValue } from "../types"
+import type { IJsonFormRef, IJsonFormRefObject, TypeErrorItem, TypeValue } from "../types"
 import JsonFormLayout from "../components/JsonFormLayout"
 import { useSubmit } from "../useSubmit"
 import userEvent from "@testing-library/user-event"
 import { type IErrors } from "@undermuz/use-form"
 
 const TestJsonForm: FC<{
-    onRef: MutableRefObject<IJsonFormRefObject | null>
+    onRef: MutableRefObject<IJsonFormRef | null>
     def?: Record<string, any>
 }> = ({ onRef, def = {} }) => {
     const [value, setValue] = useState(def)
@@ -37,17 +37,17 @@ const TestJsonForm: FC<{
 }
 
 const TestJsonFormWithSubmit: FC<{
-    onRef: MutableRefObject<IJsonFormRefObject | null>
+    onRef: MutableRefObject<IJsonFormRef | null>
     def?: Record<string, any>
     onSubmit: (
         values: TypeValue,
-        errors: IErrors | TypeErrorItem[] | null,
+        errors: IErrors[] | IErrors | TypeErrorItem[] | null,
         isValid: boolean
     ) => void
 }> = ({ onRef, onSubmit, def = {} }) => {
     const [value, setValue] = useState(def)
 
-    const ref = useRef<IJsonFormRefObject>(null)
+    const ref = useRef<IJsonFormRef>(null)
 
     const submit = useSubmit(ref, onSubmit)
 
@@ -83,7 +83,7 @@ const TestJsonFormWithSubmit: FC<{
 describe("Submit", () => {
     describe("validate", () => {
         test("Returns falsy isValidate when sent clear form", async () => {
-            const _ref: MutableRefObject<IJsonFormRefObject | null> = {
+            const _ref: MutableRefObject<IJsonFormRef | null> = {
                 current: null,
             }
 
@@ -92,7 +92,7 @@ describe("Submit", () => {
             })
 
             expect(_ref.current).not.toBeNull()
-            expect(typeof _ref.current?.validate).toBe("function")
+            expect(typeof (_ref.current as IJsonFormRefObject)?.validate).toBe("function")
 
             const ref = _ref as MutableRefObject<IJsonFormRefObject>
 
@@ -111,7 +111,7 @@ describe("Submit", () => {
         })
 
         test("Returns null hasFormErrors when sent fill form", async () => {
-            const _ref: MutableRefObject<IJsonFormRefObject | null> = {
+            const _ref: MutableRefObject<IJsonFormRef | null> = {
                 current: null,
             }
 
@@ -128,7 +128,7 @@ describe("Submit", () => {
             })
 
             expect(_ref.current).not.toBeNull()
-            expect(typeof _ref.current?.validate).toBe("function")
+            expect(typeof (_ref.current as IJsonFormRefObject)?.validate).toBe("function")
 
             const ref = _ref as MutableRefObject<IJsonFormRefObject>
 
@@ -150,7 +150,7 @@ describe("Submit", () => {
 
     describe("useSubmit", () => {
         test("Returns falsy isValidate when sent clear form", async () => {
-            const _ref: MutableRefObject<IJsonFormRefObject | null> = {
+            const _ref: MutableRefObject<IJsonFormRef | null> = {
                 current: null,
             }
 
@@ -163,7 +163,7 @@ describe("Submit", () => {
             })
 
             expect(_ref.current).not.toBeNull()
-            expect(typeof _ref.current?.validate).toBe("function")
+            expect(typeof (_ref.current as IJsonFormRefObject)?.validate).toBe("function")
 
             const ref = _ref as MutableRefObject<IJsonFormRefObject>
 
@@ -195,7 +195,7 @@ describe("Submit", () => {
         })
 
         test("Returns truthy isValidate when sent fill form", async () => {
-            const _ref: MutableRefObject<IJsonFormRefObject | null> = {
+            const _ref: MutableRefObject<IJsonFormRef | null> = {
                 current: null,
             }
 
@@ -215,7 +215,7 @@ describe("Submit", () => {
             })
 
             expect(_ref.current).not.toBeNull()
-            expect(typeof _ref.current?.validate).toBe("function")
+            expect(typeof(_ref.current as IJsonFormRefObject)?.validate).toBe("function")
 
             const ref = _ref as MutableRefObject<IJsonFormRefObject>
 

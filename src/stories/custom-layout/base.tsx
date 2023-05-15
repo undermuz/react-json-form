@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from "react"
+import { type FC, type PropsWithChildren, useCallback } from "react"
 import { useEffect, useMemo, useState } from "react"
 
 import JsonForm from "../../JsonForm"
@@ -156,6 +156,15 @@ const JsonFormStory: FC<IJsonFormStory> = ({
     const [value, setValue] = useState({})
     const [, setErrors] = useState({})
 
+    const onChange = useCallback(
+        (value) => {
+            console.log("[on: Change]", value)
+
+            setValue(value)
+        },
+        [setValue]
+    )
+
     const api: ApiValue = useMemo(() => {
         return {
             "api::size.list": async () => {
@@ -187,7 +196,7 @@ const JsonFormStory: FC<IJsonFormStory> = ({
             >
                 <JFChakraUi
                     value={value}
-                    setValue={setValue}
+                    setValue={onChange}
                     setErrors={setErrors}
                     scheme={{
                         ...scheme,

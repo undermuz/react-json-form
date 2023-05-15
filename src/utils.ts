@@ -19,9 +19,11 @@ import type {
 import { EnumSchemeItemType } from "./types"
 
 export const isNumeric = (v: any) => !isNaN(parseInt(v as string))
-export const isEmail = (value: string) =>
-    value + "" == "" || value.indexOf("@") > -1
-export const isPhone = (value: string) => {
+export const isEmail = (value?: string) =>
+    !value || value + "" == "" || value.indexOf("@") > -1
+export const isPhone = (value?: string) => {
+    if (!value) return true
+
     const phoneFilterExp = /[^\+\d]/gim
     const phoneValidateExp = /^\+\d{7,}/gim
 
@@ -34,7 +36,7 @@ export const isPhone = (value: string) => {
     return phoneValidateExp.test(value)
 }
 
-export const isEmailOrPhone = (value: string) => {
+export const isEmailOrPhone = (value?: string) => {
     if (isEmail(value)) {
         return true
     }

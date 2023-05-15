@@ -7,15 +7,16 @@ import type { FC } from "react"
 import type {
     FunctionOnChange,
     IFieldWidgetSettings,
-    JsonFormErrors,
     TypeSchemeItemSettings,
 } from "./types"
 import { EnumSchemeItemType } from "./types"
 
-import JsonForm from "./JsonForm"
 import { useJsonFormUi } from "./UiContext"
 import { noop } from "underscore"
 import { useJsonFormApi } from "./ApiContext"
+import InputWidget from "./inputs/inputWIdget"
+import type { IChildFormsSetRef } from "./FlatForm"
+import { useJsonFormCustomComponents } from "./CustomComponentsContext"
 
 // import * as Tests from 'helpers/ValueTests'
 // import * as Objects from 'helpers/Objects'
@@ -161,10 +162,11 @@ export interface IInput {
     name?: string
     placeholder?: string
     value?: any
-    type: EnumSchemeItemType
+    type: EnumSchemeItemType | string
     hasError?: boolean
     title: string
     settings: TypeSchemeItemSettings
+    onFormsRef?: IChildFormsSetRef
     onError?: Function
     onChange?: Function
     onFocus?: Function
@@ -204,11 +206,20 @@ const InputSelect: FC<IInput> = (props) => {
 }
 
 const Input: FC<PropsWithChildren & IInput> = (props) => {
-    const { value = "", type, title, settings = {}, children } = props
+    const {
+        name,
+        value = "",
+        type,
+        title,
+        settings = {},
+        children,
+        onFormsRef,
+    } = props
 
     const { onChange = noop, onError = noop } = props
 
     const Ui = useJsonFormUi()
+    const customComponents = useJsonFormCustomComponents()
 
     try {
         // if (type == "text-editor") {
@@ -237,23 +248,18 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
         }
 
         if (type == EnumSchemeItemType.Widget) {
-            const _settings = settings as IFieldWidgetSettings
-
-            const _onError = (e: JsonFormErrors) => {
-                onError([e])
-            }
-
             return (
-                <JsonForm
+                <InputWidget
+                    name={name}
                     value={value}
                     title={title}
-                    primary={false}
-                    {..._settings}
+                    settings={settings as IFieldWidgetSettings}
+                    onRef={onFormsRef}
                     onChange={onChange as FunctionOnChange}
-                    onError={_onError}
+                    onError={onError}
                 >
                     {children}
-                </JsonForm>
+                </InputWidget>
             )
         }
 
@@ -271,6 +277,12 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
 
         if (type == EnumSchemeItemType.TextBlock) {
             return <Ui.Controls.TextBlock {...props} />
+        }
+
+        if (customComponents && customComponents[type]) {
+            const CustomCmp = customComponents[type]
+
+            if (CustomCmp) return <CustomCmp {...props} />
         }
 
         return <Ui.Controls.Input {...props} />
