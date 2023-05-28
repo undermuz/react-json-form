@@ -16,6 +16,7 @@ import {
 
 import type {
     IField,
+    IItem,
     IUiArrayFormProps,
     IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
@@ -149,16 +150,51 @@ const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
 //     }
 // `
 
+const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
+    const { isLast, type, children } = props
+
+    const showLabel = useMemo(() => {
+        if (type === EnumSchemeItemType.Checkbox) {
+            return false
+        }
+
+        if (type === EnumSchemeItemType.Widget) {
+            return false
+        }
+
+        return true
+    }, [type])
+
+    return (
+        <Flex direction={"row"} pb={!isLast ? 3 : undefined}>
+            <Flex
+                width={"100%"}
+                py={showLabel ? 0 : 2}
+                direction={"column"}
+                justify="center"
+            >
+                {children}
+            </Flex>
+        </Flex>
+    )
+}
+
+const UiItem: FC<PropsWithChildren<IItem>> = (props) => {
+    const { title, type, ...other } = props
+
+    return (
+        <>
+            {type === EnumSchemeItemType.Submit && (
+                <Button {...other} type="submit">
+                    {title}
+                </Button>
+            )}
+        </>
+    )
+}
+
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const {
-        title,
-        description = null,
-        isLast,
-        // name,
-        type,
-        errors,
-        children,
-    } = props
+    const { title, description = null, type, errors, children } = props
 
     const showLabel = useMemo(() => {
         if (type === EnumSchemeItemType.Checkbox) {
@@ -175,37 +211,25 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
     const isError = errors?.length > 0
 
     return (
-        <Flex direction={"row"} pb={!isLast ? 3 : undefined}>
-            <Flex
-                width={"100%"}
-                pt={showLabel ? 0 : 2}
-                pb={showLabel ? 0 : 2}
-                direction={"column"}
-                justify="center"
-            >
-                <FormControl isInvalid={isError}>
-                    {showLabel && <FormLabel>{title}</FormLabel>}
+        <FormControl isInvalid={isError}>
+            {showLabel && <FormLabel>{title}</FormLabel>}
 
-                    {children}
+            {children}
 
-                    {description !== null && !isError && (
-                        <FormHelperText>{description}</FormHelperText>
-                    )}
+            {description !== null && !isError && (
+                <FormHelperText>{description}</FormHelperText>
+            )}
 
-                    {errors?.map((errorText, index) => {
-                        if (typeof errorText !== "string") {
-                            return null
-                        }
+            {errors?.map((errorText, index) => {
+                if (typeof errorText !== "string") {
+                    return null
+                }
 
-                        return (
-                            <FormErrorMessage key={index}>
-                                {errorText}
-                            </FormErrorMessage>
-                        )
-                    })}
-                </FormControl>
-            </Flex>
-        </Flex>
+                return (
+                    <FormErrorMessage key={index}>{errorText}</FormErrorMessage>
+                )
+            })}
+        </FormControl>
     )
 }
 
@@ -300,6 +324,8 @@ const ChakraUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
     Body: UiBody,
     FlatForm: UiFlatFormContainer,
     Field: UiField,
+    Item: UiItem,
+    ItemWrapper: UiItemWrapper,
     ArrayForm: Object.assign(UiArrayFormContainer, {
         Header: UiArrayFormHeader,
         Tabs: UiArrayFormTabs,

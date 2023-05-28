@@ -10,19 +10,19 @@ import UiContext from "../../UiContext"
 
 import ChakraUi from "../../themes/chakra"
 
-import { Button, useColorMode } from "@chakra-ui/react"
+import { useColorMode } from "@chakra-ui/react"
 
 import { useDarkMode } from "storybook-dark-mode"
 import ApiContext from "../../ApiContext"
 import type { ApiValue } from "../../ApiContext"
-import type {
-    TypeValue,
-    IJsonFormRefObject,
-    IScheme,
-    TypeErrorItem,
+import {
+    type TypeValue,
+    type IJsonFormRefObject,
+    type IScheme,
+    type TypeErrorItem,
+    EnumSchemeItemType,
 } from "../../types"
 import BaseStoryLayout from "../base"
-import JsonFormLayout from "../../components/JsonFormLayout"
 import { useSubmit } from "../../useSubmit"
 import type { IErrors } from "@undermuz/use-form"
 
@@ -63,14 +63,7 @@ const JsonFormStoryChakraUi = ({
                     value={value}
                     onChange={setValue}
                     onError={setErrors}
-                >
-                    <JsonFormLayout.Form>
-                        <JsonFormLayout.Fields />
-                        <Button variant={"solid"} type="submit">
-                            Submit
-                        </Button>
-                    </JsonFormLayout.Form>
-                </JsonForm>
+                />
             </UiContext.Provider>
         </form>
     )
@@ -95,20 +88,16 @@ return (
                 value={value}
                 onChange={setValue}
                 onError={setErrors}
-            >
-                <JsonFormLayout.Form>
-                    <JsonFormLayout.Fields />
-                    <Button variant={"solid"} type="submit">
-                        Submit
-                    </Button>
-                </JsonFormLayout.Form>
-            </JsonForm>
+            />
         </UiContext.Provider>
     </form>
 )
 `
 
-const BaseExampleForm: FC<BaseExampleFormProps> = ({ scheme, onSubmit }) => {
+const BaseExampleForm: FC<BaseExampleFormProps> = ({
+    scheme: _scheme,
+    onSubmit,
+}) => {
     const [value, setValue] = useState({})
     const [errors, setErrors] = useState({})
 
@@ -121,6 +110,20 @@ const BaseExampleForm: FC<BaseExampleFormProps> = ({ scheme, onSubmit }) => {
             },
         }
     }, [])
+
+    const scheme = useMemo(() => {
+        return {
+            ..._scheme,
+            scheme: [
+                ..._scheme.scheme,
+                {
+                    name: "submit",
+                    title: "Submit",
+                    type: EnumSchemeItemType.Submit,
+                },
+            ],
+        }
+    }, [_scheme])
 
     return (
         <ApiContext.Provider value={api}>

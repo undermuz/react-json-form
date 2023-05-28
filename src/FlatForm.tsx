@@ -21,12 +21,18 @@ import type {
     TypeValueItem,
 } from "./types"
 import { EnumSchemeItemType } from "./types"
-import { getDefValueForItem, useSchemeToForm } from "./utils"
+import {
+    getDefValueForItem,
+    nonFieldTypes,
+    useFieldsScheme,
+    useSchemeToForm,
+} from "./utils"
 
 import type { IErrors, IValues } from "@undermuz/use-form"
 import useForm, { FormContext } from "@undermuz/use-form"
 import FormField from "./FormField"
 import JsonFormLayout from "./components/JsonFormLayout"
+import FormItem from "./FormItem"
 
 export type IFlatFormParams = {
     scheme: ISchemeItem[]
@@ -68,14 +74,32 @@ export const FieldsList: FC<IFlatFormFieldsParams & IFormFieldsParams> = (
     } = props
 
     const fields = useMemo(() => {
-        if (except.length === 0) return scheme
+        const fields = scheme /* .filter(
+            (s) => s.type && !nonFieldTypes.includes(s.type)
+        ) */
 
-        return scheme.filter((s) => !except.includes(s.name))
+        if (except.length === 0) return fields
+
+        return fields.filter((s) => !except.includes(s.name))
     }, [except, scheme])
 
     return (
         <>
             {fields.map((schemeItem, index) => {
+                const isField =
+                    schemeItem.type && !nonFieldTypes.includes(schemeItem.type)
+
+                if (!isField)
+                    return (
+                        <FormItem
+                            key={index}
+                            {...schemeItem}
+                            level={level}
+                            isFormPrimary={isFormPrimary}
+                            isLast={index === scheme.length - 1}
+                        />
+                    )
+
                 return (
                     <FormField
                         {...schemeItem}
@@ -108,6 +132,8 @@ const FieldsBlock: FC<PropsWithChildren & IFlatFormParams> = memo((props) => {
     }, Object.values(props))
 
     const count = Children.count(_children)
+
+    console.log("[FieldsBlock]", _children)
 
     const children =
         count > 0 ? (
@@ -172,8 +198,10 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
             onError,
         } = props
 
+        const fieldsScheme = useFieldsScheme(scheme)
+
         const formConfig = useSchemeToForm({
-            scheme,
+            scheme: fieldsScheme,
             value,
             tests,
             onChange,
@@ -219,7 +247,7 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
         useEffect(() => {
             const new_value: TypeValueItem = {}
 
-            for (const schemeItem of scheme) {
+            for (const schemeItem of fieldsScheme) {
                 const { name, type = EnumSchemeItemType.Text } = schemeItem
 
                 const def_value = getDefValueForItem(schemeItem)

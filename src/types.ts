@@ -21,6 +21,7 @@ export enum EnumSchemeItemType {
     Select = "select",
     GeoCoordinates = "geo",
     Date = "date",
+    Submit = "submit",
 }
 
 export type TypeSchemeItemSettings = Record<string, any>
@@ -110,8 +111,16 @@ export interface IField {
     name: string
     isLast: boolean
     primary?: boolean
-    type: EnumSchemeItemType
+    type: EnumSchemeItemType | string
     errors: IError
+}
+
+export interface IItem {
+    [k: string]: any
+    title: string
+    isLast: boolean
+    primary?: boolean
+    type: EnumSchemeItemType | string
 }
 
 export interface IUiArrayFormProps {
@@ -180,6 +189,8 @@ export interface JsonFormUi {
     Body: FC<PropsWithChildren<IUiBodyProps>>
     FlatForm: FC<PropsWithChildren<IUiFlatFormProps>>
     Field: FC<PropsWithChildren<IField>>
+    Item: FC<PropsWithChildren<IItem>>
+    ItemWrapper: FC<PropsWithChildren<IItem>>
     ArrayForm: FC<PropsWithChildren<IUiArrayFormProps>> & {
         Header: FC<PropsWithChildren<{}>>
         Tabs: FC<PropsWithChildren<IUiArrayFormTabsProps>>

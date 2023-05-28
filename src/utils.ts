@@ -18,6 +18,10 @@ import type {
 } from "./types"
 import { EnumSchemeItemType } from "./types"
 
+export const nonFieldTypes: Array<EnumSchemeItemType | string> = [
+    EnumSchemeItemType.Submit,
+]
+
 export const isNumeric = (v: any) => !isNaN(parseInt(v as string))
 export const isEmail = (value?: string) =>
     !value || value + "" == "" || value.indexOf("@") > -1
@@ -132,8 +136,20 @@ export const getDefValueForItem = (item: ISchemeItem) => {
     return def_value
 }
 
+export const getFieldsScheme = (scheme: ISchemeItem[]) => {
+    return scheme.filter(
+        (item) => item.type && !nonFieldTypes.includes(item.type)
+    )
+}
+
+export const useFieldsScheme = (scheme: ISchemeItem[]) => {
+    return useMemo(() => {
+        return getFieldsScheme(scheme)
+    }, [scheme])
+}
+
 export const getDefValueForScheme = (scheme: ISchemeItem[]): TypeValueItem => {
-    return scheme.reduce(
+    return getFieldsScheme(scheme).reduce(
         (new_value, current) => ({
             ...new_value,
             [current.name]: current.def_value,

@@ -53,27 +53,34 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
     } = props
 
     return (
-        <Cmp
+        <Ui.ItemWrapper
             isLast={isLast}
             type={type}
-            name={name}
             primary={isFormPrimary}
             title={title}
-            description={description}
-            errors={errors}
         >
-            <ConnectToForm name={name}>
-                <Input
-                    type={type}
-                    placeholder={placeholder}
-                    title={title}
-                    settings={getFieldSettings(props)}
-                    onFormsRef={onFormsRef}
-                >
-                    {children}
-                </Input>
-            </ConnectToForm>
-        </Cmp>
+            <Cmp
+                isLast={isLast}
+                type={type}
+                name={name}
+                primary={isFormPrimary}
+                title={title}
+                description={description}
+                errors={errors}
+            >
+                <ConnectToForm name={name}>
+                    <Input
+                        type={type}
+                        placeholder={placeholder}
+                        title={title}
+                        settings={getFieldSettings(props)}
+                        onFormsRef={onFormsRef}
+                    >
+                        {children}
+                    </Input>
+                </ConnectToForm>
+            </Cmp>
+        </Ui.ItemWrapper>
     )
 }
 
