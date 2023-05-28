@@ -19,6 +19,23 @@ const customComponents = {
     ToggleButton,
 }
 
+const Code1 = `
+const ToggleButton: FC<PropsWithChildren & IInput> = (props) => {
+    return (
+        <Button type="button" onClick={() => props.onChange?.(!props.value)}>
+            {props.value ? "✅ Allowed" : "❌ Disallowed"}
+        </Button>
+    )
+}
+
+const customComponents = {
+    ToggleButton,
+}
+
+...
+
+`
+
 const WidgetName = "Login"
 const WidgetTitle = "Login"
 
@@ -68,7 +85,7 @@ const LoginScheme: IScheme = {
 const Template: ComponentStory<typeof BaseExampleForm> = (args) => {
     return (
         <CustomComponentsContext.Provider value={customComponents}>
-            <BaseExampleForm {...args} scheme={LoginScheme} />
+            <BaseExampleForm {...args} code={Code1} scheme={LoginScheme} />
         </CustomComponentsContext.Provider>
     )
 }

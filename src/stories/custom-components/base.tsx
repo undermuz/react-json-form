@@ -28,6 +28,7 @@ import type { IErrors } from "@undermuz/use-form"
 
 export interface BaseExampleFormProps {
     scheme: IScheme
+    code: string
     onSubmit: (
         values: TypeValue,
         errors: null | IErrors | TypeErrorItem[],
@@ -89,26 +90,32 @@ const submit = useSubmit(jsonFormRef, onSubmit)
 return (
     <form onSubmit={submit}>
         <UiContext.Provider value={ChakraUi}>
-            <JsonForm
-                {...(scheme as IScheme)}
-                ref={jsonFormRef}
-                value={value}
-                onChange={setValue}
-                onError={setErrors}
-            >
-                <JsonFormLayout.Form>
-                    <JsonFormLayout.Fields />
-                    <Button variant={"solid"} type="submit">
-                        Submit
-                    </Button>
-                </JsonFormLayout.Form>
-            </JsonForm>
+            <CustomComponentsContext.Provider value={customComponents}>
+                <JsonForm
+                    {...(scheme as IScheme)}
+                    ref={jsonFormRef}
+                    value={value}
+                    onChange={setValue}
+                    onError={setErrors}
+                >
+                    <JsonFormLayout.Form>
+                        <JsonFormLayout.Fields />
+                        <Button variant={"solid"} type="submit">
+                            Submit
+                        </Button>
+                    </JsonFormLayout.Form>
+                </JsonForm>
+            </CustomComponentsContext.Provider>
         </UiContext.Provider>
     </form>
 )
 `
 
-const BaseExampleForm: FC<BaseExampleFormProps> = ({ scheme, onSubmit }) => {
+const BaseExampleForm: FC<BaseExampleFormProps> = ({
+    scheme,
+    code,
+    onSubmit,
+}) => {
     const [value, setValue] = useState({})
     const [errors, setErrors] = useState({})
 
@@ -127,6 +134,9 @@ const BaseExampleForm: FC<BaseExampleFormProps> = ({ scheme, onSubmit }) => {
             <BaseStoryLayout
                 left={
                     <>
+                        <SyntaxHighlighter language="jsx" style={style}>
+                            {code}
+                        </SyntaxHighlighter>
                         <SyntaxHighlighter language="jsx" style={style}>
                             {Code1}
                         </SyntaxHighlighter>

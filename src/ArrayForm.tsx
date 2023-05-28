@@ -48,6 +48,7 @@ import useTabs, { type IUseTabs } from "./utils/useTabs"
 import type { IChildFormRefs } from "./FlatForm"
 
 export interface IArrayForm {
+    id?: string
     value: TypeValueItem[]
     errors: TypeErrorItem[]
     fillArrayDefault?: boolean
@@ -144,10 +145,11 @@ const ArrayFormStack: FC<IArrayFormParams> = (props) => {
 
                         <Ui.ArrayForm.Body>
                             <ArrayFormItem
+                                {...rest}
                                 isShow
                                 id={item.id}
                                 value={item}
-                                {...rest}
+                                onRef={onRef}
                                 onChange={changeTab}
                                 onError={setTabErrors}
                             />
@@ -311,6 +313,7 @@ const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
         sortTabs,
         setTab,
         fillArrayDefault,
+        onRef,
         ...rest
     } = props
 
@@ -351,11 +354,12 @@ const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
                 {value.map((item) => {
                     return (
                         <ArrayFormItem
+                            {...rest}
                             key={item.id}
                             id={item.id}
                             isShow={item.id === tab}
                             value={item}
-                            {...rest}
+                            onRef={onRef}
                             onChange={changeTab}
                             onError={setTabErrors}
                         />
@@ -368,6 +372,7 @@ const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
 const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
     (props, ref) => {
         const {
+            id,
             value: _value,
             errors,
             viewType = "stack",
@@ -438,12 +443,12 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
                 ...tabs,
                 changeTab: change,
                 setTabErrors: setErrors,
-                onRef: ({ id, ref }) => {
-                    console.log("[ArrayForm][onRef]", id, ref)
+                onRef: ({ id: itemId, ref }) => {
+                    console.log(`[ArrayForm: ${id}][onRef]`, itemId, ref)
 
                     setChildForms((prev) => ({
                         ...prev,
-                        [id]: ref,
+                        [itemId]: ref,
                     }))
                 },
                 value,
@@ -475,13 +480,16 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
 
             const indexes = Object.keys(childForms)
 
-            console.log("[ArrayForm][on: childForms]", indexes)
+            console.log(`[ArrayForm: ${id}][on: childForms]`, indexes)
 
             setRef(
                 indexes.map((index) => {
                     const ref = childForms[index]
 
-                    console.log(`[ArrayForm][on: childForms][#${index}]`, ref)
+                    console.log(
+                        `[ArrayForm: ${id}][on: childForms][#${index}]`,
+                        ref
+                    )
 
                     return ref as IJsonFormRefObject
                 })

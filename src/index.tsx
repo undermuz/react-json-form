@@ -5,6 +5,7 @@ import CustomComponentsContext, {
     type TypeCustomComponentProps,
     type TypeCustomComponent,
 } from "./CustomComponentsContext"
+export type { IInput } from "./input"
 import JsonForm from "./JsonForm"
 import UiContext from "./UiContext"
 import { useSubmit } from "./useSubmit"
@@ -14,7 +15,6 @@ export {
     useJsonFormCustomComponents,
     useJsonFormCustomComponent,
 }
-
 export type { TypeCustomComponentProps, TypeCustomComponent }
 
 export { JsonForm, UiContext, JFL, useSubmit }
