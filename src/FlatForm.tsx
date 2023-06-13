@@ -133,8 +133,6 @@ const FieldsBlock: FC<PropsWithChildren & IFlatFormParams> = memo((props) => {
 
     const count = Children.count(_children)
 
-    console.log("[FieldsBlock]", _children)
-
     const children =
         count > 0 ? (
             _children
@@ -185,8 +183,8 @@ export type IChildFormsSetRef = (ref: IChildFormRef) => void
 const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
     (props, ref) => {
         const {
-            id,
-            name: _name,
+            // id,
+            // name: _name,
             scheme,
             value,
             level,
@@ -208,37 +206,37 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
             onError,
         })
 
-        const name = useMemo(() => {
-            return _name || id || "(unnamed)"
-        }, [_name, id])
+        // const name = useMemo(() => {
+        //     return _name || id || "(unnamed)"
+        // }, [_name, id])
 
         const form = useForm(formConfig)
         const childFormsRef = useRef<IChildFormRefs>({})
 
         const onChildRef: IChildFormsSetRef = useCallback(
             (params: IChildFormRef) => {
-                console.log(
-                    `[FlatForm: ${name}][onChildRef][#${params.id}]`,
-                    params.ref
-                )
+                // console.log(
+                //     `[FlatForm: ${name}][onChildRef][#${params.id}]`,
+                //     params.ref
+                // )
 
                 if (!params.ref) {
                     delete childFormsRef.current[params.id]
 
-                    console.log(
-                        `[FlatForm: ${name}][onChildRef][#${params.id}][deleted]`,
-                        childFormsRef.current
-                    )
+                    // console.log(
+                    //     `[FlatForm: ${name}][onChildRef][#${params.id}][deleted]`,
+                    //     childFormsRef.current
+                    // )
 
                     return
                 }
 
                 childFormsRef.current[params.id] = params.ref
 
-                console.log(
-                    `[FlatForm: ${name}][onChildRef][#${params.id}][defined]`,
-                    childFormsRef.current
-                )
+                // console.log(
+                //     `[FlatForm: ${name}][onChildRef][#${params.id}][defined]`,
+                //     childFormsRef.current
+                // )
             },
             []
         )
@@ -279,10 +277,10 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
 
                     const childRefs = Object.values(childFormsRef.current)
 
-                    console.log(
-                        `[FlatForm: ${name}][ref][validate][child forms]`,
-                        childFormsRef.current
-                    )
+                    // console.log(
+                    //     `[FlatForm: ${name}][ref][validate][child forms]`,
+                    //     childFormsRef.current
+                    // )
 
                     for (const childRef of childRefs) {
                         if (Array.isArray(childRef)) {

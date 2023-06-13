@@ -4,6 +4,9 @@ import { useCallback, type FormEventHandler, type RefObject } from "react"
 
 import type { IJsonFormRef, TypeErrorItem, TypeValue } from "./types"
 
+const hasErrors = (errors?: IErrors | TypeErrorItem[] | null) =>
+    errors !== null && errors !== undefined && Object.keys(errors).length > 0
+
 const useSubmit = (
     ref: RefObject<IJsonFormRef>,
     onSubmit: (
@@ -28,18 +31,14 @@ const useSubmit = (
                 onSubmit(
                     fromValues,
                     formErrors as IErrors[],
-                    formErrors.some((e) => e !== null)
+                    formErrors.some((e) => hasErrors(e))
                 )
                 return
             }
 
             const formErrors = ref.current.validate(false)
 
-            onSubmit(
-                ref.current.values(),
-                formErrors,
-                formErrors === null || Object.keys(formErrors).length === 0
-            )
+            onSubmit(ref.current.values(), formErrors, !hasErrors(formErrors))
         },
         [onSubmit]
     )

@@ -252,9 +252,9 @@ export const useSchemeToForm = (
     return useMemo<IUseFormSettings>(() => {
         const config: IUseFormSettings = {
             fields: {},
-            options: {
-                debug: true,
-            },
+            // options: {
+            //     debug: true,
+            // },
             value,
             onChange,
             onError,

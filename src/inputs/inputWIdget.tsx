@@ -45,7 +45,7 @@ const InputWidget: FC<PropsWithChildren & IInputWidgetProps> = (props) => {
 
     const ref = useCallback(
         (ref: IJsonFormRef | null) => {
-            console.log(`[InputWidget: #${name}][ref]`, ref, onRef)
+            // console.log(`[InputWidget: #${name}][ref]`, ref, onRef)
 
             onRef?.({ id: name, ref })
         },

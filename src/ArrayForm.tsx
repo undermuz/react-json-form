@@ -248,7 +248,7 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
                 return intersections
             }
 
-            console.log(`[collisionDetectionStrategy][Over: ${overId}]`, args)
+            // console.log(`[collisionDetectionStrategy][Over: ${overId}]`, args)
 
             if (overId !== null) {
                 return closestCenter(args)
@@ -372,7 +372,7 @@ const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
 const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
     (props, ref) => {
         const {
-            id,
+            // id,
             value: _value,
             errors,
             viewType = "stack",
@@ -444,7 +444,7 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
                 changeTab: change,
                 setTabErrors: setErrors,
                 onRef: ({ id: itemId, ref }) => {
-                    console.log(`[ArrayForm: ${id}][onRef]`, itemId, ref)
+                    // console.log(`[ArrayForm: ${id}][onRef]`, itemId, ref)
 
                     setChildForms((prev) => ({
                         ...prev,
@@ -480,16 +480,16 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
 
             const indexes = Object.keys(childForms)
 
-            console.log(`[ArrayForm: ${id}][on: childForms]`, indexes)
+            // console.log(`[ArrayForm: ${id}][on: childForms]`, indexes)
 
             setRef(
                 indexes.map((index) => {
                     const ref = childForms[index]
 
-                    console.log(
-                        `[ArrayForm: ${id}][on: childForms][#${index}]`,
-                        ref
-                    )
+                    // console.log(
+                    //     `[ArrayForm: ${id}][on: childForms][#${index}]`,
+                    //     ref
+                    // )
 
                     return ref as IJsonFormRefObject
                 })

@@ -45,7 +45,7 @@ const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
 
     const ref = useCallback(
         (ref: IJsonFormRef | null) => {
-            console.log(`[ArrayFormItem: #${id}][ref]`, ref, onRef)
+            // console.log(`[ArrayFormItem: #${id}][ref]`, ref, onRef)
 
             onRef?.({ id, ref })
         },
