@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 import type {
     IField,
+    IItem,
     IUiArrayFormProps,
     IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
@@ -15,7 +16,7 @@ import type {
 } from "../../types"
 import { EnumSchemeItemType } from "../../types"
 
-import { Form, Nav } from "rsuite"
+import { Button, Form, Nav } from "rsuite"
 import { Box, Heading, Tag, Text } from "grommet"
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
@@ -80,6 +81,24 @@ const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
         <div className="rs-form rs-form-vertical rs-form-fixed-width">
             {children}
         </div>
+    )
+}
+
+const UiItemWrapper: FC<PropsWithChildren<IItem>> = ({ children }) => {
+    return <>{children}</>
+}
+
+const UiItem: FC<PropsWithChildren<IItem>> = (props) => {
+    const { title, type, ...other } = props
+
+    return (
+        <>
+            {type === EnumSchemeItemType.Submit && (
+                <Button {...other} type="submit">
+                    {title}
+                </Button>
+            )}
+        </>
     )
 }
 
@@ -204,6 +223,8 @@ const RsuiteUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
     Body: UiBody,
     FlatForm: UiFlatFormContainer,
     Field: UiField,
+    Item: UiItem,
+    ItemWrapper: UiItemWrapper,
     ArrayForm: Object.assign(UiArrayFormContainer, {
         Header: UiArrayFormHeader,
         Tabs: UiArrayFormTabs,

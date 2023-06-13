@@ -3,10 +3,11 @@ import { forwardRef, useMemo } from "react"
 
 import styled, { css } from "styled-components"
 
-import { Box, Heading, Tag, Text } from "grommet"
+import { Box, Button, Heading, Tag, Text } from "grommet"
 
 import type {
     IField,
+    IItem,
     IUiArrayFormProps,
     IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
@@ -90,6 +91,40 @@ const Branch = styled(Box)`
         }
     `}
 `
+const UiItem: FC<PropsWithChildren<IItem>> = (props) => {
+    const { title, type, ...other } = props
+
+    return (
+        <>
+            {type === EnumSchemeItemType.Submit && (
+                <Button {...other} type="submit">
+                    {title}
+                </Button>
+            )}
+        </>
+    )
+}
+const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
+    const { isLast = false, primary = false, children } = props
+
+    return (
+        <Box
+            direction={"row"}
+            border={[
+                {
+                    side: "left",
+                    size: !primary && !isLast ? "xsmall" : "none",
+                    color: "dark-3",
+                },
+            ]}
+            pad={{
+                bottom: !isLast ? "small" : undefined,
+            }}
+        >
+            {children}
+        </Box>
+    )
+}
 
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
     const { title, isLast = false, primary = false, type, children } = props
@@ -250,6 +285,8 @@ const GrommetUi: Omit<JsonFormUi, "Controls" | "Icons"> = {
     Body: UiBody,
     FlatForm: UiFlatFormContainer,
     Field: UiField,
+    Item: UiItem,
+    ItemWrapper: UiItemWrapper,
     ArrayForm: Object.assign(UiArrayFormContainer, {
         Header: UiArrayFormHeader,
         Tabs: UiArrayFormTabs,

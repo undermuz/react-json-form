@@ -1,3 +1,4 @@
+import ApiContext from "./ApiContext"
 import JFL from "./components/JsonFormLayout"
 import CustomComponentsContext, {
     useJsonFormCustomComponent,
@@ -17,7 +18,7 @@ export {
 }
 export type { TypeCustomComponentProps, TypeCustomComponent }
 
-export { JsonForm, UiContext, JFL, useSubmit }
+export { JsonForm, UiContext, JFL, useSubmit, ApiContext }
 export * from "./types"
 
 export default JsonForm
