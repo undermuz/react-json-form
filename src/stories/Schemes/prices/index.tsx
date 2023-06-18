@@ -44,6 +44,9 @@ const scheme: IScheme = {
         {
             name: "title",
             title: "Title",
+            settings: {
+                showToggle: true,
+            },
             placeholder: "Type a fun title...",
             description: "The main title of a page",
             type: EnumSchemeItemType.Text,
@@ -56,6 +59,7 @@ const scheme: IScheme = {
             type: EnumSchemeItemType.Select,
             settings: {
                 useApi: "api::size.list",
+                showToggle: true,
             },
             def_value: null,
             rules: [[["Boolean"], "Required"]],
@@ -70,6 +74,9 @@ const scheme: IScheme = {
             name: "date",
             title: "Date",
             type: EnumSchemeItemType.Date,
+            settings: {
+                showToggle: true,
+            },
             def_value: new Date(),
             rules: [[["Boolean"], "Required"]],
         },
@@ -81,6 +88,7 @@ const scheme: IScheme = {
             def_value: DEF_VALUE.prices,
             settings: {
                 viewType: "tabs",
+                showToggle: true,
             },
             scheme: [
                 {

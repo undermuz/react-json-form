@@ -1,5 +1,5 @@
 import type { FC, ForwardedRef, PropsWithChildren } from "react"
-import { forwardRef, useMemo } from "react"
+import { forwardRef, useMemo, useCallback } from "react"
 
 import {
     Box,
@@ -11,6 +11,7 @@ import {
     FormLabel,
     Heading,
     Stack,
+    Switch,
     Text,
 } from "@chakra-ui/react"
 
@@ -29,6 +30,8 @@ import type {
 import { EnumSchemeItemType } from "../../types"
 
 import _styled from "@emotion/styled"
+import { ConnectToForm } from "@undermuz/use-form"
+import type { IInput } from "../../input"
 const styled = ((_styled as any).default ?? _styled) as typeof _styled
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
@@ -193,10 +196,46 @@ const UiItem: FC<PropsWithChildren<IItem>> = (props) => {
     )
 }
 
+const UiFieldSwitch: FC<Omit<IInput, "type" | "title" | "settings">> = ({
+    value = false,
+    onChange,
+}) => {
+    const onChangeHandler = useCallback(
+        (e) => {
+            onChange?.(!e.target.checked)
+        },
+        [onChange]
+    )
+
+    return (
+        <Switch
+            pos={"absolute"}
+            right={0}
+            top={0}
+            onChange={onChangeHandler}
+            isChecked={!value}
+        />
+    )
+}
+
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const { title, description = null, type, errors, children } = props
+    const {
+        id,
+        title,
+        name,
+        description = null,
+        type,
+        errors,
+        children,
+        showToggle = false,
+        showLabel: _showLabel,
+    } = props
 
     const showLabel = useMemo(() => {
+        if (typeof _showLabel === "boolean") {
+            return _showLabel
+        }
+
         if (type === EnumSchemeItemType.Checkbox) {
             return false
         }
@@ -206,15 +245,21 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
         }
 
         return true
-    }, [type])
+    }, [type, _showLabel])
 
     const isError = errors?.length > 0
 
     return (
         <FormControl isInvalid={isError}>
-            {showLabel && <FormLabel>{title}</FormLabel>}
+            {showLabel && <FormLabel htmlFor={id}>{title}</FormLabel>}
 
             {children}
+
+            {showToggle && (
+                <ConnectToForm name={`${name}__isDisabled`}>
+                    <UiFieldSwitch />
+                </ConnectToForm>
+            )}
 
             {description !== null && !isError && (
                 <FormHelperText>{description}</FormHelperText>
@@ -238,11 +283,11 @@ const Tab = styled(Button)<IUiTabProps>`
 `
 
 const UiTab = forwardRef<HTMLElement, PropsWithChildren<IUiTabProps>>(
-    (props, ref) => {
+    ({ active, ...props }, ref) => {
         return (
             <Tab
                 {...props}
-                variant={props.active ? undefined : "ghost"}
+                variant={active ? undefined : "ghost"}
                 colorScheme="gray"
                 onClick={props.onSelect}
                 ref={ref as ForwardedRef<HTMLButtonElement>}

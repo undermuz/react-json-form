@@ -6,6 +6,7 @@ import type { IChildFormsSetRef } from "./FlatForm"
 
 export type IFormItemProps = ISchemeItem & {
     isLast?: boolean
+    isLoading?: boolean
     isFormPrimary: boolean
     level: number
     as?: any

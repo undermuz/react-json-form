@@ -1,4 +1,5 @@
 import type { FC, PropsWithChildren } from "react"
+import { useMemo } from "react"
 import type { ISchemeItem } from "./types"
 import { useFormContext, ConnectToForm } from "@undermuz/use-form"
 
@@ -6,6 +7,7 @@ import Input from "./input"
 import { EnumSchemeItemType } from "./types"
 import { useJsonFormUi } from "./UiContext"
 import type { IChildFormsSetRef } from "./FlatForm"
+import { uniqueId } from "underscore"
 
 export type IFormFieldProps = ISchemeItem & {
     isLast?: boolean
@@ -38,7 +40,13 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
     const Ui = useJsonFormUi()
     const form = useFormContext()
 
+    const id = useMemo(() => {
+        return uniqueId("form-field-")
+    }, [])
+
     const errors = form.errors[props.name]
+
+    const isDisabled = form.values[`${props.name}__isDisabled`] || false
 
     const {
         as: Cmp = Ui.Field,
@@ -47,10 +55,13 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
         title,
         description,
         placeholder,
+        settings,
         name,
         type = EnumSchemeItemType.Widget,
         onFormsRef,
     } = props
+
+    const { showLabel, showToggle } = settings || {}
 
     return (
         <Ui.ItemWrapper
@@ -60,15 +71,18 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
             title={title}
         >
             <Cmp
+                id={id}
                 isLast={isLast}
                 type={type}
                 name={name}
                 primary={isFormPrimary}
+                showLabel={showLabel}
+                showToggle={showToggle}
                 title={title}
                 description={description}
                 errors={errors}
             >
-                <ConnectToForm name={name}>
+                <ConnectToForm id={id} name={name} disabled={isDisabled}>
                     <Input
                         type={type}
                         placeholder={placeholder}

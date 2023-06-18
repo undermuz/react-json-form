@@ -24,7 +24,10 @@ export enum EnumSchemeItemType {
     Submit = "submit",
 }
 
-export type TypeSchemeItemSettings = Record<string, any>
+export type TypeSchemeItemSettings = Record<string, any> & {
+    showToggle?: boolean
+    showLabel?: boolean
+}
 
 export type FieldRuleSingleFunction = (v: any) => boolean
 export type FieldRuleGenericFunction<T extends Array<any> = any[]> = (
@@ -106,10 +109,13 @@ export interface IUiTabProps {
 }
 
 export interface IField {
+    id: string
     title: string
     description?: string
     name: string
     isLast: boolean
+    showToggle?: boolean
+    showLabel?: boolean
     primary?: boolean
     type: EnumSchemeItemType | string
     errors: IError
@@ -121,6 +127,7 @@ export interface IItem {
     isLast: boolean
     primary?: boolean
     type: EnumSchemeItemType | string
+    isLoading?: boolean
 }
 
 export interface IUiArrayFormProps {
@@ -143,6 +150,7 @@ export interface JsonFormIcons {
 export type JsonFormErrors = IErrors | TypeErrorItem[]
 
 export interface IJsonFormParams {
+    isLoading?: boolean
     value: TypeValue
     primary?: boolean
     header?: ReactNode

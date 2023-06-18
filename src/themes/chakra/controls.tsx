@@ -27,7 +27,7 @@ interface TypeSelectValue {
 }
 
 const ControlSelect: FC<IInput> = (props) => {
-    const { name, value, settings = {} } = props
+    const { id, name, value, settings = {}, isDisabled = false } = props
 
     const { options, multiple, ...otherSettings } = settings
 
@@ -53,6 +53,8 @@ const ControlSelect: FC<IInput> = (props) => {
 
     return (
         <SelectCmp
+            id={id}
+            isDisabled={isDisabled}
             {...rest}
             isMulti={multiple ? true : false}
             name={name}
@@ -84,7 +86,7 @@ const ControlSelect: FC<IInput> = (props) => {
 }
 
 const ControlDate: FC<IInput> = (props) => {
-    const { value } = props
+    const { id, name, value /* , isDisabled = false */ } = props
 
     // const defValue = useMemo(() => {
     //     return new Date()
@@ -94,6 +96,9 @@ const ControlDate: FC<IInput> = (props) => {
 
     return (
         <SingleDatepicker
+            id={id}
+            name={name}
+            // isDisabled={isDisabled}
             date={value ? value : undefined}
             onDateChange={(value) => onChange?.(value)}
         />
@@ -101,12 +106,14 @@ const ControlDate: FC<IInput> = (props) => {
 }
 
 const ControlCheckBox: FC<IInput> = (props) => {
-    const { name, value, title } = props
+    const { id, name, value, title, isDisabled = false } = props
 
     const { onChange, onBlur } = props
 
     return (
         <Checkbox
+            id={id}
+            isDisabled={isDisabled}
             isChecked={Boolean(value)}
             name={name}
             onChange={(event) => onChange?.(event.target.checked)}
@@ -120,14 +127,16 @@ const ControlCheckBox: FC<IInput> = (props) => {
 }
 
 const ControlTextBlock: FC<IInput> = (props) => {
-    const { name, value, settings = {} } = props
+    const { id, name, value, settings = {}, isDisabled = false } = props
 
     const { onChange, onBlur } = props
 
     return (
         <Textarea
+            id={id}
             value={value}
             name={name}
+            isDisabled={isDisabled}
             {...settings}
             onBlur={(e) => onBlur?.(e.currentTarget.value)}
             onChange={(event) => onChange?.(event.currentTarget.value)}
@@ -137,8 +146,10 @@ const ControlTextBlock: FC<IInput> = (props) => {
 
 const ControlInput: FC<IInput> = (props) => {
     const {
+        id,
         name,
         placeholder = "",
+        isDisabled = false,
         value,
         type,
         settings: _rawSettings = {},
@@ -146,11 +157,14 @@ const ControlInput: FC<IInput> = (props) => {
 
     const { onChange, onBlur } = props
 
-    const { inputType, ...settings } = _rawSettings
+    /* @ts-ignore */
+    const { inputType, showLabel, showToggle, ...settings } = _rawSettings
 
     return (
         <Input
+            id={id}
             {...settings}
+            isDisabled={isDisabled}
             placeholder={placeholder}
             name={name}
             type={inputType || type || "text"}

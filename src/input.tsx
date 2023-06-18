@@ -159,9 +159,11 @@ import { useJsonFormCustomComponents } from "./CustomComponentsContext"
 // }
 
 export interface IInput {
+    id?: string
     name?: string
     placeholder?: string
     value?: any
+    isDisabled?: boolean
     type: EnumSchemeItemType | string
     hasError?: boolean
     title: string

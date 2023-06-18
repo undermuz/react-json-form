@@ -33,6 +33,7 @@ const Form = forwardRef<IJsonFormRef, FormProps>((props, ref) => {
         viewType,
         level = 1,
         multiple = false,
+        isLoading = false,
         primary = true,
         fillArrayDefault = true,
         scheme = [],
@@ -72,6 +73,7 @@ const Form = forwardRef<IJsonFormRef, FormProps>((props, ref) => {
                 {...rest}
                 ref={ref}
                 value={value as TypeValueItem}
+                isLoading={isLoading}
                 onChange={changeFlat}
                 onError={setErrorsFlat}
             />

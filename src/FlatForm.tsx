@@ -39,6 +39,7 @@ export type IFlatFormParams = {
     isFormPrimary: boolean
     level: number
     isShow?: boolean
+    isLoading?: boolean
     onFormsRef?: IChildFormsSetRef
 }
 
@@ -51,12 +52,14 @@ export type IFlatFormFieldsParams = {
 
 export type IFormFieldsParams = {
     except?: string[]
+    isLoading?: boolean
 }
 
 export const FlatFormContext = createContext<IFlatFormParams>({
     scheme: [],
     isShow: true,
     isFormPrimary: true,
+    isLoading: false,
     level: 1,
 })
 
@@ -68,6 +71,7 @@ export const FieldsList: FC<IFlatFormFieldsParams & IFormFieldsParams> = (
     const {
         scheme,
         isFormPrimary,
+        isLoading = false,
         level,
         except = DEF_EXCEPT,
         onFormsRef,
@@ -95,6 +99,7 @@ export const FieldsList: FC<IFlatFormFieldsParams & IFormFieldsParams> = (
                             key={index}
                             {...schemeItem}
                             level={level}
+                            isLoading={isLoading}
                             isFormPrimary={isFormPrimary}
                             isLast={index === scheme.length - 1}
                         />
@@ -119,6 +124,7 @@ const FieldsBlock: FC<PropsWithChildren & IFlatFormParams> = memo((props) => {
     const {
         scheme,
         isFormPrimary,
+        isLoading = false,
         level,
         children: _children,
         onFormsRef,
@@ -141,6 +147,7 @@ const FieldsBlock: FC<PropsWithChildren & IFlatFormParams> = memo((props) => {
                 <FieldsList
                     scheme={scheme}
                     level={level}
+                    isLoading={isLoading}
                     isFormPrimary={isFormPrimary}
                     onFormsRef={onFormsRef}
                 />
@@ -159,6 +166,7 @@ FieldsBlock.displayName = "FieldsBlock"
 type FlatFormProps = {
     id?: string
     name?: string
+    isLoading?: boolean
     isShow?: boolean
     primary?: boolean
     level: number
@@ -190,6 +198,7 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
             level,
             children,
             isShow = true,
+            isLoading = false,
             primary = false,
             tests,
             onChange,
@@ -320,6 +329,7 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
                 <FieldsBlock
                     level={level}
                     isShow={isShow}
+                    isLoading={isLoading}
                     scheme={scheme}
                     isFormPrimary={primary}
                     onFormsRef={onChildRef}
