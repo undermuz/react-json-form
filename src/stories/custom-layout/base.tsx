@@ -181,6 +181,11 @@ const JsonFormStory: FC<IJsonFormStory> = ({
                 left={
                     <>
                         <SyntaxHighlighter language="jsx" style={style}>
+                            {"console.log(value)\n" +
+                                JSON.stringify(value, null, 2)}
+                        </SyntaxHighlighter>
+
+                        <SyntaxHighlighter language="jsx" style={style}>
                             {code}
                         </SyntaxHighlighter>
 

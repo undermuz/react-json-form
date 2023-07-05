@@ -113,18 +113,24 @@ import { Alert, VStack } from "@chakra-ui/react"
                     </Box>
 
                     <Box>
+                        <JFL.Field name="prices" />
+                    </Box>
+
+                    <Box>
                         <JFL.Field name="prices">
                             <JFL.ArrayList>
                                 {({ value, addTab, removeTab }) => {
                                     return (
                                         <VStack>
                                             <Text>Your custom button</Text>
+
                                             <Button
                                                 w="full"
                                                 onClick={() => addTab()}
                                             >
                                                 Add an Item
                                             </Button>
+
                                             {value.map((item) => {
                                                 return (
                                                     <Box key={item.id}>
@@ -135,6 +141,7 @@ import { Alert, VStack } from "@chakra-ui/react"
                                                                 Your custom
                                                                 button
                                                             </Text>
+
                                                             <Button
                                                                 w="full"
                                                                 onClick={() =>

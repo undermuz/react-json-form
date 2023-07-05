@@ -441,7 +441,11 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
             const _params: IArrayFormParams = {
                 ...rest,
                 ...tabs,
-                changeTab: change,
+                changeTab: (...args) => {
+                    console.log("[ArrayForm][changeTab]", ...args)
+
+                    return change(...args)
+                },
                 setTabErrors: setErrors,
                 onRef: ({ id: itemId, ref }) => {
                     // console.log(`[ArrayForm: ${id}][onRef]`, itemId, ref)

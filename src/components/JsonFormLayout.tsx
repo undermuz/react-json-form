@@ -120,9 +120,9 @@ const JFL_ArrayFormItem: FC<
 
     return (
         <ArrayFormItem
+            {...rest}
             id={itemValue.id}
             value={itemValue}
-            {...rest}
             {...other}
             onChange={changeTab}
             onError={setTabErrors}
