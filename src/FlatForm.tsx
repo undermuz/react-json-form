@@ -52,6 +52,7 @@ export type IFlatFormFieldsParams = {
 
 export type IFormFieldsParams = {
     except?: string[]
+    include?: string[]
     isLoading?: boolean
 }
 
@@ -74,6 +75,7 @@ export const FieldsList: FC<IFlatFormFieldsParams & IFormFieldsParams> = (
         isLoading = false,
         level,
         except = DEF_EXCEPT,
+        include = DEF_EXCEPT,
         onFormsRef,
     } = props
 
@@ -82,9 +84,13 @@ export const FieldsList: FC<IFlatFormFieldsParams & IFormFieldsParams> = (
             (s) => s.type && !nonFieldTypes.includes(s.type)
         ) */
 
-        if (except.length === 0) return fields
+        if (include?.length > 0)
+            return fields.filter((s) => include.includes(s.name))
 
-        return fields.filter((s) => !except.includes(s.name))
+        if (except?.length > 0)
+            return fields.filter((s) => !except.includes(s.name))
+
+        return fields
     }, [except, scheme])
 
     return (
