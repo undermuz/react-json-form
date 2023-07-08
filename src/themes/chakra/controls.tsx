@@ -59,6 +59,8 @@ const ControlSelect: FC<IInput> = (props) => {
 
         const valueList = value as any[]
 
+        if (!valueList) return
+
         const newUniqValues =
             valueList.length > lastLoadedValues.current.length
                 ? _.difference(valueList, lastLoadedValues.current)
