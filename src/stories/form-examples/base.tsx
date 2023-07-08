@@ -24,6 +24,18 @@ export interface BaseExampleFormProps {
     showValue: true
 }
 
+const asyncSelectList = [
+    { label: "Big", value: 1 },
+    { label: "Small", value: 2 },
+    { label: "Medium", value: 3 },
+    { label: "Xs", value: 4 },
+    { label: "Xxs", value: 5 },
+    { label: "Xl", value: 6 },
+    { label: "Xxl", value: 7 },
+    { label: "2xl", value: 8 },
+    { label: "3xl", value: 9 },
+]
+
 const JsonFormStoryChakraUi = ({ scheme, value, setValue, setErrors }) => {
     const dark = useDarkMode()
 
@@ -33,14 +45,48 @@ const JsonFormStoryChakraUi = ({ scheme, value, setValue, setErrors }) => {
         setColorMode(dark ? "dark" : "light")
     }, [dark])
 
+    const api: ApiValue = useMemo(() => {
+        return {
+            "api::async-select.list": async (
+                searchOrIds?: string | { ids: any[] }
+            ) => {
+                console.log("[api::async-select.list]", searchOrIds)
+
+                if (searchOrIds && typeof searchOrIds === "string") {
+                    return Promise.resolve(
+                        asyncSelectList.filter((v) =>
+                            v.label.includes(searchOrIds)
+                        )
+                    )
+                }
+
+                if (
+                    searchOrIds &&
+                    typeof searchOrIds !== "string" &&
+                    searchOrIds?.ids
+                ) {
+                    return Promise.resolve(
+                        asyncSelectList.filter((v) =>
+                            searchOrIds.ids.includes(v.value)
+                        )
+                    )
+                }
+
+                return Promise.resolve(asyncSelectList)
+            },
+        }
+    }, [])
+
     return (
         <UiContext.Provider value={ChakraUi}>
-            <JsonForm
-                {...(scheme as IScheme)}
-                value={value}
-                onChange={setValue}
-                onError={setErrors}
-            />
+            <ApiContext.Provider value={api}>
+                <JsonForm
+                    {...(scheme as IScheme)}
+                    value={value}
+                    onChange={setValue}
+                    onError={setErrors}
+                />
+            </ApiContext.Provider>
         </UiContext.Provider>
     )
 }

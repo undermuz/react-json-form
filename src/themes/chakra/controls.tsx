@@ -1,4 +1,4 @@
-import { type FC } from "react"
+import { useEffect, useRef, useState, type FC } from "react"
 
 import { SingleDatepicker } from "chakra-dayzed-datepicker"
 
@@ -7,7 +7,7 @@ import { Checkbox, Input, Textarea } from "@chakra-ui/react"
 import type { IInput } from "../../input"
 import type { JsonFormControls } from "../../types"
 
-import { isArray } from "underscore"
+import _, { isArray } from "underscore"
 
 // import ChakraReactSelect from "chakra-react-select"
 // const { AsyncSelect, Select } = ChakraReactSelect
@@ -33,7 +33,7 @@ const ControlSelect: FC<IInput> = (props) => {
 
     const { onChange, onBlur } = props
 
-    const list: number[] = isArray(value) ? (value as number[]) : []
+    const [asyncValue, setAsyncValue] = useState<TypeSelectValue[]>([])
 
     const isSync = Array.isArray(options)
 
@@ -51,6 +51,78 @@ const ControlSelect: FC<IInput> = (props) => {
             : { options: options }),
     }
 
+    const lastLoadedValues = useRef<TypeSelectValue[]>([])
+    const cacheValues = useRef<Record<string, TypeSelectValue>>({})
+
+    useEffect(() => {
+        if (isSync) return
+
+        const valueList = value as any[]
+
+        const newUniqValues =
+            valueList.length > lastLoadedValues.current.length
+                ? _.difference(valueList, lastLoadedValues.current)
+                : _.difference(lastLoadedValues.current, valueList)
+
+        let isValid = true
+
+        const loadValues = async () => {
+            const toAdd = newUniqValues.filter(
+                (v) => !lastLoadedValues.current.includes(v)
+            )
+
+            const toRemove = newUniqValues.filter((v) => !valueList.includes(v))
+
+            if (toAdd.length) {
+                const toLoad = toAdd.filter((v) => !cacheValues.current[v])
+
+                let _values = toAdd
+                    .map((v) => cacheValues.current[v])
+                    .filter((v) => Boolean(v))
+
+                if (toLoad.length) {
+                    const _loadValues = await options({ ids: toLoad })
+
+                    _values = [..._values, ..._loadValues]
+                }
+
+                for (const _val of _values) {
+                    cacheValues.current[_val.value] = _val
+                }
+
+                if (!isValid) return
+
+                lastLoadedValues.current = valueList
+
+                setAsyncValue((prevAsyncValue) => {
+                    return [
+                        ...prevAsyncValue.filter(
+                            (_val) =>
+                                valueList.includes(_val.value) &&
+                                !newUniqValues.includes(_val.value) &&
+                                !toRemove.includes(_val.value)
+                        ),
+                        ..._values,
+                    ]
+                })
+            } else if (toRemove.length) {
+                lastLoadedValues.current = valueList
+
+                setAsyncValue((prevAsyncValue) => {
+                    return prevAsyncValue.filter(
+                        (_val) => !toRemove.includes(_val.value)
+                    )
+                })
+            }
+        }
+
+        loadValues()
+
+        return () => {
+            isValid = false
+        }
+    }, [isSync, value, options])
+
     return (
         <SelectCmp
             id={id}
@@ -58,17 +130,7 @@ const ControlSelect: FC<IInput> = (props) => {
             {...rest}
             isMulti={multiple ? true : false}
             name={name}
-            value={
-                multiple
-                    ? list.map((_val) => ({
-                          label:
-                              options.find(
-                                  (_i: TypeSelectValue) => _i.value == _val
-                              )?.label || "(Not found)",
-                          value: _val,
-                      }))
-                    : value
-            }
+            value={multiple ? asyncValue : value}
             onBlur={() => onBlur?.()}
             onChange={(_value: any) => {
                 if (multiple) {
