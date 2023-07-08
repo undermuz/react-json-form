@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type FC } from "react"
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+    type FC,
+} from "react"
 
 import { SingleDatepicker } from "chakra-dayzed-datepicker"
 
@@ -33,7 +40,8 @@ const ControlSelect: FC<IInput> = (props) => {
 
     const { onChange, onBlur } = props
 
-    const [asyncValue, setAsyncValue] = useState<TypeSelectValue[]>([])
+    const [asyncValues, setAsyncValues] = useState<TypeSelectValue[]>([])
+    const [asyncValue, setAsyncValue] = useState<TypeSelectValue | null>(null)
 
     const isSync = Array.isArray(options)
 
@@ -54,8 +62,41 @@ const ControlSelect: FC<IInput> = (props) => {
     const lastLoadedValues = useRef<TypeSelectValue[]>([])
     const cacheValues = useRef<Record<string, TypeSelectValue>>({})
 
+    const selectValue = useMemo(() => {
+        if (!multiple) {
+            if (!isSync) return asyncValue
+
+            return options.find((_i) => _i.value == value)
+        }
+
+        if (!isSync) return asyncValues
+
+        const _list: TypeSelectValue[] = isArray(value)
+            ? (value as TypeSelectValue[])
+            : []
+
+        return _list.map((v) => options.find((_i) => _i.value == v))
+    }, [isSync, multiple, value, asyncValues, asyncValue, options])
+
+    const onChangeSelect = useCallback(
+        (_value: any) => {
+            if (multiple) {
+                const _list: TypeSelectValue[] = isArray(_value)
+                    ? (_value as TypeSelectValue[])
+                    : []
+
+                onChange?.(_list.map((_val) => _val.value))
+            } else {
+                onChange?.(_value.value)
+            }
+        },
+        [multiple]
+    )
+
+    const onBlurSelect = useCallback(() => onBlur?.(), [onBlur])
+
     useEffect(() => {
-        if (isSync) return
+        if (isSync || !multiple) return
 
         const valueList = value as any[]
 
@@ -96,7 +137,7 @@ const ControlSelect: FC<IInput> = (props) => {
 
                 lastLoadedValues.current = valueList
 
-                setAsyncValue((prevAsyncValue) => {
+                setAsyncValues((prevAsyncValue) => {
                     return [
                         ...prevAsyncValue.filter(
                             (_val) =>
@@ -110,7 +151,7 @@ const ControlSelect: FC<IInput> = (props) => {
             } else if (toRemove.length) {
                 lastLoadedValues.current = valueList
 
-                setAsyncValue((prevAsyncValue) => {
+                setAsyncValues((prevAsyncValue) => {
                     return prevAsyncValue.filter(
                         (_val) => !toRemove.includes(_val.value)
                     )
@@ -123,7 +164,40 @@ const ControlSelect: FC<IInput> = (props) => {
         return () => {
             isValid = false
         }
-    }, [isSync, value, options])
+    }, [isSync, value, options, multiple])
+
+    useEffect(() => {
+        if (isSync || multiple) return
+
+        const valueItem = value as any
+
+        if (!valueItem) return
+
+        let isValid = true
+
+        const fetchValue = async () => {
+            if (cacheValues.current[valueItem])
+                return cacheValues.current[valueItem]
+
+            const list = await options({ ids: [valueItem] })
+
+            return list[0] || null
+        }
+
+        const loadValue = async () => {
+            const newValue = await fetchValue()
+
+            if (!isValid) return
+
+            setAsyncValue(newValue)
+        }
+
+        loadValue()
+
+        return () => {
+            isValid = false
+        }
+    }, [isSync, value, options, multiple])
 
     return (
         <SelectCmp
@@ -132,19 +206,9 @@ const ControlSelect: FC<IInput> = (props) => {
             {...rest}
             isMulti={multiple ? true : false}
             name={name}
-            value={multiple ? asyncValue : value}
-            onBlur={() => onBlur?.()}
-            onChange={(_value: any) => {
-                if (multiple) {
-                    const _list: TypeSelectValue[] = isArray(_value)
-                        ? (_value as TypeSelectValue[])
-                        : []
-
-                    onChange?.(_list.map((_val) => _val.value))
-                } else {
-                    onChange?.(_value)
-                }
-            }}
+            value={selectValue}
+            onBlur={onBlurSelect}
+            onChange={onChangeSelect}
         />
     )
 }
