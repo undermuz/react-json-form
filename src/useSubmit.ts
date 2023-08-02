@@ -38,7 +38,7 @@ const useSubmit = (
 
             const formErrors = ref.current.validate(false)
 
-            onSubmit(ref.current.values(), formErrors, !hasErrors(formErrors))
+            return onSubmit(ref.current.values(), formErrors, !hasErrors(formErrors))
         },
         [onSubmit]
     )
