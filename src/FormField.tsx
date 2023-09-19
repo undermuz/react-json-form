@@ -27,7 +27,7 @@ const getFieldSettings = (props: IFormFieldProps) => {
     }
 
     if (type == EnumSchemeItemType.Files) {
-        return { settings }
+        return settings
     }
 
     return settings

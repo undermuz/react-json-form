@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import { type FC, useRef } from "react"
 
 import { CheckBox, DateInput, TextArea, TextInput } from "grommet"
 
@@ -139,7 +139,52 @@ const ControlInput: FC<IInput> = (props) => {
     )
 }
 
+const ControlFileInput: FC<IInput> = (props) => {
+    const {
+        id,
+        name,
+        placeholder = "",
+        value,
+        settings: _rawSettings = {},
+    } = props
+
+    const { onChange, onBlur } = props
+
+    /* @ts-ignore */
+    const { showLabel, showToggle, icon, ...settings } = _rawSettings
+
+    const inputRef = useRef<HTMLInputElement | null>(null)
+
+    return (
+        <>
+            <input
+                {...settings}
+                id={id}
+                type="file"
+                onChange={(e) =>
+                    onChange?.(
+                        settings?.multiple
+                            ? e.target.files
+                            : e.target.files?.[0]
+                    )
+                }
+                name={name}
+                ref={inputRef}
+                style={{ display: "none" }}
+            />
+            <TextInput
+                placeholder={placeholder || "Your file ..."}
+                onClick={() => inputRef.current?.click()}
+                onBlur={(e) => onBlur?.(e.currentTarget.value)}
+                readOnly={true}
+                value={(value && value.name) || ""}
+            />
+        </>
+    )
+}
+
 const Controls: JsonFormControls = {
+    FileInput: ControlFileInput,
     Input: ControlInput,
     TextBlock: ControlTextBlock,
     CheckBox: ControlCheckBox,

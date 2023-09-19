@@ -104,7 +104,8 @@ export const getDefValueForItem = (item: ISchemeItem) => {
 
     if (type == "checkbox") return false
 
-    if (type == "files") return []
+    if (type == "files" && settings?.multiple) return []
+    if (type == "files" && !settings?.multiple) return null
 
     if (type == "widget") {
         if (multiple) {

@@ -81,6 +81,7 @@ export type FieldTests = {
 }
 export interface JsonFormControls {
     [key: string]: FC<IInput>
+    FileInput: FC<IInput>
     Input: FC<IInput>
     TextBlock: FC<IInput>
     CheckBox: FC<IInput>

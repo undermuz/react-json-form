@@ -236,17 +236,7 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
         // }
 
         if (type == EnumSchemeItemType.Files) {
-            return null
-            // return (
-            //     <FilesWidget
-            //         value={value}
-            //         {...settings}
-            //         onChange={(value) => {
-            //             onChange(value)
-            //             onTest(value)
-            //         }}
-            //     />
-            // )
+            return <Ui.Controls.FileInput {...props} />
         }
 
         if (type == EnumSchemeItemType.Widget) {

@@ -13,6 +13,7 @@ import {
     Stack,
     Switch,
     Text,
+    VStack,
 } from "@chakra-ui/react"
 
 import type {
@@ -95,6 +96,10 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
         return 2
     }, [primary, level])
 
+    if (!title && !children) {
+        return null
+    }
+
     return (
         <Flex
             width={"100%"}
@@ -104,8 +109,8 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
             justify="between"
             // background={primary ? "teal.300" : "gray.100"}
         >
-            <Flex direction="row" justify="space-between" gap="small">
-                {Boolean(title) && (
+            {Boolean(title) && (
+                <Flex direction="row" justify="space-between" gap="small">
                     <Heading
                         as={primary ? `h3` : `h4`}
                         size={primary ? `lg` : `md`}
@@ -113,10 +118,8 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
                     >
                         {title}
                     </Heading>
-                )}
-
-                {/* {Boolean(id) && <Tag>#{id}</Tag>} */}
-            </Flex>
+                </Flex>
+            )}
 
             {children}
         </Flex>
@@ -128,12 +131,13 @@ const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
     isShow,
 }) => {
     return (
-        <Flex
-            direction={"column"}
+        <VStack
+            align={"stretch"}
+            spacing={"15px"}
             style={{ display: isShow ? undefined : "none" }}
         >
             {children}
-        </Flex>
+        </VStack>
     )
 }
 
@@ -154,7 +158,7 @@ const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
 // `
 
 const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
-    const { isLast, type, children } = props
+    const { type, children } = props
 
     const showLabel = useMemo(() => {
         if (type === EnumSchemeItemType.Checkbox) {
@@ -169,7 +173,7 @@ const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
     }, [type])
 
     return (
-        <Flex direction={"row"} pb={!isLast ? 3 : undefined}>
+        <Flex direction={"row"}>
             <Flex
                 width={"100%"}
                 py={showLabel ? 0 : 2}

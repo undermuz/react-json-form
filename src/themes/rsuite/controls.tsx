@@ -1,4 +1,4 @@
-import type { FC, SyntheticEvent } from "react"
+import { type FC, type SyntheticEvent, useRef } from "react"
 
 import Select from "react-select"
 import { DateInput } from "grommet"
@@ -121,7 +121,52 @@ const ControlInput: FC<IInput> = (props) => {
     )
 }
 
+const ControlFileInput: FC<IInput> = (props) => {
+    const {
+        id,
+        name,
+        placeholder = "",
+        value,
+        settings: _rawSettings = {},
+    } = props
+
+    const { onChange, onBlur } = props
+
+    /* @ts-ignore */
+    const { showLabel, showToggle, icon, ...settings } = _rawSettings
+
+    const inputRef = useRef<HTMLInputElement | null>(null)
+
+    return (
+        <>
+            <input
+                {...settings}
+                id={id}
+                type="file"
+                onChange={(e) =>
+                    onChange?.(
+                        settings?.multiple
+                            ? e.target.files
+                            : e.target.files?.[0]
+                    )
+                }
+                name={name}
+                ref={inputRef}
+                style={{ display: "none" }}
+            />
+            <Input
+                placeholder={placeholder || "Your file ..."}
+                onClick={() => inputRef.current?.click()}
+                onBlur={(e) => onBlur?.(e.currentTarget.value)}
+                readOnly={true}
+                value={(value && value.name) || ""}
+            />
+        </>
+    )
+}
+
 const Controls: JsonFormControls = {
+    FileInput: ControlFileInput,
     Input: ControlInput,
     TextBlock: ControlTextBlock,
     CheckBox: ControlCheckBox,

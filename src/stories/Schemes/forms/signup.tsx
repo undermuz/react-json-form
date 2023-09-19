@@ -24,6 +24,16 @@ const SignUpScheme: IScheme = {
             ],
         },
         {
+            name: "avatar",
+            title: "Avatar",
+            placeholder: "Pick avatar",
+            type: EnumSchemeItemType.Files,
+            // settings: {
+            //     multiple: true,
+            // },
+            def_value: [],
+        },
+        {
             name: "password",
             title: "Password",
             type: EnumSchemeItemType.Input,

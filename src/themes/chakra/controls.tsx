@@ -9,7 +9,15 @@ import {
 
 import { SingleDatepicker } from "chakra-dayzed-datepicker"
 
-import { Checkbox, Input, Textarea } from "@chakra-ui/react"
+import {
+    Button,
+    Checkbox,
+    HStack,
+    Input,
+    Tag,
+    Text,
+    Textarea,
+} from "@chakra-ui/react"
 
 import type { IInput } from "../../input"
 import type { JsonFormControls } from "../../types"
@@ -20,6 +28,7 @@ import _, { isArray } from "underscore"
 // const { AsyncSelect, Select } = ChakraReactSelect
 
 import { AsyncSelect, Select } from "chakra-react-select"
+import { AttachmentIcon, CloseIcon } from "@chakra-ui/icons"
 
 // import _Select from "react-select"
 // const Select = ((_Select as any).default ?? _Select) as typeof _Select
@@ -272,6 +281,109 @@ const ControlTextBlock: FC<IInput> = (props) => {
     )
 }
 
+const ControlFileInput: FC<IInput> = (props) => {
+    const {
+        id,
+        name,
+        placeholder = "",
+        isDisabled = false,
+        value,
+        settings: _rawSettings = {},
+    } = props
+
+    const { onChange } = props
+
+    /* @ts-ignore */
+    const { showLabel, showToggle, icon, ...settings } = _rawSettings
+
+    const inputRef = useRef<HTMLInputElement | null>(null)
+
+    const isMultiple = Boolean(settings?.multiple)
+
+    const files = useMemo(() => {
+        if (Array.isArray(value)) return value
+
+        if (!value) return []
+
+        return [value]
+    }, [value])
+
+    const onChangeFile = useCallback(
+        (inFiles?: FileList | null) => {
+            try {
+                console.log("[onChangeFile]", inFiles)
+
+                if (!onChange) return
+
+                if (!inFiles?.length) {
+                    console.log("[onChangeFile][Nothing]", inFiles)
+                    return
+                }
+
+                if (!isMultiple) {
+                    console.log("[onChangeFile][Single]", inFiles[0])
+                    onChange(inFiles[0])
+                    return
+                }
+
+                console.log("[onChangeFile][Multiple]", inFiles[0])
+                onChange([...files, ...inFiles])
+            } finally {
+                if (inputRef.current) inputRef.current.value = ""
+            }
+        },
+        [onChange, files]
+    )
+
+    console.log("[ControlFileInput]", props)
+
+    return (
+        <HStack>
+            {icon || <AttachmentIcon />}
+
+            <input
+                {...settings}
+                id={id}
+                type="file"
+                onChange={(e) => {
+                    onChangeFile(e.target.files)
+                }}
+                name={name}
+                ref={inputRef}
+                style={{ display: "none" }}
+            />
+
+            {files.map((file) => (
+                <Tag key={file.name} size="sm">
+                    <Text>{file.name}</Text>
+                    <Button
+                        size="sm"
+                        onClick={() =>
+                            onChange?.(
+                                isMultiple
+                                    ? files.filter((f) => f.name !== file.name)
+                                    : null
+                            )
+                        }
+                    >
+                        <CloseIcon />
+                    </Button>
+                </Tag>
+            ))}
+
+            {(isMultiple || files.length === 0) && (
+                <Button
+                    size="sm"
+                    onClick={() => inputRef.current?.click()}
+                    isDisabled={isDisabled}
+                >
+                    {placeholder || "Choose file"}
+                </Button>
+            )}
+        </HStack>
+    )
+}
+
 const ControlInput: FC<IInput> = (props) => {
     const {
         id,
@@ -304,6 +416,7 @@ const ControlInput: FC<IInput> = (props) => {
 }
 
 const Controls: JsonFormControls = {
+    FileInput: ControlFileInput,
     Input: ControlInput,
     TextBlock: ControlTextBlock,
     CheckBox: ControlCheckBox,
