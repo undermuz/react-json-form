@@ -12,11 +12,13 @@ import { SingleDatepicker } from "chakra-dayzed-datepicker"
 import {
     Button,
     Checkbox,
+    Flex,
     HStack,
     Input,
     Tag,
     Text,
     Textarea,
+    Wrap,
 } from "@chakra-ui/react"
 
 import type { IInput } from "../../input"
@@ -29,6 +31,7 @@ import _, { isArray } from "underscore"
 
 import { AsyncSelect, Select } from "chakra-react-select"
 import { AttachmentIcon, CloseIcon } from "@chakra-ui/icons"
+import { Box } from "grommet"
 
 // import _Select from "react-select"
 // const Select = ((_Select as any).default ?? _Select) as typeof _Select
@@ -338,8 +341,8 @@ const ControlFileInput: FC<IInput> = (props) => {
     console.log("[ControlFileInput]", props)
 
     return (
-        <HStack>
-            {icon || <AttachmentIcon />}
+        <Wrap>
+            <Flex align="center">{icon || <AttachmentIcon />}</Flex>
 
             <input
                 {...settings}
@@ -380,7 +383,7 @@ const ControlFileInput: FC<IInput> = (props) => {
                     {placeholder || "Choose file"}
                 </Button>
             )}
-        </HStack>
+        </Wrap>
     )
 }
 
