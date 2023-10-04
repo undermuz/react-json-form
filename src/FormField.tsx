@@ -81,6 +81,7 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
                 title={title}
                 description={description}
                 errors={errors}
+                settings={getFieldSettings(props)}
             >
                 <ConnectToForm id={id} name={name} disabled={isDisabled}>
                     <Input
