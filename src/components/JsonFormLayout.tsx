@@ -68,11 +68,9 @@ JFL_FormFields.displayName = JFL_FormFieldsName
 
 export const JFL_FormFieldName = "__JFL__FlatFormField"
 
-const JFL_FormField: FC<PropsWithChildren & { name: string; as?: any }> = ({
-    children,
-    name,
-    as,
-}) => {
+const JFL_FormField: FC<
+    PropsWithChildren & { name: string; as?: any } & Record<string, unknown>
+> = ({ children, name, as, ...customProps }) => {
     const value = useContext(FlatFormContext)
 
     const schemeItem = useMemo<ISchemeItem>(() => {
@@ -86,9 +84,10 @@ const JFL_FormField: FC<PropsWithChildren & { name: string; as?: any }> = ({
     return (
         <FormField
             {...schemeItem}
-            as={as}
             level={value.level}
             isFormPrimary={value.isFormPrimary}
+            {...customProps}
+            as={as}
         >
             {children}
         </FormField>

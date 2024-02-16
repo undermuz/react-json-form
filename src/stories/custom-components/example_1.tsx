@@ -1,16 +1,28 @@
 import { Button } from "@chakra-ui/react"
 import type { ComponentStory } from "@storybook/react"
-import { type PropsWithChildren, type FC } from "react"
+import { type PropsWithChildren, type FC, useMemo } from "react"
+import JsonFormLayout from "../../components/JsonFormLayout"
 import CustomComponentsContext from "../../CustomComponentsContext"
+import { type IFormFieldCustomProps } from "../../FormField"
 import { type IInput } from "../../input"
 import { EnumSchemeItemType, type IScheme } from "../../types"
 
 import BaseExampleForm from "./base"
 
-const ToggleButton: FC<PropsWithChildren & IInput> = (props) => {
+const ToggleButton: FC<PropsWithChildren & IInput & IFormFieldCustomProps> = (
+    props
+) => {
+    const texts = useMemo(() => {
+        if (!props.texts) {
+            return ["Allowed", "Disallowed"]
+        }
+
+        return props.texts
+    }, [props.texts])
+
     return (
         <Button type="button" onClick={() => props.onChange?.(!props.value)}>
-            {props.value ? "✅ Allowed" : "❌ Disallowed"}
+            {props.value ? `✅ ${texts[0]}` : `❌ ${texts[1]}`}
         </Button>
     )
 }
@@ -20,10 +32,20 @@ const customComponents = {
 }
 
 const Code1 = `
-const ToggleButton: FC<PropsWithChildren & IInput> = (props) => {
+const ToggleButton: FC<PropsWithChildren & IInput & IFormFieldCustomProps> = (
+    props
+) => {
+    const texts = useMemo(() => {
+        if (!props.texts) {
+            return ["Allowed", "Disallowed"]
+        }
+
+        return props.texts
+    }, [props.texts])
+
     return (
         <Button type="button" onClick={() => props.onChange?.(!props.value)}>
-            {props.value ? "✅ Allowed" : "❌ Disallowed"}
+            {props.value ? \`✅ \${texts[0]}\` : \`❌ \${texts[1]}\`}
         </Button>
     )
 }
@@ -34,6 +56,38 @@ const customComponents = {
 
 ...
 
+`
+const Code2 = `
+const jsonFormRef = useRef<IJsonFormRefObject>(null)
+
+const submit = useSubmit(jsonFormRef, onSubmit)
+
+return (
+    <form onSubmit={submit}>
+        <UiContext.Provider value={ChakraUi}>
+            <CustomComponentsContext.Provider value={customComponents}>
+                <JsonForm
+                    {...(scheme as IScheme)}
+                    ref={jsonFormRef}
+                    value={value}
+                    onChange={setValue}
+                    onError={setErrors}
+                >
+                    <JsonFormLayout.Form>
+                        <JsonFormLayout.Fields except={["allowed_send_news"]} />
+                        <JsonFormLayout.Field
+                            name="allowed_send_news"
+                            texts={["Enabled", "Disabled"]}
+                        />
+                        <Button variant={"solid"} type="submit">
+                            Submit
+                        </Button>
+                    </JsonFormLayout.Form>
+                </JsonForm>
+            </CustomComponentsContext.Provider>
+        </UiContext.Provider>
+    </form>
+)
 `
 
 const WidgetName = "Login"
@@ -85,7 +139,18 @@ const LoginScheme: IScheme = {
 const Template: ComponentStory<typeof BaseExampleForm> = (args) => {
     return (
         <CustomComponentsContext.Provider value={customComponents}>
-            <BaseExampleForm {...args} code={Code1} scheme={LoginScheme} />
+            <BaseExampleForm
+                {...args}
+                code={Code1}
+                code2={Code2}
+                scheme={LoginScheme}
+            >
+                <JsonFormLayout.Fields except={["allowed_send_news"]} />
+                <JsonFormLayout.Field
+                    name="allowed_send_news"
+                    texts={["Enabled", "Disabled"]}
+                />
+            </BaseExampleForm>
         </CustomComponentsContext.Provider>
     )
 }

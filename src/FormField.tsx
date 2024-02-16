@@ -7,7 +7,7 @@ import Input from "./input"
 import { EnumSchemeItemType } from "./types"
 import { useJsonFormUi } from "./UiContext"
 import type { IChildFormsSetRef } from "./FlatForm"
-import { uniqueId } from "underscore"
+import { omit, uniqueId } from "underscore"
 
 export type IFormFieldProps = ISchemeItem & {
     isLast?: boolean
@@ -16,6 +16,8 @@ export type IFormFieldProps = ISchemeItem & {
     as?: any
     onFormsRef?: IChildFormsSetRef
 }
+
+export type IFormFieldCustomProps<T = unknown> = Record<string, T>
 
 const getFieldSettings = (props: IFormFieldProps) => {
     const { type = EnumSchemeItemType.Widget, settings = {}, level } = props
@@ -33,10 +35,9 @@ const getFieldSettings = (props: IFormFieldProps) => {
     return settings
 }
 
-const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
-    children,
-    ...props
-}) => {
+const FormField: FC<
+    PropsWithChildren & IFormFieldProps & IFormFieldCustomProps
+> = ({ children, ...props }) => {
     const Ui = useJsonFormUi()
     const form = useFormContext()
 
@@ -59,7 +60,13 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
         name,
         type = EnumSchemeItemType.Widget,
         onFormsRef,
+        ..._customProps
     } = props
+
+    const customProps: Omit<IFormFieldProps, keyof IFormFieldProps> = omit(
+        _customProps,
+        ["def_value", "single", "multiple", "rules", "scheme", "level"]
+    )
 
     const { showLabel, showToggle } = settings || {}
 
@@ -71,6 +78,7 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
             title={title}
         >
             <Cmp
+                {...customProps}
                 id={id}
                 isLast={isLast}
                 type={type}
@@ -85,6 +93,7 @@ const FormField: FC<PropsWithChildren & IFormFieldProps> = ({
             >
                 <ConnectToForm id={id} name={name} disabled={isDisabled}>
                     <Input
+                        {...customProps}
                         type={type}
                         placeholder={placeholder}
                         title={title}

@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import type { FC, PropsWithChildren } from "react"
 import { useEffect, useMemo, useState, useRef } from "react"
 
 import JsonForm from "../../JsonForm"
@@ -29,6 +29,7 @@ import type { IErrors } from "@undermuz/use-form"
 export interface BaseExampleFormProps {
     scheme: IScheme
     code: string
+    code2?: string
     onSubmit: (
         values: TypeValue,
         errors: null | IErrors | TypeErrorItem[],
@@ -41,6 +42,7 @@ const JsonFormStoryChakraUi = ({
     value,
     setValue,
     setErrors,
+    children,
     onSubmit,
 }) => {
     const dark = useDarkMode()
@@ -66,7 +68,7 @@ const JsonFormStoryChakraUi = ({
                     onError={setErrors}
                 >
                     <JsonFormLayout.Form>
-                        <JsonFormLayout.Fields />
+                        {children || <JsonFormLayout.Fields />}
                         <Button variant={"solid"} type="submit">
                             Submit
                         </Button>
@@ -111,9 +113,11 @@ return (
 )
 `
 
-const BaseExampleForm: FC<BaseExampleFormProps> = ({
+const BaseExampleForm: FC<PropsWithChildren & BaseExampleFormProps> = ({
     scheme,
     code,
+    code2,
+    children,
     onSubmit,
 }) => {
     const [value, setValue] = useState({})
@@ -162,7 +166,7 @@ const BaseExampleForm: FC<BaseExampleFormProps> = ({
                             )}`}
                         </SyntaxHighlighter>
                         <SyntaxHighlighter language="jsx" style={style}>
-                            {Code2}
+                            {code2 || Code2}
                         </SyntaxHighlighter>
                     </>
                 }
@@ -173,7 +177,9 @@ const BaseExampleForm: FC<BaseExampleFormProps> = ({
                     setValue={setValue}
                     setErrors={setErrors}
                     scheme={scheme}
-                />
+                >
+                    {children}
+                </JsonFormStoryChakraUi>
             </BaseStoryLayout>
         </ApiContext.Provider>
     )

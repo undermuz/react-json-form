@@ -4,9 +4,12 @@ import {
     type FC,
     useContext,
 } from "react"
+import { type IFormFieldCustomProps } from "./FormField"
 import { type IInput } from "./input"
 
-export type TypeCustomComponentProps = PropsWithChildren & IInput
+export type TypeCustomComponentProps = PropsWithChildren &
+    IInput &
+    IFormFieldCustomProps
 export type TypeCustomComponent = FC<TypeCustomComponentProps>
 
 const CustomComponentsContext = createContext<Record<

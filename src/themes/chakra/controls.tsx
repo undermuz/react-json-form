@@ -295,7 +295,13 @@ const ControlFileInput: FC<IInput> = (props) => {
     const { onChange } = props
 
     /* @ts-ignore */
-    const { showLabel, showToggle, icon, ...settings } = _rawSettings
+    const {
+        showLabel,
+        showToggle,
+        icon,
+        max = Infinity,
+        ...settings
+    } = _rawSettings
 
     const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -328,7 +334,13 @@ const ControlFileInput: FC<IInput> = (props) => {
                 }
 
                 console.log("[onChangeFile][Multiple]", inFiles[0])
-                onChange([...files, ...inFiles])
+                let nextFiles = [...files, ...inFiles]
+
+                if (nextFiles.length > max) {
+                    nextFiles = nextFiles.slice(0, max)
+                }
+
+                onChange(nextFiles)
             } finally {
                 if (inputRef.current) inputRef.current.value = ""
             }
@@ -376,7 +388,7 @@ const ControlFileInput: FC<IInput> = (props) => {
                 <Button
                     size="sm"
                     onClick={() => inputRef.current?.click()}
-                    isDisabled={isDisabled}
+                    isDisabled={isDisabled || files.length === max}
                 >
                     {placeholder || "Choose file"}
                 </Button>
