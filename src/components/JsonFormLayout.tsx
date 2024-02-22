@@ -86,6 +86,7 @@ const JFL_FormField: FC<
             {...schemeItem}
             level={value.level}
             isFormPrimary={value.isFormPrimary}
+            onFormsRef={value.onFormsRef}
             {...customProps}
             as={as}
         >

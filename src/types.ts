@@ -1,4 +1,4 @@
-import type { IError, IErrors } from "@undermuz/use-form"
+import type { IError, IErrors, ITouched } from "@undermuz/use-form"
 
 import type {
     ComponentClass,
@@ -160,6 +160,11 @@ export interface IJsonFormParams {
 }
 
 export interface IJsonFormRefObject {
+    setTouched: (
+        newTouched: ITouched | null,
+        silent?: boolean,
+        checkOnlyFilled?: boolean
+    ) => void
     validate: (checkOnlyFilled?: boolean) => null | IErrors | TypeErrorItem[]
     values: () => TypeValue
     errors: () => IErrors | TypeErrorItem[]

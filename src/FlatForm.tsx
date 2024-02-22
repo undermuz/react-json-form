@@ -18,6 +18,7 @@ import type {
     IJsonFormRef,
     IJsonFormRefObject,
     ISchemeItem,
+    TypeErrorItem,
     TypeValueItem,
 } from "./types"
 import { EnumSchemeItemType } from "./types"
@@ -28,7 +29,7 @@ import {
     useSchemeToForm,
 } from "./utils"
 
-import type { IErrors, IValues } from "@undermuz/use-form"
+import type { IErrors, ITouched, IValues } from "@undermuz/use-form"
 import useForm, { FormContext } from "@undermuz/use-form"
 import FormField from "./FormField"
 import JsonFormLayout from "./components/JsonFormLayout"
@@ -194,11 +195,14 @@ export interface IChildFormRefs {
 
 export type IChildFormsSetRef = (ref: IChildFormRef) => void
 
+export const hasErrors = (errors?: IErrors | TypeErrorItem[] | null) =>
+    errors !== null && errors !== undefined && Object.keys(errors).length > 0
+
 const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
     (props, ref) => {
         const {
-            // id,
-            // name: _name,
+            id,
+            name: _name,
             scheme,
             value,
             level,
@@ -221,9 +225,9 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
             onError,
         })
 
-        // const name = useMemo(() => {
-        //     return _name || id || "(unnamed)"
-        // }, [_name, id])
+        const name = useMemo(() => {
+            return _name || id || "(unnamed)"
+        }, [_name, id])
 
         const form = useForm(formConfig)
         const childFormsRef = useRef<IChildFormRefs>({})
@@ -265,7 +269,10 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
 
                 const def_value = getDefValueForItem(schemeItem)
 
-                if (value[name] || type === EnumSchemeItemType.Checkbox) {
+                if (
+                    value[name] !== undefined ||
+                    type === EnumSchemeItemType.Checkbox
+                ) {
                     continue
                 }
 
@@ -286,30 +293,82 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
             }
 
             setRef({
-                validate(checkOnlyFilled = true) {
-                    const [hasErrors, formErrors] =
-                        form.hasFormErrors(checkOnlyFilled)
+                setTouched(
+                    newTouched: ITouched | null,
+                    silent?: boolean,
+                    checkOnlyFilled?: boolean
+                ) {
+                    const state = form.store.getState()
+                    const fields = Object.keys(state.fields)
+
+                    form.setTouched(
+                        newTouched || fields,
+                        silent,
+                        checkOnlyFilled
+                    )
 
                     const childRefs = Object.values(childFormsRef.current)
-
-                    // console.log(
-                    //     `[FlatForm: ${name}][ref][validate][child forms]`,
-                    //     childFormsRef.current
-                    // )
 
                     for (const childRef of childRefs) {
                         if (Array.isArray(childRef)) {
                             for (const child of childRef) {
-                                child.validate(checkOnlyFilled)
+                                child.setTouched(
+                                    newTouched,
+                                    silent,
+                                    checkOnlyFilled
+                                )
                             }
 
                             continue
                         }
 
-                        childRef.validate(checkOnlyFilled)
+                        childRef.setTouched(newTouched, silent, checkOnlyFilled)
+                    }
+                },
+                validate(checkOnlyFilled = true) {
+                    console.log(`[FlatForm: ${name}][ref][Validate: begin]`, {
+                        checkOnlyFilled,
+                    })
+
+                    let [hasFormErrors, formErrors] =
+                        form.hasFormErrors(checkOnlyFilled)
+
+                    const childRefs = Object.values(childFormsRef.current)
+
+                    console.log(`[FlatForm: ${name}][ref][Validate: stage 1]`, {
+                        hasErrors: hasFormErrors,
+                        formErrors,
+                        childRefs,
+                        childFormsRef: childFormsRef.current,
+                    })
+
+                    for (const childRef of childRefs) {
+                        if (Array.isArray(childRef)) {
+                            for (const child of childRef) {
+                                const isValid = child.validate(checkOnlyFilled)
+
+                                if (hasErrors(isValid)) {
+                                    hasFormErrors = true
+                                }
+
+                                console.log(
+                                    `[FlatForm: ${name}][ref][Validate: stage 2][Child: item]`,
+                                    { isValid }
+                                )
+                            }
+
+                            continue
+                        }
+
+                        const isValid = childRef.validate(checkOnlyFilled)
+
+                        console.log(
+                            `[FlatForm: ${name}][ref][Validate: stage 2][Child: root]`,
+                            { isValid }
+                        )
                     }
 
-                    if (hasErrors) {
+                    if (hasFormErrors) {
                         form.validate(checkOnlyFilled)
 
                         return formErrors

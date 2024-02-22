@@ -36,6 +36,7 @@ const useSubmit = (
                 return
             }
 
+            ref.current.setTouched(null, true, false)
             const formErrors = ref.current.validate(false)
 
             return onSubmit(ref.current.values(), formErrors, !hasErrors(formErrors))
