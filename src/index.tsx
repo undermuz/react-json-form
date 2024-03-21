@@ -1,14 +1,14 @@
-import ApiContext from "./ApiContext"
+import ApiContext from "./contexts/api"
 import JFL from "./components/JsonFormLayout"
 import CustomComponentsContext, {
     useJsonFormCustomComponent,
     useJsonFormCustomComponents,
     type TypeCustomComponentProps,
     type TypeCustomComponent,
-} from "./CustomComponentsContext"
-export type { IInput } from "./input"
+} from "./custom-components/context"
+export type { IInput } from "./flat-form/form-input/input"
 import JsonForm from "./JsonForm"
-import UiContext from "./UiContext"
+import UiContext from "./contexts/ui"
 import { useSubmit } from "./useSubmit"
 
 export {

@@ -32,7 +32,7 @@ import { EnumSchemeItemType } from "../../types"
 
 import _styled from "@emotion/styled"
 import { ConnectToForm } from "@undermuz/use-form"
-import type { IInput } from "../../input"
+import type { IInput } from "../../flat-form/form-input/input"
 const styled = ((_styled as any).default ?? _styled) as typeof _styled
 
 const UiContainer: FC<PropsWithChildren<{}>> = ({ children }) => {

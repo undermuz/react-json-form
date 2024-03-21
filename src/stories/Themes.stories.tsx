@@ -13,7 +13,7 @@ import docco from "react-syntax-highlighter/dist/esm/styles/hljs/atelier-cave-da
 
 SyntaxHighlighter.registerLanguage("json", json)
 
-import UiContext from "../UiContext"
+import UiContext from "../contexts/ui"
 
 import GrommetUi from "../themes/grommet"
 import ChakraUi from "../themes/chakra"
@@ -24,8 +24,8 @@ import { ChakraProvider, useColorMode } from "@chakra-ui/react"
 import "rsuite/styles/index.less"
 
 import { useDarkMode } from "storybook-dark-mode"
-import ApiContext from "../ApiContext"
-import type { ApiValue } from "../ApiContext"
+import ApiContext from "../contexts/api"
+import type { ApiValue } from "../contexts/api"
 
 enum JsonFormThemes {
     Grommet,

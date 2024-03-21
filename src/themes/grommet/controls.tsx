@@ -9,7 +9,7 @@ import _AsyncSelect from "react-select/async"
 const AsyncSelect = ((_AsyncSelect as any).default ??
     _AsyncSelect) as typeof _AsyncSelect
 
-import type { IInput } from "../../input"
+import type { IInput } from "../../flat-form/form-input/input"
 
 import { isArray } from "underscore"
 import type { JsonFormControls } from "../../types"

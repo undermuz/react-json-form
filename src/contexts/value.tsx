@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react"
-import type { TypeValue } from "./types"
+import type { TypeValue } from "../types"
 
 const ValueContext = createContext<TypeValue>({} as TypeValue)
 

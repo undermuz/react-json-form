@@ -1,8 +1,8 @@
 import type { FC, PropsWithChildren } from "react"
-import { EnumSchemeItemType, type ISchemeItem } from "./types"
+import { EnumSchemeItemType, type ISchemeItem } from "../types"
 
-import { useJsonFormUi } from "./UiContext"
-import type { IChildFormsSetRef } from "./FlatForm"
+import { useJsonFormUi } from "../contexts/ui"
+import type { IChildFormsSetRef } from "./useFlatRef"
 
 export type IFormItemProps = ISchemeItem & {
     isLast?: boolean

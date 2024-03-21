@@ -7,7 +7,7 @@ import type {
     JsonFormErrors,
 } from "../types"
 import JsonForm from "../JsonForm"
-import type { IChildFormsSetRef } from "../FlatForm"
+import type { IChildFormsSetRef } from "../flat-form/useFlatRef"
 
 interface IInputWidgetProps {
     name?: string
@@ -15,8 +15,8 @@ interface IInputWidgetProps {
     value?: any
     settings?: IFieldWidgetSettings
     onRef?: IChildFormsSetRef
-    onError?: Function
-    onChange?: Function
+    onError?: CallableFunction
+    onChange?: CallableFunction
 }
 
 const DEF_SETTINGS: IFieldWidgetSettings = {

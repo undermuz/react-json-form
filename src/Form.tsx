@@ -12,8 +12,8 @@ import type {
 
 /* COMPONENTS */
 
-import FlatForm from "./FlatForm"
-import ArrayForm from "./ArrayForm"
+import FlatForm from "./flat-form/FlatForm"
+import ArrayForm from "./array-form/ArrayForm"
 
 /* HELPERS */
 import type { IErrors } from "@undermuz/use-form"

@@ -1,10 +1,11 @@
 import type { IErrors } from "@undermuz/use-form"
 import { type FC, useCallback, useEffect, type PropsWithChildren } from "react"
-import FlatForm from "./FlatForm"
-import type { IJsonFormRef, ISchemeItem, TypeValueItem } from "./types"
+import FlatForm from "../flat-form/FlatForm"
+import type { IJsonFormRef, ISchemeItem, TypeValueItem } from "../types"
 
 interface IArrayFormItemProps {
     id: number
+    parentId?: string
     isShow?: boolean
     primary?: boolean
     level: number
@@ -18,6 +19,7 @@ interface IArrayFormItemProps {
 const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
     const {
         id,
+        parentId,
         value,
         scheme,
         level,
@@ -45,8 +47,6 @@ const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
 
     const ref = useCallback(
         (ref: IJsonFormRef | null) => {
-            // console.log(`[ArrayFormItem: #${id}][ref]`, ref, onRef)
-
             onRef?.({ id, ref })
         },
         [onRef]
@@ -60,6 +60,7 @@ const ArrayFormItem: FC<PropsWithChildren & IArrayFormItemProps> = (props) => {
 
     return (
         <FlatForm
+            id={`${parentId}-${id}`}
             ref={ref}
             level={level}
             isShow={isShow}

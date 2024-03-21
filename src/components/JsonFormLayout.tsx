@@ -6,17 +6,17 @@ import {
     type FC,
     type PropsWithChildren,
 } from "react"
-import { useJsonFormUi } from "../UiContext"
+import { useJsonFormUi } from "../contexts/ui"
 import {
-    FieldsList,
     FlatFormContext,
     type IFormFieldsParams,
     type IFlatFormFieldsParams,
-} from "../FlatForm"
+} from "../flat-form/FlatForm"
+import { FieldsList } from "../flat-form/FieldsBlock"
 import type { ISchemeItem, IUiFlatFormProps } from "../types"
-import FormField from "../FormField"
-import { ArrayFormContext, type IArrayFormParams } from "../ArrayForm"
-import ArrayFormItem from "../ArrayFormItem"
+import FormField from "../flat-form/FormField"
+import { ArrayFormContext, type IArrayFormParams } from "../array-form/ArrayForm"
+import ArrayFormItem from "../array-form/ArrayFormItem"
 
 export const JFL_FlatFormName = "__JFL__FlatForm"
 

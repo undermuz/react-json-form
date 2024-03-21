@@ -1,13 +1,14 @@
 import type { FC, PropsWithChildren } from "react"
+import type { ISchemeItem } from "../types"
+import type { IChildFormsSetRef } from "./useFlatRef"
+
 import { useMemo } from "react"
-import type { ISchemeItem } from "./types"
+import { omit, uniqueId } from "underscore"
 import { useFormContext, ConnectToForm } from "@undermuz/use-form"
 
-import Input from "./input"
-import { EnumSchemeItemType } from "./types"
-import { useJsonFormUi } from "./UiContext"
-import type { IChildFormsSetRef } from "./FlatForm"
-import { omit, uniqueId } from "underscore"
+import Input from "./form-input/input"
+import { EnumSchemeItemType } from "../types"
+import { useJsonFormUi } from "../contexts/ui"
 
 export type IFormFieldProps = ISchemeItem & {
     isLast?: boolean
@@ -26,10 +27,6 @@ const getFieldSettings = (props: IFormFieldProps) => {
         const { scheme, multiple = false } = props
 
         return { ...settings, scheme, multiple, level: level + 1 }
-    }
-
-    if (type == EnumSchemeItemType.Files) {
-        return settings
     }
 
     return settings

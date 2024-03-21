@@ -7,7 +7,7 @@ import type { FC } from "react"
 import React, { useState } from "react"
 import { ChakraProvider } from "@chakra-ui/react"
 import ChakraUi from "../themes/chakra"
-import UiContext from "../UiContext"
+import UiContext from "../contexts/ui"
 import type { JsonFormErrors } from "../types"
 import LoginScheme from "./schemes/login"
 

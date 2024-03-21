@@ -4,8 +4,8 @@ import {
     type FC,
     useContext,
 } from "react"
-import { type IFormFieldCustomProps } from "./FormField"
-import { type IInput } from "./input"
+import { type IFormFieldCustomProps } from "../flat-form/FormField"
+import { type IInput } from "../flat-form/form-input/input"
 
 export type TypeCustomComponentProps = PropsWithChildren &
     IInput &

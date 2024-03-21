@@ -6,15 +6,15 @@ import JsonForm from "../../JsonForm"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { vscDarkPlus as style } from "react-syntax-highlighter/dist/esm/styles/prism"
 
-import UiContext from "../../UiContext"
+import UiContext from "../../contexts/ui"
 
 import ChakraUi from "../../themes/chakra"
 
 import { useColorMode } from "@chakra-ui/react"
 
 import { useDarkMode } from "storybook-dark-mode"
-import ApiContext from "../../ApiContext"
-import type { ApiValue } from "../../ApiContext"
+import ApiContext from "../../contexts/api"
+import type { ApiValue } from "../../contexts/api"
 import {
     type TypeValue,
     type IJsonFormRefObject,

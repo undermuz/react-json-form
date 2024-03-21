@@ -15,8 +15,8 @@ import ErrorFallback from "./components/ErrorFallback"
 
 /* HELPERS */
 import { useDefSchemeValue, useSafeValue } from "./utils"
-import { useJsonFormComponents } from "./UiContext"
-import ValueContext from "./ValueContext"
+import { useJsonFormComponents } from "./contexts/ui"
+import ValueContext from "./contexts/value"
 import type { IErrors } from "@undermuz/use-form"
 import Form from "./Form"
 
@@ -50,11 +50,11 @@ const JsonForm = forwardRef<IJsonFormRef, IJsonFormProps>((props, ref) => {
     onErrorRef.current = onError
 
     useEffect(() => {
-        if (isMount.current) {
-            // console.log("[JsonForm][on: Errors]", errors)
-
-            onErrorRef.current?.(errors)
+        if (!isMount.current) {
+            return
         }
+
+        onErrorRef.current?.(errors)
     }, [errors])
 
     useEffect(() => {

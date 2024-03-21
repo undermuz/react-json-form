@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react"
-import { JsonFormComponent } from "./components/JsonFormComponents"
-import type { JsonFormComponents, JsonFormUi } from "./types"
+import { JsonFormComponent } from "../components/JsonFormComponents"
+import type { JsonFormComponents, JsonFormUi } from "../types"
 
 const UiContext = createContext<JsonFormUi | null>(null)
 

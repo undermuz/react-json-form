@@ -20,7 +20,7 @@ import {
     Wrap,
 } from "@chakra-ui/react"
 
-import type { IInput } from "../../input"
+import type { IInput } from "../../flat-form/form-input/input"
 import type { JsonFormControls } from "../../types"
 
 import _, { isArray } from "underscore"

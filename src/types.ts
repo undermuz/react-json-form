@@ -8,7 +8,7 @@ import type {
     ReactNode,
     Ref,
 } from "react"
-import type { IInput } from "./input"
+import type { IInput } from "./flat-form/form-input/input"
 
 export enum EnumSchemeItemType {
     Input = "input",
@@ -165,7 +165,10 @@ export interface IJsonFormRefObject {
         silent?: boolean,
         checkOnlyFilled?: boolean
     ) => void
-    validate: (checkOnlyFilled?: boolean) => null | IErrors | TypeErrorItem[]
+    validate: (
+        checkOnlyFilled?: boolean,
+        level?: number
+    ) => null | IErrors | TypeErrorItem[]
     values: () => TypeValue
     errors: () => IErrors | TypeErrorItem[]
 }
@@ -176,8 +179,8 @@ export type IJsonFormRef = IJsonFormRefObject | IJsonFormRefArray
 
 export type IJsonFormProps = PropsWithChildren &
     IJsonFormParams &
-    Partial<Pick<IScheme, "id" | "title">> &
-    Pick<IScheme, "multiple" | "scheme"> & {
+    Partial<Pick<IScheme, "title">> &
+    Pick<IScheme, "id" | "multiple" | "scheme"> & {
         tests?: FieldTests
         viewType?: string
         level?: number
@@ -198,7 +201,7 @@ export interface IUiFlatFormProps {
 }
 
 export interface JsonFormUi {
-    Container: FC<PropsWithChildren<{}>>
+    Container: FC<PropsWithChildren<object>>
     Header: FC<PropsWithChildren<IUiHeaderProps>>
     Body: FC<PropsWithChildren<IUiBodyProps>>
     FlatForm: FC<PropsWithChildren<IUiFlatFormProps>>
@@ -206,9 +209,9 @@ export interface JsonFormUi {
     Item: FC<PropsWithChildren<IItem>>
     ItemWrapper: FC<PropsWithChildren<IItem>>
     ArrayForm: FC<PropsWithChildren<IUiArrayFormProps>> & {
-        Header: FC<PropsWithChildren<{}>>
+        Header: FC<PropsWithChildren<object>>
         Tabs: FC<PropsWithChildren<IUiArrayFormTabsProps>>
-        Body: FC<PropsWithChildren<{}>>
+        Body: FC<PropsWithChildren<object>>
         TrashContainer: FC<PropsWithChildren<IUiArrayFormTrashContainerProps>>
     }
     Tab: FC<PropsWithChildren<IUiTabProps>>

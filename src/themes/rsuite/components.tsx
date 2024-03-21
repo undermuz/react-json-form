@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from "react"
 import { Panel } from "rsuite"
 import styled from "styled-components"
 import type { IJsonFormProps } from "../../types"
-import { useJsonFormUi } from "../../UiContext"
+import { useJsonFormUi } from "../../contexts/ui"
 
 const UiHeader = styled.div`
     display: flex;
