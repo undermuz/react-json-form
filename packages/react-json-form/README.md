@@ -6,7 +6,7 @@
 
 ## Install
 
-`npm i @undermuz/react-json-form @undermuz/react-json-form-theme-chakra`
+`npm i @undermuz/react-json-form`
 
 ## Basic usage
 
@@ -27,7 +27,7 @@ import JsonForm, {
 3. Import theme
 
 ```jsx
-import ChakraUiTheme from "@undermuz/react-json-form-theme-chakra"
+import ChakraUiTheme from "@undermuz/react-json-form/themes/chakra"
 ```
 
 4. Create form component
