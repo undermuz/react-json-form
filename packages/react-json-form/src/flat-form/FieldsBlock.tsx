@@ -10,6 +10,8 @@ import {
     type IFlatFormParams,
     FlatFormContext,
 } from "./FlatForm"
+import { ErrorBoundary } from "react-error-boundary"
+import ErrorFallback from "../components/ErrorFallback"
 
 export type IFormFieldsParams = {
     except?: string[]
@@ -54,25 +56,40 @@ export const FieldsList: FC<IFlatFormFieldsParams & IFormFieldsParams> = (
 
                 if (!isField)
                     return (
-                        <FormItem
+                        <ErrorBoundary
                             key={index}
-                            {...schemeItem}
-                            level={level}
-                            isLoading={isLoading}
-                            isFormPrimary={isFormPrimary}
-                            isLast={index === scheme.length - 1}
-                        />
+                            FallbackComponent={ErrorFallback}
+                            onReset={() => {
+                                // reset the state of your app so the error doesn't happen again
+                            }}
+                        >
+                            <FormItem
+                                key={index}
+                                {...schemeItem}
+                                level={level}
+                                isLoading={isLoading}
+                                isFormPrimary={isFormPrimary}
+                                isLast={index === scheme.length - 1}
+                            />
+                        </ErrorBoundary>
                     )
 
                 return (
-                    <FormField
-                        {...schemeItem}
-                        onFormsRef={onFormsRef}
+                    <ErrorBoundary
                         key={index}
-                        level={level}
-                        isFormPrimary={isFormPrimary}
-                        isLast={index === scheme.length - 1}
-                    />
+                        FallbackComponent={ErrorFallback}
+                        onReset={() => {
+                            // reset the state of your app so the error doesn't happen again
+                        }}
+                    >
+                        <FormField
+                            {...schemeItem}
+                            onFormsRef={onFormsRef}
+                            level={level}
+                            isFormPrimary={isFormPrimary}
+                            isLast={index === scheme.length - 1}
+                        />
+                    </ErrorBoundary>
                 )
             })}
         </>

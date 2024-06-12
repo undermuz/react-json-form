@@ -8,5 +8,8 @@
         "IJFL",
         "tsup"
     ],
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "eslint.workingDirectories": [
+        "packages/react-json-form",
+        "packages/themes/chakra"
+    ]
 }

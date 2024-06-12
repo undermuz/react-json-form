@@ -5,6 +5,7 @@ import type {
     PropsWithChildren,
     RefAttributes,
 } from "react"
+
 import { forwardRef, useMemo, useCallback } from "react"
 
 import {
@@ -261,7 +262,7 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
     const isError = errors?.length > 0
 
     return (
-        <FormControl isInvalid={isError}>
+        <FormControl isInvalid={isError} as={Flex} flexDir={"column"}>
             {showLabel && <FormLabel htmlFor={id}>{title}</FormLabel>}
 
             {children}
