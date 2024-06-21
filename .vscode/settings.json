@@ -10,6 +10,9 @@
     ],
     "eslint.workingDirectories": [
         "packages/react-json-form",
-        "packages/themes/chakra"
+        "stories",
+        "packages/themes/chakra",
+        "packages/themes/grommet",
+        "packages/themes/rsuite"
     ]
 }
