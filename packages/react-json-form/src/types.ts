@@ -73,10 +73,18 @@ export type TypeErrorItem = {
     value: IErrors | TypeErrorItem[]
 }
 
-export type TypeValueItem = Record<string, any>
-export type TypeValue = TypeValueItem | TypeValueItem[]
+export type SubmitErrors = null | IErrors | TypeErrorItem[] | IErrors[]
 
-export type FunctionOnChange = (value: TypeValue) => void
+export type DefType = Record<string, any>
+
+export type TypeValueItem<T extends DefType = DefType> = T
+export type TypeValue<T extends DefType = DefType> =
+    | TypeValueItem<T>
+    | TypeValueItem<T>[]
+
+export type FunctionOnChange<T extends DefType = DefType> = (
+    value: TypeValue<T>
+) => void
 
 export type FieldTests = {
     [p: string]: FieldRuleFunction
@@ -161,7 +169,7 @@ export interface IJsonFormParams {
     onError?: (e: JsonFormErrors) => void
 }
 
-export interface IJsonFormRefObject {
+export interface IJsonFormRefObject<T extends DefType = DefType> {
     setTouched: (
         newTouched: ITouched | null,
         silent?: boolean,
@@ -171,13 +179,16 @@ export interface IJsonFormRefObject {
         checkOnlyFilled?: boolean,
         level?: number
     ) => null | IErrors | TypeErrorItem[]
-    values: () => TypeValue
+    values: () => TypeValue<T>
     errors: () => IErrors | TypeErrorItem[]
 }
 
-export type IJsonFormRefArray = IJsonFormRefObject[]
+export type IJsonFormRefArray<T extends DefType = DefType> =
+    IJsonFormRefObject<T>[]
 
-export type IJsonFormRef = IJsonFormRefObject | IJsonFormRefArray
+export type IJsonFormRef<T extends DefType = DefType> =
+    | IJsonFormRefObject<T>
+    | IJsonFormRefArray<T>
 
 export type IJsonFormProps = PropsWithChildren &
     IJsonFormParams &

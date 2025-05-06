@@ -22,10 +22,16 @@ import ArrayFormItem from "../array-form/ArrayFormItem"
 
 export const JFL_FlatFormName = "__JFL__FlatForm"
 
+export const JFL_Nothing: FC<PropsWithChildren> = ({ children }) => (
+    <>{children}</>
+)
+
 const JFL_Form: FC<Record<string, any>> = (props) => {
     const Ui = useJsonFormUi()
 
-    const { as: Cmp = Ui.FlatForm, children: _children } = props
+    const FlatForm = Ui?.FlatForm ? Ui.FlatForm : JFL_Nothing
+
+    const { as: Cmp = FlatForm, children: _children, ...rest } = props
 
     const value = useContext(FlatFormContext)
 
@@ -41,7 +47,7 @@ const JFL_Form: FC<Record<string, any>> = (props) => {
     const children = count > 0 ? _children : <JFL_FormFields />
 
     return (
-        <Cmp {...props} {...cmpProps}>
+        <Cmp {...rest} {...cmpProps}>
             {children}
         </Cmp>
     )
@@ -85,6 +91,7 @@ const JFL_FormField: FC<
 
     return (
         <FormField
+            key={name}
             {...schemeItem}
             level={value.level}
             isFormPrimary={value.isFormPrimary}

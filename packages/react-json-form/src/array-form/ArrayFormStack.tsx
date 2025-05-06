@@ -20,6 +20,8 @@ export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
     const Ui = useJsonFormUi()
 
     if (!value.length) {
+        if (!Ui?.ArrayForm || !Ui.Tab || !Ui.Icons) return null
+
         return (
             <Ui.ArrayForm style={{ position: "relative", zIndex: 1 }}>
                 <Ui.ArrayForm.Header>
@@ -38,6 +40,21 @@ export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
     return (
         <>
             {value.map((item, index) => {
+                const body = (
+                    <ArrayFormItem
+                        {...rest}
+                        isShow
+                        parentId={id}
+                        id={item.id}
+                        value={item}
+                        onRef={onRef}
+                        onChange={changeTab}
+                        onError={setTabErrors}
+                    />
+                )
+
+                if (!Ui?.ArrayForm || !Ui.Tab || !Ui.Icons) return body
+
                 return (
                     <Ui.ArrayForm
                         key={item.id}

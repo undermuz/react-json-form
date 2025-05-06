@@ -2,16 +2,16 @@ import { createContext, useContext } from "react"
 import { JsonFormComponent } from "../components/JsonFormComponents"
 import type { JsonFormComponents, JsonFormUi } from "../types"
 
-const UiContext = createContext<JsonFormUi | null>(null)
+const UiContext = createContext<Partial<JsonFormUi> | null>(null)
 
-export const useJsonFormUi = (): JsonFormUi => {
+export const useJsonFormUi = (): Partial<JsonFormUi> | null => {
     const Ui = useContext(UiContext)
 
-    if (!Ui) {
-        throw new Error(
-            "JsonForm must be wrapped by UiContext.Provider with selected UI"
-        )
-    }
+    // if (!Ui) {
+    //     throw new Error(
+    //         "JsonForm must be wrapped by UiContext.Provider with selected UI"
+    //     )
+    // }
 
     return Ui
 }

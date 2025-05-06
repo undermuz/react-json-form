@@ -1,23 +1,28 @@
 import { type IErrors } from "@undermuz/use-form"
 
-import { useCallback, type FormEventHandler, type RefObject } from "react"
+import {
+    useCallback,
+    type EventHandler,
+    type SyntheticEvent,
+    type RefObject,
+} from "react"
 
-import type { IJsonFormRef, TypeErrorItem, TypeValue } from "./types"
+import type { DefType, IJsonFormRef, SubmitErrors, TypeValue } from "./types"
 
-const hasErrors = (errors?: IErrors | TypeErrorItem[] | null) =>
+const hasErrors = (errors?: SubmitErrors) =>
     errors !== null && errors !== undefined && Object.keys(errors).length > 0
 
-const useSubmit = (
-    ref: RefObject<IJsonFormRef>,
+const useSubmit = <T extends DefType = DefType>(
+    ref: RefObject<IJsonFormRef<T> | null>,
     onSubmit: (
-        values: TypeValue,
-        errors: null | IErrors | TypeErrorItem[] | IErrors[],
+        values: TypeValue<T>,
+        errors: SubmitErrors,
         isValid: boolean
     ) => void
 ) => {
-    return useCallback<FormEventHandler<HTMLFormElement>>(
-        (e) => {
-            e.preventDefault()
+    return useCallback<EventHandler<SyntheticEvent>>(
+        (event?: SyntheticEvent) => {
+            event?.preventDefault()
 
             if (!ref.current) {
                 console.error("ref is null")
@@ -29,7 +34,7 @@ const useSubmit = (
                 const fromValues = ref.current.map((r) => r.values())
 
                 onSubmit(
-                    fromValues,
+                    fromValues as unknown as TypeValue<T>,
                     formErrors as IErrors[],
                     formErrors.some((e) => hasErrors(e))
                 )
@@ -39,7 +44,11 @@ const useSubmit = (
             ref.current.setTouched(null, true, false)
             const formErrors = ref.current.validate(false)
 
-            return onSubmit(ref.current.values(), formErrors, !hasErrors(formErrors))
+            return onSubmit(
+                ref.current.values(),
+                formErrors,
+                !hasErrors(formErrors)
+            )
         },
         [onSubmit]
     )

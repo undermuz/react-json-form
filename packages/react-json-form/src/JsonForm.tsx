@@ -1,5 +1,14 @@
 /*SYSTEM IMPORTS*/
-import { useEffect, useState, useRef, forwardRef } from "react"
+import {
+    useEffect,
+    useState,
+    useRef,
+    forwardRef,
+    type PropsWithChildren,
+    type FC,
+    type ReactElement,
+} from "react"
+
 import { ErrorBoundary } from "react-error-boundary"
 
 /* TYPES */
@@ -19,6 +28,24 @@ import { useJsonFormComponents } from "./contexts/ui"
 import ValueContext from "./contexts/value"
 import type { IErrors } from "@undermuz/use-form"
 import Form from "./Form"
+import ContextId from "./contexts/id"
+
+const ContextIdForward: FC<{ level?: number } & PropsWithChildren> = ({
+    level = 1,
+    children,
+}): ReactElement<any, any> | null => {
+    const contextId = useRef({ lastId: 0 })
+
+    if (level > 1) {
+        return (children as ReactElement) || null
+    }
+
+    return (
+        <ContextId.Provider value={contextId.current}>
+            {children || null}
+        </ContextId.Provider>
+    )
+}
 
 const JsonForm = forwardRef<IJsonFormRef, IJsonFormProps>((props, ref) => {
     const {
@@ -72,19 +99,21 @@ const JsonForm = forwardRef<IJsonFormRef, IJsonFormProps>((props, ref) => {
                 // reset the state of your app so the error doesn't happen again
             }}
         >
-            <ValueContext.Provider value={value}>
-                <Components.JsonForm {...props}>
-                    <Form
-                        {...props}
-                        ref={ref}
-                        level={level}
-                        errors={errors}
-                        value={value}
-                        def={defValue}
-                        onError={setErrors}
-                    />
-                </Components.JsonForm>
-            </ValueContext.Provider>
+            <ContextIdForward level={level}>
+                <ValueContext.Provider value={value}>
+                    <Components.JsonForm {...props}>
+                        <Form
+                            {...props}
+                            ref={ref}
+                            level={level}
+                            errors={errors}
+                            value={value}
+                            def={defValue}
+                            onError={setErrors}
+                        />
+                    </Components.JsonForm>
+                </ValueContext.Provider>
+            </ContextIdForward>
         </ErrorBoundary>
     )
 })

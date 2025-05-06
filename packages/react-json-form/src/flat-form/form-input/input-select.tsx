@@ -8,6 +8,12 @@ import { useJsonFormApi } from "../../contexts/api"
 const InputAsyncSelect: FC<IInput & { apiName: string }> = (props) => {
     const Ui = useJsonFormUi()
 
+    if (!Ui?.Controls?.Select) {
+        console.error("No Ui.Controls.Select provided")
+
+        return null
+    }
+
     const api = useJsonFormApi(props.apiName)
 
     const settings = useMemo(() => {
@@ -24,6 +30,12 @@ const InputAsyncSelect: FC<IInput & { apiName: string }> = (props) => {
 
 export const InputSelect: FC<IInput> = (props) => {
     const Ui = useJsonFormUi()
+
+    if (!Ui?.Controls?.Select) {
+        console.error("No Ui.Controls.Select provided")
+
+        return null
+    }
 
     if (props?.settings?.useApi) {
         return (

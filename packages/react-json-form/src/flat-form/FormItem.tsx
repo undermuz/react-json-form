@@ -3,6 +3,7 @@ import { EnumSchemeItemType, type ISchemeItem } from "../types"
 
 import { useJsonFormUi } from "../contexts/ui"
 import type { IChildFormsSetRef } from "./useFlatRef"
+import { JFL_Nothing } from "../components/JsonFormLayout"
 
 export type IFormItemProps = ISchemeItem & {
     isLast?: boolean
@@ -19,7 +20,19 @@ const FormItem: FC<PropsWithChildren & IFormItemProps> = ({
 }) => {
     const Ui = useJsonFormUi()
 
-    const { as: Cmp = Ui.Item, isFormPrimary, isLast, type, title } = props
+    const Item = Ui?.Item ? Ui.Item : JFL_Nothing
+
+    const { as: Cmp = Item, isFormPrimary, isLast, type, title } = props
+
+    const body = (
+        <Cmp {...props} primary={isFormPrimary}>
+            {children}
+        </Cmp>
+    )
+
+    if (!Ui?.ItemWrapper) {
+        return body
+    }
 
     return (
         <Ui.ItemWrapper
@@ -28,9 +41,7 @@ const FormItem: FC<PropsWithChildren & IFormItemProps> = ({
             primary={isFormPrimary}
             title={title}
         >
-            <Cmp {...props} primary={isFormPrimary}>
-                {children}
-            </Cmp>
+            {body}
         </Ui.ItemWrapper>
     )
 }

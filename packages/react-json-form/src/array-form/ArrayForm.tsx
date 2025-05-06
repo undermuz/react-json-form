@@ -68,7 +68,6 @@ export const ArrayFormContext = createContext<IArrayFormParams>({
 const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
     (props, ref) => {
         const {
-            // id,
             value: _value,
             errors,
             viewType = "stack",

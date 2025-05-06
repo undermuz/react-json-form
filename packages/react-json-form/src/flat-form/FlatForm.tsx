@@ -111,6 +111,8 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
 
         /* Set default values */
         useEffect(() => {
+            let shouldUpdate = false
+
             const new_value: TypeValueItem = {}
 
             for (const schemeItem of fieldsScheme) {
@@ -126,9 +128,10 @@ const FlatForm = forwardRef<IJsonFormRef, PropsWithChildren & FlatFormProps>(
                 }
 
                 new_value[name] = def_value
+                shouldUpdate = true
             }
 
-            onChange({ ...value, ...new_value })
+            if (shouldUpdate) onChange({ ...value, ...new_value })
         }, [])
 
         useFlatRef(id, ref, form, childFormsRef)

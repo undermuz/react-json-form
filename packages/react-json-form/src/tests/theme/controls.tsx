@@ -28,6 +28,7 @@ const ControlCheckBox: FC<IInput> = (props) => {
                 name={name}
                 onChange={(event) => onChange?.(event.target.checked)}
                 onMouseLeave={(e) =>
+                    //@ts-ignore
                     onBlur?.((e.currentTarget as HTMLInputElement).checked)
                 }
             />
@@ -48,7 +49,10 @@ const ControlTextBlock: FC<IInput> = (props) => {
             name={name}
             disabled={isDisabled}
             {...settings}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={(e) =>
+                //@ts-ignore
+                onBlur?.(e.currentTarget.value)
+            }
             onChange={(event) => onChange?.(event.currentTarget.value)}
         />
     )
@@ -84,7 +88,10 @@ const ControlInput: FC<IInput> = (props) => {
             type={inputType || type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={(e) =>
+                //@ts-ignore
+                onBlur?.(e.currentTarget.value)
+            }
         />
     )
 }

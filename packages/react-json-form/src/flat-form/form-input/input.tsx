@@ -29,9 +29,9 @@ export interface IInput {
     settings: TypeSchemeItemSettings
     onFormsRef?: IChildFormsSetRef
     onError?: CallableFunction
-    onChange?: CallableFunction
-    onFocus?: CallableFunction
-    onBlur?: CallableFunction
+    onChange?: (value: unknown) => void
+    onFocus?: () => void
+    onBlur?: () => void
 }
 
 const Input: FC<PropsWithChildren & IInput> = (props) => {
@@ -52,6 +52,12 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
 
     try {
         if (type == EnumSchemeItemType.Files) {
+            if (!Ui?.Controls?.FileInput) {
+                console.error("No Ui.Controls.FileInput provided")
+
+                return null
+            }
+
             return <Ui.Controls.FileInput {...props} />
         }
 
@@ -76,14 +82,32 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
         }
 
         if (type === EnumSchemeItemType.Date) {
+            if (!Ui?.Controls?.Date) {
+                console.error("No Ui.Controls.Date provided")
+
+                return null
+            }
+
             return <Ui.Controls.Date {...props} />
         }
 
         if (type === EnumSchemeItemType.Checkbox) {
+            if (!Ui?.Controls?.CheckBox) {
+                console.error("No Ui.Controls.CheckBox provided")
+
+                return null
+            }
+
             return <Ui.Controls.CheckBox {...props} />
         }
 
         if (type == EnumSchemeItemType.TextBlock) {
+            if (!Ui?.Controls?.TextBlock) {
+                console.error("No Ui.Controls.TextBlock provided")
+
+                return null
+            }
+
             return <Ui.Controls.TextBlock {...props} />
         }
 
@@ -91,6 +115,12 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
             const CustomCmp = customComponents[type]
 
             if (CustomCmp) return <CustomCmp {...props} />
+        }
+
+        if (!Ui?.Controls?.Input) {
+            console.error("No Ui.Controls.Input provided")
+
+            return null
         }
 
         return <Ui.Controls.Input {...props} />

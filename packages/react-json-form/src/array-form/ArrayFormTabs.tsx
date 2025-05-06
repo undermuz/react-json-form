@@ -3,6 +3,7 @@ import type React from "react"
 import { useCallback, useMemo, useState } from "react"
 import type { IUiTabProps, TypeValueItem } from "../types"
 import type { CollisionDetection, DragEndEvent } from "@dnd-kit/core"
+
 import {
     closestCenter,
     DndContext,
@@ -24,11 +25,13 @@ import { CSS } from "@dnd-kit/utilities"
 import { createPortal } from "react-dom"
 import { useJsonFormUi } from "../contexts/ui"
 import ArrayFormItem from "./ArrayFormItem"
+
 import { type IArrayFormParams } from "./ArrayForm"
 
 interface SortableTabProps {
     tabId: number
 }
+
 const SortableTab: FC<PropsWithChildren<SortableTabProps & IUiTabProps>> = ({
     tabId,
     ...props
@@ -43,6 +46,10 @@ const SortableTab: FC<PropsWithChildren<SortableTabProps & IUiTabProps>> = ({
         transition,
     }
 
+    if (!Ui?.Tab) {
+        return null
+    }
+
     return (
         <Ui.Tab
             {...props}
@@ -53,12 +60,17 @@ const SortableTab: FC<PropsWithChildren<SortableTabProps & IUiTabProps>> = ({
         />
     )
 }
+
 const TrashDroppable: FC = () => {
     const Ui = useJsonFormUi()
 
     const { isOver, setNodeRef } = useDroppable({
         id: "trash",
     })
+
+    if (!Ui?.ArrayForm?.TrashContainer) {
+        return null
+    }
 
     return (
         <Ui.ArrayForm.TrashContainer
@@ -69,10 +81,12 @@ const TrashDroppable: FC = () => {
     )
 }
 type TabList = (TypeValueItem & { id: number })[]
+
 interface ISortableList {
     tabs: TabList
     onSortEnd: (event: DragEndEvent) => void
 }
+
 const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
     tabs,
     onSortEnd,
@@ -180,6 +194,23 @@ export const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
 
     const Ui = useJsonFormUi()
 
+    const body = value.map((item) => {
+        return (
+            <ArrayFormItem
+                {...rest}
+                key={item.id}
+                id={item.id}
+                isShow={item.id === tab}
+                value={item}
+                onRef={onRef}
+                onChange={changeTab}
+                onError={setTabErrors}
+            />
+        )
+    })
+
+    if (!Ui?.ArrayForm || !Ui.Tab || !Ui.Icons) return <>{body}</>
+
     return (
         <Ui.ArrayForm style={{ position: "relative", zIndex: 1 }}>
             <Ui.ArrayForm.Header>
@@ -209,22 +240,7 @@ export const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
                 </Ui.ArrayForm.Tabs>
             </Ui.ArrayForm.Header>
 
-            <Ui.ArrayForm.Body>
-                {value.map((item) => {
-                    return (
-                        <ArrayFormItem
-                            {...rest}
-                            key={item.id}
-                            id={item.id}
-                            isShow={item.id === tab}
-                            value={item}
-                            onRef={onRef}
-                            onChange={changeTab}
-                            onError={setTabErrors}
-                        />
-                    )
-                })}
-            </Ui.ArrayForm.Body>
+            <Ui.ArrayForm.Body>{body}</Ui.ArrayForm.Body>
         </Ui.ArrayForm>
     )
 }
