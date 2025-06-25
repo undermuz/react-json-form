@@ -2,26 +2,35 @@ import {
     createContext,
     type PropsWithChildren,
     type FC,
+    type Context,
     useContext,
 } from "react"
+
 import { type IFormFieldCustomProps } from "../flat-form/FormField"
 import { type IInput } from "../flat-form/form-input/input"
 
-export type TypeCustomComponentProps = PropsWithChildren &
-    IInput &
-    IFormFieldCustomProps
-export type TypeCustomComponent = FC<TypeCustomComponentProps>
+export type TypeCustomComponentProps<
+    T extends Record<string, unknown> = Record<string, unknown>
+> = PropsWithChildren & IInput & IFormFieldCustomProps<T>
+
+export type TypeCustomComponent<
+    T extends Record<string, unknown> = Record<string, unknown>
+> = FC<TypeCustomComponentProps<T>>
 
 const CustomComponentsContext = createContext<Record<
     string,
     TypeCustomComponent
 > | null>(null)
 
-export const useJsonFormCustomComponents = (): Record<
-    string,
-    TypeCustomComponent
-> | null => {
-    return useContext(CustomComponentsContext)
+export const useJsonFormCustomComponents = <
+    T extends Record<string, unknown> = Record<string, unknown>
+>(): Record<string, TypeCustomComponent<T>> | null => {
+    return useContext<Record<string, TypeCustomComponent<T>> | null>(
+        CustomComponentsContext as Context<Record<
+            string,
+            TypeCustomComponent<T>
+        > | null>
+    )
 }
 
 export const useJsonFormCustomComponent = (

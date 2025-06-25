@@ -20,7 +20,9 @@ export type IFormFieldProps = ISchemeItem & {
     onFormsRef?: IChildFormsSetRef
 }
 
-export type IFormFieldCustomProps<T = unknown> = Record<string, T>
+export type IFormFieldCustomProps<
+    T extends Record<string, unknown> = Record<string, unknown>
+> = T
 
 const getFieldSettings = (props: IFormFieldProps) => {
     const { type = EnumSchemeItemType.Widget, settings = {}, level } = props

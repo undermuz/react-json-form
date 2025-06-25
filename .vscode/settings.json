@@ -12,6 +12,7 @@
         "packages/react-json-form",
         "stories",
         "packages/themes/chakra",
+        "packages/themes/chakra3",
         "packages/themes/grommet",
         "packages/themes/rsuite"
     ]
