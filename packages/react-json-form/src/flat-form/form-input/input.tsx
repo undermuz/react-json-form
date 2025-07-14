@@ -51,7 +51,7 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
     const customComponents = useJsonFormCustomComponents()
 
     try {
-        if (type == EnumSchemeItemType.Files) {
+        if (type === EnumSchemeItemType.Files) {
             if (!Ui?.Controls?.FileInput) {
                 console.error("No Ui.Controls.FileInput provided")
 
@@ -61,7 +61,7 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
             return <Ui.Controls.FileInput {...props} />
         }
 
-        if (type == EnumSchemeItemType.Widget) {
+        if (type === EnumSchemeItemType.Widget) {
             return (
                 <InputWidget
                     name={name}
@@ -77,7 +77,7 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
             )
         }
 
-        if (type == EnumSchemeItemType.Select) {
+        if (type === EnumSchemeItemType.Select) {
             return <InputSelect {...props} />
         }
 
@@ -101,7 +101,7 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
             return <Ui.Controls.CheckBox {...props} />
         }
 
-        if (type == EnumSchemeItemType.TextBlock) {
+        if (type === EnumSchemeItemType.TextBlock) {
             if (!Ui?.Controls?.TextBlock) {
                 console.error("No Ui.Controls.TextBlock provided")
 

@@ -44,7 +44,7 @@ export type JsonFormFieldRule = [Array<FieldRuleFunction | string>, string?]
 
 export interface ISchemeItem {
     name: string
-    title: string
+    title?: string
     description?: string
     placeholder?: string
     type?: EnumSchemeItemType | string
@@ -63,7 +63,7 @@ export interface IFieldWidgetSettings {
 
 export interface IScheme {
     id: string
-    title: string
+    title?: string
     scheme: ISchemeItem[]
     multiple?: boolean
 }

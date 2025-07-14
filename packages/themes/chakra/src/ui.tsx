@@ -115,7 +115,6 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
             p={pads}
             pb={2}
             justify="between"
-            // background={primary ? "teal.300" : "gray.100"}
         >
             {Boolean(title) && (
                 <Flex direction="row" justify="space-between" gap="small">
