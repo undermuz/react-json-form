@@ -57,7 +57,7 @@
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0",
-    "@undermuz/react-json-form": "^2.0.2"
+    "@undermuz/react-json-form": "^2.0.25"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

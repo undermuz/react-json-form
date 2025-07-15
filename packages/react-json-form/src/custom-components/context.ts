@@ -8,10 +8,11 @@ import {
 
 import { type IFormFieldCustomProps } from "../flat-form/FormField"
 import { type IInput } from "../flat-form/form-input/input"
+import { type IConnectedProps } from "@undermuz/use-form"
 
 export type TypeCustomComponentProps<
     T extends Record<string, unknown> = Record<string, unknown>
-> = PropsWithChildren & IInput & IFormFieldCustomProps<T>
+> = PropsWithChildren & IInput & IConnectedProps & IFormFieldCustomProps<T>
 
 export type TypeCustomComponent<
     T extends Record<string, unknown> = Record<string, unknown>

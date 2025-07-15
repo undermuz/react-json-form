@@ -29,6 +29,7 @@ import _, { isArray } from "underscore"
 
 import { AsyncSelect, Select } from "chakra-react-select"
 import { AttachmentIcon, CloseIcon } from "@chakra-ui/icons"
+import type { IConnectedProps } from "@undermuz/use-form"
 
 // import _Select from "react-select"
 // const Select = ((_Select as any).default ?? _Select) as typeof _Select
@@ -42,7 +43,7 @@ interface TypeSelectValue {
     value: number
 }
 
-const ControlSelect: FC<IInput> = (props) => {
+const ControlSelect: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, settings = {}, isDisabled = false } = props
 
     const { options, multiple, ...otherSettings } = settings
@@ -222,7 +223,7 @@ const ControlSelect: FC<IInput> = (props) => {
     )
 }
 
-const ControlDate: FC<IInput> = (props) => {
+const ControlDate: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value /* , isDisabled = false */ } = props
 
     // const defValue = useMemo(() => {
@@ -242,7 +243,7 @@ const ControlDate: FC<IInput> = (props) => {
     )
 }
 
-const ControlCheckBox: FC<IInput> = (props) => {
+const ControlCheckBox: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, title, isDisabled = false } = props
 
     const { onChange, onBlur } = props
@@ -254,16 +255,14 @@ const ControlCheckBox: FC<IInput> = (props) => {
             isChecked={Boolean(value)}
             name={name}
             onChange={(event) => onChange?.(event.target.checked)}
-            onMouseLeave={(e) =>
-                onBlur?.((e.currentTarget as HTMLInputElement).checked)
-            }
+            onMouseLeave={(e) => onBlur?.()}
         >
             {title}
         </Checkbox>
     )
 }
 
-const ControlTextBlock: FC<IInput> = (props) => {
+const ControlTextBlock: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, settings = {}, isDisabled = false } = props
 
     const { onChange, onBlur } = props
@@ -275,13 +274,13 @@ const ControlTextBlock: FC<IInput> = (props) => {
             name={name}
             isDisabled={isDisabled}
             {...settings}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={(e) => onBlur?.()}
             onChange={(event) => onChange?.(event.currentTarget.value)}
         />
     )
 }
 
-const ControlFileInput: FC<IInput> = (props) => {
+const ControlFileInput: FC<IInput & IConnectedProps> = (props) => {
     const {
         id,
         name,
@@ -396,7 +395,7 @@ const ControlFileInput: FC<IInput> = (props) => {
     )
 }
 
-const ControlInput: FC<IInput> = (props) => {
+const ControlInput: FC<IInput & IConnectedProps> = (props) => {
     const {
         id,
         name,
@@ -422,7 +421,7 @@ const ControlInput: FC<IInput> = (props) => {
             type={inputType || type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={(e) => onBlur?.()}
         />
     )
 }
