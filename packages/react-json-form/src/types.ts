@@ -134,7 +134,7 @@ export interface IField {
 
 export interface IItem {
     [k: string]: any
-    title: string
+    title?: string
     isLast: boolean
     primary?: boolean
     type: EnumSchemeItemType | string

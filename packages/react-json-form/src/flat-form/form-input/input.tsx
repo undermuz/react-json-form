@@ -25,7 +25,7 @@ export interface IInput {
     isDisabled?: boolean
     type: EnumSchemeItemType | string
     hasError?: boolean
-    title: string
+    title?: string
     settings: TypeSchemeItemSettings
     onFormsRef?: IChildFormsSetRef
     onError?: CallableFunction

@@ -28,7 +28,7 @@ const InputWidget: FC<PropsWithChildren & IInputWidgetProps> = (props) => {
     const {
         name = "unknown",
         value,
-        title = "",
+        title,
         settings = DEF_SETTINGS,
         children,
         onRef,

@@ -5,10 +5,12 @@ import {
     useMemo,
     type FC,
     type PropsWithChildren,
+    type JSXElementConstructor,
 } from "react"
 import { useJsonFormUi } from "../contexts/ui"
 import {
     FlatFormContext,
+    type FlatFormProps,
     type IFlatFormFieldsParams,
 } from "../flat-form/FlatForm"
 import { FieldsList, type IFormFieldsParams } from "../flat-form/FieldsBlock"
@@ -26,7 +28,12 @@ export const JFL_Nothing: FC<PropsWithChildren> = ({ children }) => (
     <>{children}</>
 )
 
-const JFL_Form: FC<Record<string, any>> = (props) => {
+const JFL_Form: FC<
+    PropsWithChildren &
+        Record<string, unknown> & {
+            as?: JSXElementConstructor<Record<string, unknown>>
+        }
+> = (props) => {
     const Ui = useJsonFormUi()
 
     const FlatForm = Ui?.FlatForm ? Ui.FlatForm : JFL_Nothing

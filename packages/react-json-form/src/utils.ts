@@ -265,7 +265,7 @@ export const useSchemeToForm = (
             const rules = getRules(item.rules, tests)
 
             config.fields[item.name] = {
-                label: item.title,
+                label: item.title || item.name,
                 rules,
                 initialValue: item.def_value,
             }
