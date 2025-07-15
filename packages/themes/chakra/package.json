@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form-theme-chakra",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Chakra theme for @undermuz/react-json-form",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

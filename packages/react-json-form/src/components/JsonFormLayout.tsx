@@ -10,7 +10,6 @@ import {
 import { useJsonFormUi } from "../contexts/ui"
 import {
     FlatFormContext,
-    type FlatFormProps,
     type IFlatFormFieldsParams,
 } from "../flat-form/FlatForm"
 import { FieldsList, type IFormFieldsParams } from "../flat-form/FieldsBlock"
