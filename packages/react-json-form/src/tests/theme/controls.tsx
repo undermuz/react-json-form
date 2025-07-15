@@ -3,17 +3,18 @@ import { type FC } from "react"
 import type { IInput } from "../../../src/flat-form/form-input/input"
 import type { JsonFormControls } from "../../../src/types"
 
-import _ from "underscore"
+// import _ from "underscore"
+import { type IConnectedProps } from "@undermuz/use-form"
 
-const ControlSelect: FC<IInput> = () => {
+const ControlSelect: FC<IInput & IConnectedProps> = () => {
     return null
 }
 
-const ControlDate: FC<IInput> = () => {
+const ControlDate: FC<IInput & IConnectedProps> = () => {
     return null
 }
 
-const ControlCheckBox: FC<IInput> = (props) => {
+const ControlCheckBox: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, title, isDisabled = false } = props
 
     const { onChange, onBlur } = props
@@ -37,7 +38,7 @@ const ControlCheckBox: FC<IInput> = (props) => {
     )
 }
 
-const ControlTextBlock: FC<IInput> = (props) => {
+const ControlTextBlock: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, settings = {}, isDisabled = false } = props
 
     const { onChange, onBlur } = props
@@ -58,11 +59,11 @@ const ControlTextBlock: FC<IInput> = (props) => {
     )
 }
 
-const ControlFileInput: FC<IInput> = () => {
+const ControlFileInput: FC<IInput & IConnectedProps> = () => {
     return null
 }
 
-const ControlInput: FC<IInput> = (props) => {
+const ControlInput: FC<IInput & IConnectedProps> = (props) => {
     const {
         id,
         name,
@@ -75,7 +76,7 @@ const ControlInput: FC<IInput> = (props) => {
 
     const { onChange, onBlur } = props
 
-    /* @ts-ignore */
+    //eslint-disable-next-line
     const { inputType, showLabel, showToggle, ...settings } = _rawSettings
 
     return (

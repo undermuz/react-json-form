@@ -4,8 +4,11 @@ import type { IInput } from "./input"
 import { useMemo } from "react"
 import { useJsonFormUi } from "../../contexts/ui"
 import { useJsonFormApi } from "../../contexts/api"
+import { type IConnectedProps } from "@undermuz/use-form"
 
-const InputAsyncSelect: FC<IInput & { apiName: string }> = (props) => {
+const InputAsyncSelect: FC<IInput & IConnectedProps & { apiName: string }> = (
+    props
+) => {
     const Ui = useJsonFormUi()
 
     if (!Ui?.Controls?.Select) {
@@ -28,7 +31,7 @@ const InputAsyncSelect: FC<IInput & { apiName: string }> = (props) => {
     return <Ui.Controls.Select {...props} settings={settings} />
 }
 
-export const InputSelect: FC<IInput> = (props) => {
+export const InputSelect: FC<IInput & IConnectedProps> = (props) => {
     const Ui = useJsonFormUi()
 
     if (!Ui?.Controls?.Select) {
