@@ -16,6 +16,7 @@ import InputWidget from "../../inputs/inputWIdget"
 import type { IChildFormsSetRef } from "../useFlatRef"
 import { useJsonFormCustomComponents } from "../../custom-components/context"
 import { InputSelect } from "./input-select"
+import { type IConnectedProps } from "@undermuz/use-form"
 
 export interface IInput {
     id?: string
@@ -34,7 +35,11 @@ export interface IInput {
     onBlur?: () => void
 }
 
-const Input: FC<PropsWithChildren & IInput> = (props) => {
+type EmptyObject = Record<never, never>
+
+const Input: FC<
+    PropsWithChildren & IInput & (EmptyObject | IConnectedProps)
+> = (props) => {
     const {
         name,
         value = "",
@@ -44,6 +49,10 @@ const Input: FC<PropsWithChildren & IInput> = (props) => {
         children,
         onFormsRef,
     } = props
+
+    if (!("inputProps" in props)) {
+        throw new Error("Input is not connected")
+    }
 
     const { onChange = noop, onError = noop } = props
 

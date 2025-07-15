@@ -1,4 +1,9 @@
-import type { IError, IErrors, ITouched } from "@undermuz/use-form"
+import {
+    type IConnectedProps,
+    type IError,
+    type IErrors,
+    type ITouched,
+} from "@undermuz/use-form"
 
 import type {
     ComponentClass,
@@ -90,13 +95,13 @@ export type FieldTests = {
     [p: string]: FieldRuleFunction
 }
 export interface JsonFormControls {
-    [key: string]: FC<IInput>
-    FileInput: FC<IInput>
-    Input: FC<IInput>
-    TextBlock: FC<IInput>
-    CheckBox: FC<IInput>
-    Date: FC<IInput>
-    Select: FC<IInput>
+    [key: string]: FC<IInput & IConnectedProps>
+    FileInput: FC<IInput & IConnectedProps>
+    Input: FC<IInput & IConnectedProps>
+    TextBlock: FC<IInput & IConnectedProps>
+    CheckBox: FC<IInput & IConnectedProps>
+    Date: FC<IInput & IConnectedProps>
+    Select: FC<IInput & IConnectedProps>
 }
 
 export type IUiHeaderProps = Partial<Pick<IScheme, "id" | "title">> & {
