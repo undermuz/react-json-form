@@ -18,6 +18,7 @@ import {
     Switch,
     Text,
     VStack,
+    HStack,
 } from "@chakra-ui/react"
 
 import type {
@@ -112,7 +113,6 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
             p={pads}
             pb={2}
             justify="between"
-            // background={primary ? "teal.300" : "gray.100"}
         >
             {Boolean(title) && (
                 <Flex direction="row" justify="space-between" gap="small">
@@ -139,28 +139,12 @@ const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
         <VStack
             align={"stretch"}
             gap={"15px"}
-            style={{ display: isShow ? undefined : "none" }}
+            display={isShow ? undefined : "none"}
         >
             {children}
         </VStack>
     )
 }
-
-// const Branch = styled(Flex)`
-//     width: var(--chakra-space-3);
-//     ::before {
-//         content: "";
-//         box-sizing: content-box;
-//         display: block;
-//         width: 12px;
-//         height: var(--branch-height, 18px);
-//         padding-bottom: 18px;
-//         border: solid var(--chakra-colors-gray-300);
-//         border-width: 0 0 1px 1px;
-//         border-bottom-left-radius: 8px;
-//         margin-left: -1px;
-//     }
-// `
 
 const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
     const { type, children } = props
@@ -213,7 +197,7 @@ const UiFieldSwitch: FC<Omit<IInput, "type" | "title" | "settings">> = ({
         (e) => {
             onChange?.(!e.target.checked)
         },
-        [onChange]
+        [onChange],
     )
 
     return (
@@ -262,18 +246,28 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
 
     const isError = errors?.length > 0
 
+    /*@ts-ignore*/
+    const label = <Field.Label htmlFor={id}>{title}</Field.Label>
+
+    const toggle = (
+        <ConnectToForm name={`${name}__isDisabled`}>
+            <UiFieldSwitch />
+        </ConnectToForm>
+    )
+
     return (
         <Field.Root isInvalid={isError} as={Flex} flexDir={"column"}>
-            {/*@ts-ignore*/}
-            {showLabel && <Field.Label htmlFor={id}>{title}</Field.Label>}
+            {!showToggle && showLabel && label}
+            {showToggle && !showLabel && toggle}
+
+            {showToggle && showLabel && (
+                <HStack justify={"space-between"}>
+                    {label}
+                    {toggle}
+                </HStack>
+            )}
 
             {children}
-
-            {showToggle && (
-                <ConnectToForm name={`${name}__isDisabled`}>
-                    <UiFieldSwitch />
-                </ConnectToForm>
-            )}
 
             {description !== null && !isError && (
                 <Field.HelperText>{description}</Field.HelperText>
@@ -314,13 +308,13 @@ const UiTab: ForwardRefExoticComponent<
                 {props.children}
             </Tab>
         )
-    }
+    },
 )
 
 UiTab.displayName = "UiTab"
 
 const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
-    props
+    props,
 ) => {
     return (
         <Flex direction="column" style={props.style} p={3}>
@@ -367,7 +361,7 @@ const UiArrayFormTrashContainer = forwardRef<
 UiArrayFormTrashContainer.displayName = "UiArrayFormTrashContainer"
 
 const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
-    props
+    props,
 ) => {
     return (
         <Stack direction="row" gap={2} align="center">
