@@ -17,6 +17,7 @@ import {
     FormHelperText,
     FormLabel,
     Heading,
+    HStack,
     Stack,
     Switch,
     Text,
@@ -251,26 +252,36 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
             return false
         }
 
-        if (type === EnumSchemeItemType.Widget) {
-            return false
-        }
-
         return true
     }, [type, _showLabel])
 
+    // if (type === EnumSchemeItemType.Widget) {
+    //     return <>{children}</>
+    // }
+
     const isError = errors?.length > 0
+
+    const label = <FormLabel htmlFor={id}>{title}</FormLabel>
+
+    const toggle = (
+        <ConnectToForm name={`${name}__isDisabled`}>
+            <UiFieldSwitch />
+        </ConnectToForm>
+    )
 
     return (
         <FormControl isInvalid={isError} as={Flex} flexDir={"column"}>
-            {showLabel && <FormLabel htmlFor={id}>{title}</FormLabel>}
+            {!showToggle && showLabel && label}
+            {showToggle && !showLabel && toggle}
+
+            {showToggle && showLabel && (
+                <HStack justify={"space-between"}>
+                    {label}
+                    {toggle}
+                </HStack>
+            )}
 
             {children}
-
-            {showToggle && (
-                <ConnectToForm name={`${name}__isDisabled`}>
-                    <UiFieldSwitch />
-                </ConnectToForm>
-            )}
 
             {description !== null && !isError && (
                 <FormHelperText>{description}</FormHelperText>
