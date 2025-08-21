@@ -12,7 +12,7 @@ import type {
 import { EnumSchemeItemType } from "../../types"
 
 import { useJsonFormUi } from "../../contexts/ui"
-import InputWidget from "../../inputs/inputWIdget"
+import InputWidget from "./input-wIdget"
 import type { IChildFormsSetRef } from "../useFlatRef"
 import { useJsonFormCustomComponents } from "../../custom-components/context"
 import { InputSelect } from "./input-select"

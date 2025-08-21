@@ -127,6 +127,7 @@ export interface IUiTabProps {
 export interface IField {
     id: string
     title: string
+    isDisabled: boolean
     description?: string
     name: string
     isLast: boolean
@@ -203,6 +204,7 @@ export type IJsonFormProps = PropsWithChildren &
         viewType?: string
         level?: number
         fillArrayDefault?: boolean
+        showToggle?: boolean
     }
 
 export interface JsonFormComponents {

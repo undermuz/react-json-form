@@ -5,9 +5,9 @@ import type {
     IFieldWidgetSettings,
     IJsonFormRef,
     JsonFormErrors,
-} from "../types"
-import JsonForm from "../JsonForm"
-import type { IChildFormsSetRef } from "../flat-form/useFlatRef"
+} from "../../types"
+import JsonForm from "../../JsonForm"
+import type { IChildFormsSetRef } from "../useFlatRef"
 
 interface IInputWidgetProps {
     name?: string

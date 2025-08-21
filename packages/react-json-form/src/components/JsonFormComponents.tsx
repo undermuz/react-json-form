@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from "react"
+import { type FC, type PropsWithChildren } from "react"
 import type { IJsonFormProps } from "../types"
 import { useJsonFormUi } from "../contexts/ui"
 
@@ -10,10 +10,15 @@ const JsonFormComponent: FC<PropsWithChildren<IJsonFormProps>> = (props) => {
         header = null,
         multiple = false,
         primary = true,
+        // showToggle = false,
         children,
     } = props
 
     const Ui = useJsonFormUi()
+
+    if (level > 1) {
+        return <>{children}</>
+    }
 
     if (!Ui?.Container || !Ui?.Header || !Ui?.Body) {
         return (

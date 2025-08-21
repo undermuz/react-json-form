@@ -102,6 +102,7 @@ const FormField: FC<
             primary={isFormPrimary}
             showLabel={showLabel}
             showToggle={showToggle}
+            isDisabled={isDisabled}
             title={title}
             description={description}
             errors={errors}
