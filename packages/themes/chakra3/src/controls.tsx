@@ -223,7 +223,7 @@ const ControlSelect: FC<IInput & IConnectedProps> = (props) => {
 }
 
 const ControlDate: FC<IInput & IConnectedProps> = (props) => {
-    const { id, name, value /* , isDisabled = false */ } = props
+    const { id, name, value, settings = {} /* , isDisabled = false */ } = props
 
     // const defValue = useMemo(() => {
     //     return new Date()
@@ -235,6 +235,7 @@ const ControlDate: FC<IInput & IConnectedProps> = (props) => {
         <SingleDatepicker
             id={id}
             name={name}
+            {...settings}
             // isDisabled={isDisabled}
             date={value ? value : undefined}
             onDateChange={(value) => onChange?.(value)}
