@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form-theme-chakra-v3",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "2.0.23",
+  "version": "2.0.24",
   "description": "ChakraV3 theme for @undermuz/react-json-form",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -57,7 +57,7 @@
     "underscore": "^1.13.4"
   },
   "peerDependencies": {
-    "@undermuz/react-json-form": "^2.0.22",
+    "@undermuz/react-json-form": "^2.0.28",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },

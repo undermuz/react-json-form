@@ -221,6 +221,7 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
         title,
         name,
         description = null,
+        isDisabled,
         type,
         errors,
         children,
@@ -237,12 +238,12 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
             return false
         }
 
-        if (type === EnumSchemeItemType.Widget) {
-            return false
-        }
-
         return true
     }, [type, _showLabel])
+
+    // if (type === EnumSchemeItemType.Widget) {
+    //     return children
+    // }
 
     const isError = errors?.length > 0
 
@@ -255,8 +256,15 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
         </ConnectToForm>
     )
 
+    const showChildren = type === EnumSchemeItemType.Widget ? !isDisabled : true
+
     return (
-        <Field.Root isInvalid={isError} as={Flex} flexDir={"column"}>
+        <Field.Root
+            isInvalid={isError}
+            as={Flex}
+            alignItems="stretch"
+            flexDir={"column"}
+        >
             {!showToggle && showLabel && label}
             {showToggle && !showLabel && toggle}
 
@@ -267,7 +275,7 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
                 </HStack>
             )}
 
-            {children}
+            {showChildren && children}
 
             {description !== null && !isError && (
                 <Field.HelperText>{description}</Field.HelperText>

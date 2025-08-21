@@ -28,6 +28,7 @@ import _, { isArray } from "underscore"
 
 import { AsyncSelect, Select } from "chakra-react-select"
 import { IoIosAttach, IoIosCloseCircle } from "react-icons/io"
+import { type IConnectedProps } from "@undermuz/use-form"
 
 // import _Select from "react-select"
 // const Select = ((_Select as any).default ?? _Select) as typeof _Select
@@ -41,7 +42,7 @@ interface TypeSelectValue {
     value: number
 }
 
-const ControlSelect: FC<IInput> = (props) => {
+const ControlSelect: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, settings = {}, isDisabled = false } = props
 
     const { options, multiple, ...otherSettings } = settings
@@ -98,7 +99,7 @@ const ControlSelect: FC<IInput> = (props) => {
                 onChange?.(_value.value)
             }
         },
-        [multiple]
+        [multiple],
     )
 
     const onBlurSelect = useCallback(() => onBlur?.(), [onBlur])
@@ -119,7 +120,7 @@ const ControlSelect: FC<IInput> = (props) => {
 
         const loadValues = async () => {
             const toAdd = newUniqValues.filter(
-                (v) => !lastLoadedValues.current.includes(v)
+                (v) => !lastLoadedValues.current.includes(v),
             )
 
             const toRemove = newUniqValues.filter((v) => !valueList.includes(v))
@@ -151,7 +152,7 @@ const ControlSelect: FC<IInput> = (props) => {
                             (_val) =>
                                 valueList.includes(_val.value) &&
                                 !newUniqValues.includes(_val.value) &&
-                                !toRemove.includes(_val.value)
+                                !toRemove.includes(_val.value),
                         ),
                         ..._values,
                     ]
@@ -161,7 +162,7 @@ const ControlSelect: FC<IInput> = (props) => {
 
                 setAsyncValues((prevAsyncValue) => {
                     return prevAsyncValue.filter(
-                        (_val) => !toRemove.includes(_val.value)
+                        (_val) => !toRemove.includes(_val.value),
                     )
                 })
             }
@@ -221,7 +222,7 @@ const ControlSelect: FC<IInput> = (props) => {
     )
 }
 
-const ControlDate: FC<IInput> = (props) => {
+const ControlDate: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value /* , isDisabled = false */ } = props
 
     // const defValue = useMemo(() => {
@@ -241,7 +242,7 @@ const ControlDate: FC<IInput> = (props) => {
     )
 }
 
-const ControlCheckBox: FC<IInput> = (props) => {
+const ControlCheckBox: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, title, isDisabled = false } = props
 
     const { onChange, onBlur } = props
@@ -267,7 +268,7 @@ const ControlCheckBox: FC<IInput> = (props) => {
     )
 }
 
-const ControlTextBlock: FC<IInput> = (props) => {
+const ControlTextBlock: FC<IInput & IConnectedProps> = (props) => {
     const { id, name, value, settings = {}, isDisabled = false } = props
 
     const { onChange, onBlur } = props
@@ -288,7 +289,7 @@ const ControlTextBlock: FC<IInput> = (props) => {
     )
 }
 
-const ControlFileInput: FC<IInput> = (props) => {
+const ControlFileInput: FC<IInput & IConnectedProps> = (props) => {
     const {
         id,
         name,
@@ -351,7 +352,7 @@ const ControlFileInput: FC<IInput> = (props) => {
                 if (inputRef.current) inputRef.current.value = ""
             }
         },
-        [onChange, files]
+        [onChange, files],
     )
 
     console.log("[ControlFileInput]", props)
@@ -381,7 +382,7 @@ const ControlFileInput: FC<IInput> = (props) => {
                             onChange?.(
                                 isMultiple
                                     ? files.filter((f) => f.name !== file.name)
-                                    : null
+                                    : null,
                             )
                         }
                     >
@@ -403,7 +404,7 @@ const ControlFileInput: FC<IInput> = (props) => {
     )
 }
 
-const ControlInput: FC<IInput> = (props) => {
+const ControlInput: FC<IInput & IConnectedProps> = (props) => {
     const {
         id,
         name,
