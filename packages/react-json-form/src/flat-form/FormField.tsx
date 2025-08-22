@@ -65,11 +65,12 @@ const FormField: FC<
 
     const errors = form.errors[props.name]
 
-    const isDisabled = form.values[`${props.name}__isDisabled`] || false
+    const values__isDisabled = form.values[`${props.name}__isDisabled`] || false
 
     const {
         as: Cmp = Field,
         isLast = false,
+        isDisabled: props__isDisabled,
         isFormPrimary,
         title,
         description,
@@ -80,6 +81,11 @@ const FormField: FC<
         onFormsRef,
         ..._customProps
     } = props
+
+    const isDisabled =
+        typeof props__isDisabled === "boolean"
+            ? props__isDisabled
+            : values__isDisabled
 
     const id = `form-field-${fieldId}` + (name ? `--${name}` : "")
 
