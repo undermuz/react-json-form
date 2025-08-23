@@ -9,7 +9,8 @@
     "storybook:start": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "storybook:deploy": "gh-pages -d storybook-static",
-    "storybook:publish": "npm run storybook:build && npm run storybook:deploy"
+    "storybook:publish": "npm run storybook:build && npm run storybook:deploy",
+    "prepare": "relative-deps"
   },
   "author": {
     "name": "undermuz",
@@ -85,6 +86,7 @@
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0",
     "react-syntax-highlighter": "^15.5.0",
+    "relative-deps": "^1.0.7",
     "rsuite": "^5.64.2",
     "storybook": "^6.5.16",
     "storybook-dark-mode": "^2.0.6",
@@ -114,5 +116,8 @@
     "forms",
     "use-form",
     "hook"
-  ]
+  ],
+  "relativeDependencies": {
+    "@undermuz/react-json-form-theme-chakra": "../packages/themes/chakra"
+  }
 }

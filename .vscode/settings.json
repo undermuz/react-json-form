@@ -4,6 +4,7 @@
         "docco",
         "esbuild",
         "esmodules",
+        "heroui",
         "hljs",
         "IJFL",
         "tsup"
@@ -13,6 +14,7 @@
         "stories",
         "packages/themes/chakra",
         "packages/themes/chakra3",
+        "packages/themes/heroui",
         "packages/themes/grommet",
         "packages/themes/rsuite"
     ]

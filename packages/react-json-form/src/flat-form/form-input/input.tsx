@@ -123,7 +123,7 @@ const Input: FC<
         if (customComponents && customComponents[type]) {
             const CustomCmp = customComponents[type]
 
-            if (CustomCmp) return <CustomCmp {...props} />
+            return <CustomCmp {...props} />
         }
 
         if (!Ui?.Controls?.Input) {

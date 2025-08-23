@@ -1,0 +1,82 @@
+{
+  "name": "@undermuz/react-json-form-theme-heroui",
+  "homepage": "http://undermuz.github.io/react-json-form",
+  "version": "2.0.25",
+  "description": "HeroUI theme for @undermuz/react-json-form",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "module": "./dist/index.mjs",
+      "esmodules": "./dist/index.mjs",
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ./src/* && tsc --noEmit",
+    "build": "npm run build:tsup",
+    "build:tsup": "tsup",
+    "predeploy": "npm run lint && npm run build",
+    "prepublishOnly": "npm run predeploy"
+  },
+  "author": {
+    "name": "undermuz",
+    "email": "undermuz@gmail.com",
+    "url": "https://github.com/undermuz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/undermuz/react-json-form.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@undermuz/use-form": ">=1.0.32",
+    "dayzed": "^3.2.3",
+    "react-icons": "5.4.0",
+    "underscore": "^1.13.4"
+  },
+  "peerDependencies": {
+    "framer-motion": "^12.23.12",
+    "@heroui/react": "^2.8.2",
+    "@undermuz/react-json-form": "^2.0.28",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.5",
+    "@types/underscore": "^1.11.4",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "esbuild-plugin-file-path-extensions": "^1.0.0",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^3",
+    "tslib": "^2",
+    "tsup": "^6",
+    "typescript": "^5"
+  },
+  "keywords": [
+    "react",
+    "form",
+    "forms",
+    "use-form",
+    "hook"
+  ]
+}
