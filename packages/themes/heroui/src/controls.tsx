@@ -13,6 +13,13 @@ import _, { isArray } from "underscore"
 
 import { IoIosAttach } from "react-icons/io"
 import { type IConnectedProps } from "@undermuz/use-form"
+
+import {
+    type DateValue,
+    CalendarDate,
+    getLocalTimeZone,
+} from "@internationalized/date"
+
 import {
     Button,
     Checkbox,
@@ -212,22 +219,31 @@ const ControlSelect: FC<IInput & IConnectedProps> = (props) => {
 }
 
 const ControlDate: FC<IInput & IConnectedProps> = (props) => {
-    const { id, name, value, settings = {}, isDisabled = false } = props
+    const { value, label, settings, onChange } = props
 
-    // const defValue = useMemo(() => {
-    //     return new Date()
-    // }, [])
+    const date = useMemo(() => {
+        const _d = value instanceof Date ? value : new Date()
 
-    const { onChange } = props
+        return new CalendarDate(
+            _d.getFullYear(),
+            _d.getMonth() + 1,
+            _d.getDate(),
+        )
+    }, [value])
+
+    const handleChange = useCallback(
+        (date: DateValue | null) => {
+            onChange?.(date?.toDate(getLocalTimeZone()))
+        },
+        [onChange],
+    )
 
     return (
         <DatePicker
-            id={id}
-            name={name}
             {...settings}
-            isDisabled={isDisabled}
-            value={value ? value : undefined}
-            onChange={(value) => onChange?.(value)}
+            label={label}
+            value={date}
+            onChange={handleChange}
         />
     )
 }

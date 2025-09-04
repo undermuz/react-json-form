@@ -30,7 +30,7 @@ export const UiField: FC<PropsWithChildren<IField>> = (props) => {
         }
 
         if (
-            // type !== EnumSchemeItemType.Input &&
+            type !== EnumSchemeItemType.Widget &&
             enumValues.includes(type as EnumSchemeItemType)
         ) {
             return false
