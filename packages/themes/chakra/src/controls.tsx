@@ -97,7 +97,7 @@ const ControlSelect: FC<IInput & IConnectedProps> = (props) => {
 
                 onChange?.(_list.map((_val) => _val.value))
             } else {
-                onChange?.(_value.value)
+                onChange?.(_value ? _value.value : null)
             }
         },
         [multiple]
@@ -224,7 +224,7 @@ const ControlSelect: FC<IInput & IConnectedProps> = (props) => {
 }
 
 const ControlDate: FC<IInput & IConnectedProps> = (props) => {
-    const { id, name, value, settings = {}, /* , isDisabled = false */ } = props
+    const { id, name, value, settings = {} /* , isDisabled = false */ } = props
 
     // const defValue = useMemo(() => {
     //     return new Date()
