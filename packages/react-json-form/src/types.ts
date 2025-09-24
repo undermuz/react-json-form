@@ -187,6 +187,7 @@ export interface IJsonFormRefObject<T extends DefType = DefType> {
     ) => null | IErrors | TypeErrorItem[]
     values: () => TypeValue<T>
     errors: () => IErrors | TypeErrorItem[]
+    reset: () => void
 }
 
 export type IJsonFormRefArray<T extends DefType = DefType> =

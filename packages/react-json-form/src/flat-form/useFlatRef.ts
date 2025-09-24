@@ -191,6 +191,46 @@ export const useFlatRef = (
             errors() {
                 return form.getErrors()
             },
+            reset() {
+                form.reset()
+
+                const childRefs = Object.values(childFormsRef.current)
+
+                const _resetChild = (child: IJsonFormRefObject) => {
+                    if (child === null) {
+                        console.warn(
+                            `[FlatForm: ${id}][ref][Reset][Child is null]`,
+                            childRefs
+                        )
+
+                        return
+                    }
+
+                    try {
+                        child.reset()
+                    } catch (e) {
+                        console.error(
+                            `[ERROR] [FlatForm: reset][Child]: ${
+                                (e as Error)?.message
+                            }`,
+                            { item: child, refs: childRefs }
+                        )
+                        console.error(e)
+                    }
+                }
+
+                for (const childRef of childRefs) {
+                    if (!Array.isArray(childRef)) {
+                        _resetChild(childRef)
+
+                        continue
+                    }
+
+                    for (const child of childRef) {
+                        _resetChild(child)
+                    }
+                }
+            },
         })
 
         return () => {
