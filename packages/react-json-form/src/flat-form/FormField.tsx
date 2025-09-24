@@ -65,7 +65,8 @@ const FormField: FC<
 
     const errors = form.errors[props.name]
 
-    const values__isDisabled = form.values[`${props.name}__isDisabled`] || false
+    const values__isDisabled: boolean =
+        Boolean(form.values[`${props.name}__isDisabled`]) || false
 
     const {
         as: Cmp = Field,
