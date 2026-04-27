@@ -251,11 +251,19 @@ export const useSchemeToForm = (
     const { scheme, value, tests, onChange, onError } = props
 
     return useMemo<IUseFormSettings>(() => {
+        const isDebug =
+            //@ts-ignore
+            typeof window !== "undefined" && window?.__REACT_JSON_FORM_DEBUG__
+
         const config: IUseFormSettings = {
             fields: {},
-            // options: {
-            //     debug: true,
-            // },
+            ...(isDebug
+                ? {
+                      options: {
+                          debug: true,
+                      },
+                  }
+                : {}),
             value,
             onChange,
             onError,
