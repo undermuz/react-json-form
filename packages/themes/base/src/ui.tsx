@@ -1,4 +1,5 @@
 import type {
+    ChangeEvent,
     CSSProperties,
     FC,
     ForwardRefExoticComponent,
@@ -6,7 +7,7 @@ import type {
     PropsWithChildren,
     RefAttributes,
 } from "react";
-import { forwardRef, useMemo } from "react";
+import { forwardRef, useCallback, useMemo } from "react";
 
 import { ConnectToForm } from "@undermuz/use-form";
 import type {
@@ -27,29 +28,44 @@ const UiContainer: FC<PropsWithChildren> = ({ children }) => {
     return <div className="rjf">{children}</div>;
 };
 
-const UiBody: FC<PropsWithChildren<IUiBodyProps>> = ({ children, primary }) => {
-    return (
-        <div className={`rjf-body${primary ? " rjf-body--primary" : ""}`}>
-            {children}
-        </div>
-    );
+const UiBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
+    const { children, primary, level } = props;
+
+    if (primary) {
+        return <div className="rjf-body rjf-body--primary">{children}</div>;
+    }
+
+    if (level > 2) {
+        return <div className="rjf-body rjf-body--deep">{children}</div>;
+    }
+
+    return <div className="rjf-body">{children}</div>;
 };
 
 const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
-    const { id, title, primary, children } = props;
+    const { title, level, primary, children } = props;
 
-    if (!title && !children && !id) {
+    const headerClass = useMemo(() => {
+        if (primary) {
+            return "rjf-header rjf-header--primary";
+        }
+
+        if (level <= 2) {
+            return "rjf-header rjf-header--compact";
+        }
+
+        return "rjf-header rjf-header--nested";
+    }, [primary, level]);
+
+    if (!title && !children) {
         return null;
     }
 
     return (
-        <div className={`rjf-header${primary ? " rjf-header--primary" : ""}`}>
-            <div className="rjf-header__main">
-                {Boolean(title) && (
-                    <h3 className="rjf-header__title">{title}</h3>
-                )}
-                {Boolean(id) && <span className="rjf-header__id">#{id}</span>}
-            </div>
+        <div className={headerClass}>
+            {Boolean(title) && (
+                <h3 className="rjf-header__title">{title}</h3>
+            )}
             {children}
         </div>
     );
@@ -57,14 +73,31 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
 
 const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
     children,
+    isShow,
 }) => {
-    return <div className="rjf-flat-form">{children}</div>;
-};
-
-const UiItemWrapper: FC<PropsWithChildren<IItem>> = ({ children, isLast }) => {
     return (
         <div
-            className={`rjf-item-wrapper${isLast ? " rjf-item-wrapper--last" : ""}`}
+            className="rjf-flat-form"
+            style={{ display: isShow ? undefined : "none" }}
+        >
+            {children}
+        </div>
+    );
+};
+
+const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
+    const { children, type } = props;
+
+    const compact = useMemo(() => {
+        return (
+            type === EnumSchemeItemType.Checkbox ||
+            type === EnumSchemeItemType.Widget
+        );
+    }, [type]);
+
+    return (
+        <div
+            className={`rjf-item-wrapper${compact ? " rjf-item-wrapper--compact" : ""}`}
         >
             {children}
         </div>
@@ -74,33 +107,39 @@ const UiItemWrapper: FC<PropsWithChildren<IItem>> = ({ children, isLast }) => {
 const UiItem: FC<PropsWithChildren<IItem>> = (props) => {
     const { title, type, ...other } = props;
 
-    if (type !== EnumSchemeItemType.Submit) {
-        return null;
-    }
-
     return (
-        <button
-            {...other}
-            type="submit"
-            className="rjf-button rjf-button--submit"
-        >
-            {title}
-        </button>
+        <>
+            {type === EnumSchemeItemType.Submit && (
+                <button
+                    {...other}
+                    type="submit"
+                    className="rjf-button rjf-button--submit"
+                >
+                    {title}
+                </button>
+            )}
+        </>
     );
 };
 
 const UiFieldSwitch: FC<Omit<IInput, "type" | "title" | "settings">> = ({
-    value,
+    value = false,
     onChange,
 }) => {
+    const onChangeHandler = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            onChange?.(!event.target.checked);
+        },
+        [onChange],
+    );
+
     return (
         <label className="rjf-field-switch">
             <input
                 type="checkbox"
-                checked={Boolean(value)}
-                onChange={(event) => onChange?.(event.target.checked)}
+                checked={!value}
+                onChange={onChangeHandler}
             />
-            <span>Disabled</span>
         </label>
     );
 };
@@ -133,23 +172,34 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
 
     const isError = Boolean(errors?.length);
 
+    const label =
+        showLabel ? (
+            <label className="rjf-field__label" htmlFor={id}>
+                {title}
+            </label>
+        ) : null;
+
+    const toggle = showToggle ? (
+        <ConnectToForm name={`${name}__isDisabled`}>
+            <UiFieldSwitch />
+        </ConnectToForm>
+    ) : null;
+
     return (
         <div
-            className={`rjf-field${isError ? " rjf-field--error" : ""}${isLast ? " rjf-field--last" : ""}`}
+            className={`rjf-field${isError ? " rjf-field--error" : ""}${isLast ? " rjf-field--last" : ""}${showToggle ? " rjf-field--toggle" : ""}`}
         >
-            {showLabel && (
-                <label className="rjf-field__label" htmlFor={id}>
-                    {title}
-                </label>
+            {!showToggle && showLabel && label}
+            {showToggle && !showLabel && toggle}
+
+            {showToggle && showLabel && (
+                <div className="rjf-field__head">
+                    {label}
+                    {toggle}
+                </div>
             )}
 
             <div className="rjf-field__control">{children}</div>
-
-            {showToggle && (
-                <ConnectToForm name={`${name}__isDisabled`}>
-                    <UiFieldSwitch />
-                </ConnectToForm>
-            )}
 
             {description !== null && !isError && (
                 <p className="rjf-field__description">{description}</p>

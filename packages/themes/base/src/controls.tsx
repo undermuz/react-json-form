@@ -1,4 +1,5 @@
 import {
+    useCallback,
     useEffect,
     useMemo,
     useRef,
@@ -118,6 +119,9 @@ const ControlSelect: FC<IInput> = (props) => {
     const [asyncOptions, setAsyncOptions] = useState<SelectOption[]>([])
     const [loading, setLoading] = useState(false)
 
+    const lastLoadedValues = useRef<Array<string | number>>([])
+    const cacheValues = useRef<Record<string, SelectOption>>({})
+
     useEffect(() => {
         if (isSync || typeof options !== "function") {
             return
@@ -144,6 +148,131 @@ const ControlSelect: FC<IInput> = (props) => {
         }
     }, [isSync, options])
 
+    useEffect(() => {
+        if (isSync || !multiple || typeof options !== "function") {
+            return
+        }
+
+        const valueList = (Array.isArray(value) ? value : []) as Array<
+            string | number
+        >
+
+        if (!valueList.length) {
+            setAsyncOptions([])
+            lastLoadedValues.current = []
+            return
+        }
+
+        const newUniqValues =
+            valueList.length > lastLoadedValues.current.length
+                ? valueList.filter(
+                      (item) => !lastLoadedValues.current.includes(item),
+                  )
+                : lastLoadedValues.current.filter(
+                      (item) => !valueList.includes(item),
+                  )
+
+        let isValid = true
+
+        const loadValues = async () => {
+            const toAdd = newUniqValues.filter(
+                (item) => !lastLoadedValues.current.includes(item),
+            )
+            const toRemove = newUniqValues.filter(
+                (item) => !valueList.includes(item),
+            )
+
+            if (toAdd.length) {
+                const toLoad = toAdd.filter((item) => !cacheValues.current[String(item)])
+
+                let loaded = toAdd
+                    .map((item) => cacheValues.current[String(item)])
+                    .filter(Boolean)
+
+                if (toLoad.length) {
+                    const fetched = await options({ ids: toLoad })
+                    loaded = [...loaded, ...(Array.isArray(fetched) ? fetched : [])]
+                }
+
+                for (const item of loaded) {
+                    cacheValues.current[String(item.value)] = item
+                }
+
+                if (!isValid) {
+                    return
+                }
+
+                lastLoadedValues.current = valueList
+
+                setAsyncOptions((prevAsyncValue) => {
+                    return [
+                        ...prevAsyncValue.filter(
+                            (item) =>
+                                valueList.includes(item.value) &&
+                                !newUniqValues.includes(item.value) &&
+                                !toRemove.includes(item.value),
+                        ),
+                        ...loaded,
+                    ]
+                })
+            } else if (toRemove.length) {
+                lastLoadedValues.current = valueList
+
+                setAsyncOptions((prevAsyncValue) => {
+                    return prevAsyncValue.filter(
+                        (item) => !toRemove.includes(item.value),
+                    )
+                })
+            }
+        }
+
+        loadValues()
+
+        return () => {
+            isValid = false
+        }
+    }, [isSync, value, options, multiple])
+
+    useEffect(() => {
+        if (isSync || multiple || typeof options !== "function") {
+            return
+        }
+
+        const valueItem = value as string | number | null | undefined
+
+        if (valueItem === null || valueItem === undefined || valueItem === "") {
+            setAsyncOptions([])
+            return
+        }
+
+        let isValid = true
+
+        const loadValue = async () => {
+            if (cacheValues.current[String(valueItem)]) {
+                setAsyncOptions([cacheValues.current[String(valueItem)]])
+                return
+            }
+
+            const list = await options({ ids: [valueItem] })
+            const loaded = Array.isArray(list) ? list[0] : null
+
+            if (!isValid) {
+                return
+            }
+
+            if (loaded) {
+                cacheValues.current[String(loaded.value)] = loaded
+                setAsyncOptions([loaded])
+            }
+        }
+
+        loadValue()
+
+        return () => {
+            isValid = false
+        }
+    }, [isSync, value, options, multiple])
+
     const selectOptions = isSync ? (options as SelectOption[]) : asyncOptions
 
     const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -159,6 +288,12 @@ const ControlSelect: FC<IInput> = (props) => {
         }
 
         const raw = event.target.value
+
+        if (!raw) {
+            onChange?.(null)
+            return
+        }
+
         const parsed = Number(raw)
         onChange?.(Number.isNaN(parsed) ? raw : parsed)
     }
@@ -207,32 +342,58 @@ const ControlFileInput: FC<IInput> = (props) => {
         settings: rawSettings = {},
     } = props
 
-    const { onChange, onBlur } = props
+    const { onChange } = props
 
-    const { showLabel: _showLabel, showToggle: _showToggle, ...settings } =
-        rawSettings
+    const {
+        showLabel: _showLabel,
+        showToggle: _showToggle,
+        max = Infinity,
+        ...settings
+    } = rawSettings
 
     const inputRef = useRef<HTMLInputElement | null>(null)
 
-    const displayValue = useMemo(() => {
-        if (!value) {
-            return ""
-        }
+    const isMultiple = Boolean(settings?.multiple)
 
+    const files = useMemo(() => {
         if (Array.isArray(value)) {
-            return value.map((file) => file.name).join(", ")
+            return value
         }
 
-        if (value instanceof File) {
-            return value.name
+        if (!value) {
+            return []
         }
 
-        if (typeof value === "object" && "name" in value) {
-            return String((value as File).name)
-        }
-
-        return ""
+        return [value]
     }, [value])
+
+    const onChangeFile = useCallback(
+        (inFiles?: FileList | null) => {
+            try {
+                if (!onChange || !inFiles?.length) {
+                    return
+                }
+
+                if (!isMultiple) {
+                    onChange(inFiles[0])
+                    return
+                }
+
+                let nextFiles = [...files, ...Array.from(inFiles)]
+
+                if (nextFiles.length > max) {
+                    nextFiles = nextFiles.slice(0, max)
+                }
+
+                onChange(nextFiles)
+            } finally {
+                if (inputRef.current) {
+                    inputRef.current.value = ""
+                }
+            }
+        },
+        [onChange, files, isMultiple, max],
+    )
 
     return (
         <div className="rjf-file">
@@ -242,25 +403,41 @@ const ControlFileInput: FC<IInput> = (props) => {
                 type="file"
                 className="rjf-file-input"
                 disabled={isDisabled}
-                onChange={(event) =>
-                    onChange?.(
-                        settings?.multiple
-                            ? event.target.files
-                            : event.target.files?.[0]
-                    )
-                }
+                onChange={(event) => onChangeFile(event.target.files)}
                 name={name}
                 ref={inputRef}
             />
-            <button
-                type="button"
-                className="rjf-file-trigger"
-                disabled={isDisabled}
-                onClick={() => inputRef.current?.click()}
-                onBlur={() => onBlur?.()}
-            >
-                {displayValue || placeholder || "Choose file…"}
-            </button>
+
+            {files.map((file) => (
+                <div key={file.name} className="rjf-file-tag">
+                    <span>{file.name}</span>
+                    <button
+                        type="button"
+                        className="rjf-file-tag__remove"
+                        disabled={isDisabled}
+                        onClick={() =>
+                            onChange?.(
+                                isMultiple
+                                    ? files.filter((item) => item.name !== file.name)
+                                    : null,
+                            )
+                        }
+                    >
+                        ×
+                    </button>
+                </div>
+            ))}
+
+            {(isMultiple || files.length === 0) && (
+                <button
+                    type="button"
+                    className="rjf-file-trigger"
+                    disabled={isDisabled || files.length >= max}
+                    onClick={() => inputRef.current?.click()}
+                >
+                    {placeholder || "Choose file…"}
+                </button>
+            )}
         </div>
     )
 }

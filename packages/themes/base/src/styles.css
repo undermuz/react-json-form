@@ -115,6 +115,51 @@
     font-size: 12px;
 }
 
+.rjf-header--compact {
+    padding: 0 0 8px;
+    border: none;
+    background: transparent;
+    margin-bottom: 0;
+}
+
+.rjf-header--nested {
+    padding: 8px 12px;
+}
+
+.rjf-body--deep {
+    padding: 12px;
+    border: 1px solid var(--rjf-border);
+    border-radius: var(--rjf-radius);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.rjf-item-wrapper--compact {
+    padding-block: 8px;
+}
+
+.rjf-field--toggle {
+    position: relative;
+}
+
+.rjf-field__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--rjf-gap);
+    margin-bottom: 6px;
+}
+
+.rjf-field-switch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+}
+
+.rjf-field--toggle:not(:has(.rjf-field__head)) .rjf-field-switch {
+    position: static;
+}
+
 .rjf-field-switch,
 .rjf-checkbox {
     display: inline-flex;
@@ -165,6 +210,35 @@
 
 .rjf-file {
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.rjf-file-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--rjf-border);
+    border-radius: var(--rjf-radius);
+    background: var(--rjf-surface);
+    font-size: 12px;
+}
+
+.rjf-file-tag__remove {
+    border: none;
+    background: transparent;
+    color: var(--rjf-muted);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    padding: 0;
+}
+
+.rjf-file-tag__remove:hover {
+    color: var(--rjf-danger);
 }
 
 .rjf-file-input {
