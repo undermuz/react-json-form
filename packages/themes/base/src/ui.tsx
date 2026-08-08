@@ -25,21 +25,25 @@ import type {
 import { EnumSchemeItemType } from "@undermuz/react-json-form";
 
 const UiContainer: FC<PropsWithChildren> = ({ children }) => {
-    return <div className="rjf">{children}</div>;
+    return <div className="rjf rjf-root">{children}</div>;
 };
 
 const UiBody: FC<PropsWithChildren<IUiBodyProps>> = (props) => {
     const { children, primary, level } = props;
 
-    if (primary) {
-        return <div className="rjf-body rjf-body--primary">{children}</div>;
-    }
+    const bodyClass = useMemo(() => {
+        if (primary) {
+            return "rjf-body rjf-body--primary";
+        }
 
-    if (level > 2) {
-        return <div className="rjf-body rjf-body--deep">{children}</div>;
-    }
+        if (level > 2) {
+            return "rjf-body rjf-body--nested";
+        }
 
-    return <div className="rjf-body">{children}</div>;
+        return "rjf-body";
+    }, [primary, level]);
+
+    return <div className={bodyClass}>{children}</div>;
 };
 
 const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
@@ -51,7 +55,7 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
         }
 
         if (level <= 2) {
-            return "rjf-header rjf-header--compact";
+            return "rjf-header rjf-header--section";
         }
 
         return "rjf-header rjf-header--nested";
@@ -95,9 +99,13 @@ const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
         );
     }, [type]);
 
+    if (type === EnumSchemeItemType.Widget) {
+        return <div className="rjf-section">{children}</div>;
+    }
+
     return (
         <div
-            className={`rjf-item-wrapper${compact ? " rjf-item-wrapper--compact" : ""}`}
+            className={`rjf-item${compact ? " rjf-item--compact" : ""}`}
         >
             {children}
         </div>
@@ -185,10 +193,57 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
         </ConnectToForm>
     ) : null;
 
+    const fieldClass = [
+        "rjf-field",
+        isError ? "rjf-field--error" : "",
+        isLast ? "rjf-field--last" : "",
+        showToggle ? "rjf-field--toggle" : "",
+        type === EnumSchemeItemType.Widget ? "rjf-field--widget" : "",
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    if (type === EnumSchemeItemType.Widget) {
+        return (
+            <div className={fieldClass}>
+                {(showLabel || showToggle) && (
+                    <div className="rjf-panel__header">
+                        {!showToggle && showLabel && label}
+                        {showToggle && !showLabel && toggle}
+                        {showToggle && showLabel && (
+                            <div className="rjf-field__head">
+                                {label}
+                                {toggle}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                <div className="rjf-panel rjf-panel--widget">
+                    <div className="rjf-panel__body">{children}</div>
+                </div>
+
+                {description !== null && !isError && (
+                    <p className="rjf-field__description">{description}</p>
+                )}
+
+                {errors?.map((errorText, index) => {
+                    if (typeof errorText !== "string") {
+                        return null;
+                    }
+
+                    return (
+                        <p key={index} className="rjf-field__error">
+                            {errorText}
+                        </p>
+                    );
+                })}
+            </div>
+        );
+    }
+
     return (
-        <div
-            className={`rjf-field${isError ? " rjf-field--error" : ""}${isLast ? " rjf-field--last" : ""}${showToggle ? " rjf-field--toggle" : ""}`}
-        >
+        <div className={fieldClass}>
             {!showToggle && showLabel && label}
             {showToggle && !showLabel && toggle}
 
@@ -249,7 +304,7 @@ const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
 ) => {
     return (
         <div
-            className="rjf-array-form"
+            className="rjf-panel rjf-panel--array"
             style={props.style as CSSProperties | undefined}
         >
             {props.children}
@@ -258,7 +313,11 @@ const UiArrayFormContainer: FC<PropsWithChildren<IUiArrayFormProps>> = (
 };
 
 const UiArrayFormHeader: FC<PropsWithChildren> = (props) => {
-    return <div className="rjf-array-form__header">{props.children}</div>;
+    return (
+        <div className="rjf-panel__header rjf-panel__header--array">
+            {props.children}
+        </div>
+    );
 };
 
 const UiArrayFormTrashContainer = forwardRef<
@@ -291,7 +350,7 @@ const UiArrayFormTabs: FC<PropsWithChildren<IUiArrayFormTabsProps>> = (
 };
 
 const UiArrayFormBody: FC<PropsWithChildren> = (props) => {
-    return <div className="rjf-array-form__body">{props.children}</div>;
+    return <div className="rjf-panel__body">{props.children}</div>;
 };
 
 const BaseUi = {
