@@ -148,6 +148,12 @@ export const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
     const Ui = useJsonFormUi()
 
     const body = value.map((item) => {
+        if (!item.id) {
+            console.error("ERROR: item.id is required")
+
+            return "ERROR: item.id is required"
+        }
+
         return (
             <ArrayFormItem
                 {...rest}
