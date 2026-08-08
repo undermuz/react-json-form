@@ -1,0 +1,278 @@
+.rjf {
+    --rjf-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --rjf-text: #1a1a1a;
+    --rjf-muted: #5c5c5c;
+    --rjf-border: #d4d4d4;
+    --rjf-bg: #ffffff;
+    --rjf-surface: #f7f7f7;
+    --rjf-accent: #2563eb;
+    --rjf-accent-text: #ffffff;
+    --rjf-danger: #dc2626;
+    --rjf-danger-bg: #fef2f2;
+    --rjf-radius: 6px;
+    --rjf-gap: 12px;
+    --rjf-input-height: 36px;
+
+    color: var(--rjf-text);
+    font-family: var(--rjf-font);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.rjf * {
+    box-sizing: border-box;
+}
+
+.rjf-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--rjf-gap);
+    padding: 10px 12px;
+    border: 1px solid var(--rjf-border);
+    border-radius: var(--rjf-radius);
+    background: var(--rjf-surface);
+    margin-bottom: var(--rjf-gap);
+}
+
+.rjf-header--primary {
+    background: var(--rjf-accent);
+    color: var(--rjf-accent-text);
+    border-color: var(--rjf-accent);
+}
+
+.rjf-header--primary .rjf-header__id {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.rjf-header__main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.rjf-header__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.rjf-header__id {
+    font-size: 12px;
+    color: var(--rjf-muted);
+}
+
+.rjf-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rjf-gap);
+}
+
+.rjf-body--primary {
+    padding-top: 4px;
+}
+
+.rjf-flat-form,
+.rjf-array-form__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rjf-gap);
+}
+
+.rjf-item-wrapper {
+    padding-left: 12px;
+    border-left: 2px solid var(--rjf-border);
+}
+
+.rjf-item-wrapper--last {
+    border-left-color: transparent;
+}
+
+.rjf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rjf-field__label {
+    font-weight: 500;
+}
+
+.rjf-field__control {
+    width: 100%;
+}
+
+.rjf-field__description {
+    margin: 0;
+    color: var(--rjf-muted);
+    font-size: 12px;
+}
+
+.rjf-field__error {
+    margin: 0;
+    color: var(--rjf-danger);
+    font-size: 12px;
+}
+
+.rjf-field-switch,
+.rjf-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.rjf-input,
+.rjf-textarea,
+.rjf-select,
+.rjf-file-trigger {
+    width: 100%;
+    min-height: var(--rjf-input-height);
+    padding: 8px 10px;
+    border: 1px solid var(--rjf-border);
+    border-radius: var(--rjf-radius);
+    background: var(--rjf-bg);
+    color: var(--rjf-text);
+    font: inherit;
+}
+
+.rjf-textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.rjf-input:focus,
+.rjf-textarea:focus,
+.rjf-select:focus,
+.rjf-file-trigger:focus,
+.rjf-button:focus,
+.rjf-tab:focus {
+    outline: 2px solid color-mix(in srgb, var(--rjf-accent) 35%, transparent);
+    outline-offset: 1px;
+}
+
+.rjf-input:disabled,
+.rjf-textarea:disabled,
+.rjf-select:disabled,
+.rjf-file-trigger:disabled,
+.rjf-button:disabled,
+.rjf-tab:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.rjf-file {
+    position: relative;
+}
+
+.rjf-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.rjf-file-trigger {
+    text-align: left;
+    cursor: pointer;
+}
+
+.rjf-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: var(--rjf-input-height);
+    padding: 0 14px;
+    border: 1px solid var(--rjf-border);
+    border-radius: var(--rjf-radius);
+    background: var(--rjf-bg);
+    color: var(--rjf-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.rjf-button--submit {
+    background: var(--rjf-accent);
+    border-color: var(--rjf-accent);
+    color: var(--rjf-accent-text);
+}
+
+.rjf-array-form {
+    position: relative;
+}
+
+.rjf-array-form__header {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: var(--rjf-gap);
+    margin-bottom: var(--rjf-gap);
+    border: 1px solid var(--rjf-border);
+    border-radius: var(--rjf-radius);
+    background: var(--rjf-surface);
+    overflow: hidden;
+}
+
+.rjf-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+}
+
+.rjf-tabs--actions {
+    margin-left: auto;
+    padding: 4px 8px;
+}
+
+.rjf-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    border-radius: calc(var(--rjf-radius) - 2px);
+    background: transparent;
+    color: var(--rjf-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.rjf-tab--active {
+    background: var(--rjf-bg);
+    border-color: var(--rjf-border);
+}
+
+.rjf-trash {
+    position: absolute;
+    z-index: 2;
+    top: -48px;
+    left: 0;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px dashed var(--rjf-danger);
+    border-radius: var(--rjf-radius);
+    background: var(--rjf-danger-bg);
+    color: var(--rjf-danger);
+    text-align: center;
+}
+
+.rjf-trash--over {
+    background: color-mix(in srgb, var(--rjf-danger) 12%, white);
+}
+
+.rjf-trash__label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.rjf-icon {
+    display: block;
+}
