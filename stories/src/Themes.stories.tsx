@@ -18,6 +18,9 @@ import { UiContext } from "@undermuz/react-json-form"
 import GrommetUi from "@undermuz/react-json-form-theme-grommet"
 import ChakraUi from "@undermuz/react-json-form-theme-chakra"
 import RsuiteUi from "@undermuz/react-json-form-theme-rsuite"
+import BaseUi from "@undermuz/react-json-form-theme-base"
+
+import "@undermuz/react-json-form-theme-base/styles.css"
 
 import { ChakraProvider, useColorMode } from "@chakra-ui/react"
 
@@ -28,6 +31,7 @@ import { ApiContext } from "@undermuz/react-json-form"
 import type { ApiValue } from "@undermuz/react-json-form"
 
 enum JsonFormThemes {
+    Base,
     Grommet,
     ChakraUi,
     Rsuite,
@@ -101,6 +105,16 @@ const JsonFormStory: FC<IJsonFormStory> = ({
                 )}
 
                 <Box width={boxWidth}>
+                    {theme === JsonFormThemes.Base && (
+                        <UiContext.Provider value={BaseUi}>
+                            <JsonForm
+                                {...scheme}
+                                value={value}
+                                onChange={setValue}
+                            />
+                        </UiContext.Provider>
+                    )}
+
                     {theme === JsonFormThemes.Grommet && (
                         <UiContext.Provider value={GrommetUi}>
                             <JsonForm
@@ -149,6 +163,9 @@ const JsonFormStory: FC<IJsonFormStory> = ({
 const Template: ComponentStory<typeof JsonFormStory> = (args) => {
     return <JsonFormStory {...args} />
 }
+
+export const UiBase = Template.bind({})
+UiBase.args = { theme: JsonFormThemes.Base }
 
 export const UiChakra = Template.bind({})
 // More on args: https://storybook.js.org/docs/react/writing-stories/args

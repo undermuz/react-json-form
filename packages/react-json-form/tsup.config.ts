@@ -4,7 +4,13 @@ import { esbuildPluginFilePathExtensions } from "esbuild-plugin-file-path-extens
 const env = process.env.NODE_ENV
 
 export default defineConfig({
-    entry: ["./src", "!./src/stories/**/*", "!src/**/*.spec.*", "!src/tests/**/*"],
+    entry: [
+        "./src",
+        "!./src/stories/**/*",
+        "!src/**/*.spec.*",
+        "!src/tests/**/*",
+        "!src/vitest-env.d.ts",
+    ],
     sourcemap: false,
     clean: true,
     target: "es2020",

@@ -1,6 +1,6 @@
 import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import "@testing-library/jest-dom"
+import { vi } from "vitest"
 import JsonForm from "../JsonForm"
 
 import type { FC } from "react"
@@ -129,7 +129,7 @@ describe("Array form errors", () => {
                 expect(screen.getByText("Required")).toBeInTheDocument()
             })
 
-            window.confirm = jest.fn(() => true)
+            window.confirm = vi.fn(() => true)
 
             await clickByTitle("remove-tab")
 

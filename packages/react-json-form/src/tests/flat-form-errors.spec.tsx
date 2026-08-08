@@ -1,6 +1,6 @@
 import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import "@testing-library/jest-dom"
+import { vi } from "vitest"
 import JsonForm from "../JsonForm"
 
 import type { FC } from "react"
@@ -120,7 +120,7 @@ describe("Flat form errors", () => {
     })
 
     describe("Error callback triggers", () => {
-        const onErrorMock = jest.fn()
+        const onErrorMock = vi.fn()
 
         beforeEach(() => {
             onErrorMock.mockReset()

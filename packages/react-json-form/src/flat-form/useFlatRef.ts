@@ -90,8 +90,9 @@ export const useFlatRef = (
 
                 const p = `${prefixLogArr.join("")}[Ref: ${id}][Validate]`
 
-                let [hasFormErrors, formErrors] =
-                    form.hasFormErrors(checkOnlyFilled)
+                const validation = form.hasFormErrors(checkOnlyFilled)
+                let hasFormErrors = validation[0]
+                const formErrors = validation[1]
 
                 console.log(`${p}`, {
                     checkOnlyFilled,

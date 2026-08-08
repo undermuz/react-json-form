@@ -1,71 +1,59 @@
 import { type FC, type PropsWithChildren } from "react"
 import type React from "react"
-import { useCallback, useMemo, useState } from "react"
 import type { IUiTabProps, TypeValueItem } from "../types"
-import type { CollisionDetection, DragEndEvent } from "@dnd-kit/core"
+import type { DragEndEvent } from "@dnd-kit/react"
 
 import {
-    closestCenter,
-    DndContext,
+    DragDropProvider,
     DragOverlay,
-    getFirstCollision,
     PointerSensor,
-    pointerWithin,
-    rectIntersection,
+    useDragOperation,
     useDroppable,
-    useSensor,
-    useSensors,
-} from "@dnd-kit/core"
-import {
-    horizontalListSortingStrategy,
-    SortableContext,
-    useSortable,
-} from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
-import { createPortal } from "react-dom"
+} from "@dnd-kit/react"
+import { PointerActivationConstraints } from "@dnd-kit/dom"
+import { closestCenter, pointerIntersection } from "@dnd-kit/collision"
+import { useSortable } from "@dnd-kit/react/sortable"
 import { useJsonFormUi } from "../contexts/ui"
 import ArrayFormItem from "./ArrayFormItem"
 
 import { type IArrayFormParams } from "./ArrayForm"
 
+const TAB_TYPE = "tab"
+
 interface SortableTabProps {
     tabId: number
+    index: number
 }
 
 const SortableTab: FC<PropsWithChildren<SortableTabProps & IUiTabProps>> = ({
     tabId,
+    index,
     ...props
 }) => {
     const Ui = useJsonFormUi()
 
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({ id: tabId })
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    }
+    const { ref } = useSortable({
+        id: tabId,
+        index,
+        type: TAB_TYPE,
+        accept: TAB_TYPE,
+        collisionDetector: closestCenter,
+    })
 
     if (!Ui?.Tab) {
         return null
     }
 
-    return (
-        <Ui.Tab
-            {...props}
-            ref={setNodeRef}
-            style={style}
-            {...attributes}
-            {...listeners}
-        />
-    )
+    return <Ui.Tab {...props} ref={ref} />
 }
 
 const TrashDroppable: FC = () => {
     const Ui = useJsonFormUi()
 
-    const { isOver, setNodeRef } = useDroppable({
+    const { isDropTarget, ref } = useDroppable({
         id: "trash",
+        accept: TAB_TYPE,
+        collisionDetector: pointerIntersection,
     })
 
     if (!Ui?.ArrayForm?.TrashContainer) {
@@ -74,12 +62,23 @@ const TrashDroppable: FC = () => {
 
     return (
         <Ui.ArrayForm.TrashContainer
-            isOver={isOver}
-            ref={setNodeRef}
+            isOver={isDropTarget}
+            ref={ref}
             label="Отпустите чтобы удалить"
-        ></Ui.ArrayForm.TrashContainer>
+        />
     )
 }
+
+const TrashDroppableWhenDragging: FC = () => {
+    const { source } = useDragOperation()
+
+    if (!source) {
+        return null
+    }
+
+    return <TrashDroppable />
+}
+
 type TabList = (TypeValueItem & { id: number })[]
 
 interface ISortableList {
@@ -92,89 +91,43 @@ const SortableList: React.FC<PropsWithChildren<ISortableList>> = ({
     onSortEnd,
     children,
 }) => {
-    const [activeId, setActiveId] = useState<number | null>(null)
-
-    const sensors = useSensors(
-        useSensor(PointerSensor, {
-            activationConstraint: {
-                distance: 20,
-            },
-        })
-    )
-
-    const currentIndex = useMemo(() => {
-        return tabs.findIndex((_i) => _i.id === activeId)
-    }, [tabs, activeId])
-
-    const collisionDetectionStrategy: CollisionDetection = useCallback(
-        (args) => {
-            // Start by finding any intersecting droppable
-            const pointerIntersections = pointerWithin(args)
-
-            const intersections =
-                pointerIntersections.length > 0
-                    ? // If there are droppables intersecting with the pointer, return those
-                      pointerIntersections
-                    : rectIntersection(args)
-
-            let overId = getFirstCollision(intersections, "id")
-
-            if (overId === "trash") {
-                return intersections
-            }
-
-            // console.log(`[collisionDetectionStrategy][Over: ${overId}]`, args)
-            if (overId !== null) {
-                return closestCenter(args)
-            }
-
-            return []
-        },
-        [activeId, tabs]
-    )
+    const Ui = useJsonFormUi()
 
     return (
-        <DndContext
-            sensors={sensors}
-            // collisionDetection={closestCenter}
-            collisionDetection={collisionDetectionStrategy}
-            // modifiers={[restrictToHorizontalAxis]}
-            onDragEnd={(event) => {
-                console.log("[onDragEnd]", event)
-
-                setActiveId(null)
-
-                onSortEnd(event)
-            }}
-            onDragStart={(event) => {
-                setActiveId(event.active.id as number)
-            }}
+        <DragDropProvider
+            sensors={(defaults) => [
+                ...defaults.filter((sensor) => sensor !== PointerSensor),
+                PointerSensor.configure({
+                    activationConstraints: [
+                        new PointerActivationConstraints.Distance({
+                            value: 20,
+                        }),
+                    ],
+                }),
+            ]}
+            onDragEnd={onSortEnd}
         >
-            <SortableContext
-                id="list"
-                items={tabs}
-                strategy={horizontalListSortingStrategy}
-            >
-                {children}
-            </SortableContext>
+            {children}
 
-            {typeof document !== "undefined" &&
-                createPortal(
-                    <DragOverlay>
-                        {currentIndex > -1 ? (
-                            <SortableTab
-                                tabId={activeId as number}
-                                label={`#${currentIndex + 1}`}
-                            />
-                        ) : null}
-                    </DragOverlay>,
-                    document.body
-                )}
+            <DragOverlay>
+                {(source) => {
+                    const currentIndex = tabs.findIndex(
+                        (_i) => _i.id === source.id
+                    )
 
-            {activeId !== null && <TrashDroppable />}
-        </DndContext>
+                    if (!Ui?.Tab || currentIndex < 0) {
+                        return null
+                    }
+
+                    return <Ui.Tab label={`#${currentIndex + 1}`} />
+                }}
+            </DragOverlay>
+
+            <TrashDroppableWhenDragging />
+        </DragDropProvider>
     )
 }
+
 export const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
     const {
         value,
@@ -221,6 +174,7 @@ export const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
                                 key={val.id}
                                 label={`#${index + 1}`}
                                 tabId={val.id}
+                                index={index}
                                 active={tab === val.id}
                                 onSelect={() => setTab(val.id)}
                             />

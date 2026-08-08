@@ -1,6 +1,5 @@
 import { act, render, screen, waitFor } from "@testing-library/react"
-
-import "@testing-library/jest-dom"
+import { vi } from "vitest"
 import JsonForm from "../JsonForm"
 
 import React, { type FC, type MutableRefObject, useRef, useState } from "react"
@@ -157,7 +156,7 @@ describe("Submit", () => {
                 current: null,
             }
 
-            const onSubmit = jest.fn()
+            const onSubmit = vi.fn()
 
             act(() => {
                 render(
@@ -204,7 +203,7 @@ describe("Submit", () => {
                 current: null,
             }
 
-            const onSubmit = jest.fn()
+            const onSubmit = vi.fn()
 
             act(() => {
                 render(

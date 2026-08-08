@@ -25,6 +25,7 @@
   "dependencies": {
     "@rsuite/icons": "^1.0.3",
     "@undermuz/react-json-form": "^2.0.6",
+    "@undermuz/react-json-form-theme-base": "^2.2.0",
     "@undermuz/react-json-form-theme-chakra": "^2.0.4",
     "@undermuz/react-json-form-theme-grommet": "^2.0.4",
     "@undermuz/react-json-form-theme-rsuite": "^2.0.7",
@@ -118,6 +119,7 @@
     "hook"
   ],
   "relativeDependencies": {
+    "@undermuz/react-json-form-theme-base": "../packages/themes/base",
     "@undermuz/react-json-form-theme-chakra": "../packages/themes/chakra"
   }
 }

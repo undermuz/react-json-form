@@ -119,7 +119,7 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
         const change = useCallback(
             (newValue: TypeValueItem, id: number | null = null) => {
                 const _newValue = value.map((item) =>
-                    item.id == id ? { ...item, ...newValue } : item
+                    item.id === id ? { ...item, ...newValue } : item
                 )
 
                 onChange(_newValue)

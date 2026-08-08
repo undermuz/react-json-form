@@ -1,8 +1,8 @@
-import { type DragEndEvent } from "@dnd-kit/core"
+import { type DragEndEvent } from "@dnd-kit/react"
+import { move } from "@dnd-kit/helpers"
 import type React from "react"
 import { useState } from "react"
 import type { TypeErrorItem, TypeValueItem } from "../types"
-import { arrayMoveImmutable } from "./arrayMove"
 
 interface IUseTabsProps {
     value: TypeValueItem[]
@@ -75,25 +75,22 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
     }
 
     const sortTabs = (event: DragEndEvent) => {
-        const { active, over } = event
-
-        if (active && over && active.id !== over.id) {
-            if (over.id === "trash") {
-                removeTab(active.id as number)
-
-                return
-            }
-
-            const oldIndex = value.findIndex(
-                (_i) => _i.id === (active.id as number)
-            )
-
-            const newIndex = value.findIndex(
-                (_i) => _i.id === (over.id as number)
-            )
-
-            onChange(arrayMoveImmutable(value, oldIndex, newIndex))
+        if (event.canceled) {
+            return
         }
+
+        const { source, target } = event.operation
+
+        if (!source) {
+            return
+        }
+
+        if (target?.id === "trash") {
+            removeTab(source.id as number)
+            return
+        }
+
+        onChange(move(value as { id: number }[], event) as TypeValueItem[])
     }
 
     return {
