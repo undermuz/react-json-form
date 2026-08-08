@@ -3,6 +3,7 @@ import { move } from "@dnd-kit/helpers"
 import type React from "react"
 import { useState } from "react"
 import type { TypeErrorItem, TypeValueItem } from "../types"
+import { arrayMoveImmutable } from "./arrayMove"
 
 interface IUseTabsProps {
     value: TypeValueItem[]
@@ -17,8 +18,9 @@ interface IUseTabsProps {
 export interface IUseTabs {
     tab: number
     setTab: React.Dispatch<number>
-    addTab: () => void
+    addTab: (afterId?: number) => void
     removeTab: (tab_id: number) => void
+    moveTab: (tabId: number, direction: -1 | 1) => void
     sortTabs: (event: DragEndEvent) => void
 }
 
@@ -31,7 +33,7 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
         return 1
     })
 
-    const addTab = () => {
+    const addTab = (afterId?: number) => {
         let maxId = Math.max(...value.map((item) => item.id))
 
         if (isNaN(maxId) || !isFinite(maxId) || maxId < 0) {
@@ -43,24 +45,29 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
             id: maxId + 1,
         }
 
-        const newList = [...value, def_value]
+        const insertAfterId = afterId ?? tab
+        const insertIndex = value.findIndex((item) => item.id === insertAfterId)
+
+        const newList =
+            insertIndex >= 0
+                ? [
+                      ...value.slice(0, insertIndex + 1),
+                      def_value,
+                      ...value.slice(insertIndex + 1),
+                  ]
+                : [...value, def_value]
 
         onChange(newList)
 
-        setTab(newList[newList.length - 1].id as number)
+        setTab(def_value.id as number)
     }
 
     const removeTab = (tab_id: number) => {
-        // if (value.length <= 1) {
-        //     window.alert("Вы не можете удалить самое первое значение")
-        //     return
-        // }
-
         if (!window.confirm("Вы действительно хотите удалить?")) {
             return
         }
 
-        const new_value = value.filter((tab) => tab.id !== tab_id)
+        const new_value = value.filter((item) => item.id !== tab_id)
 
         onChange(new_value)
         onTabRemove(tab_id)
@@ -72,6 +79,22 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
                 setTab(1)
             }
         }
+    }
+
+    const moveTab = (tabId: number, direction: -1 | 1) => {
+        const fromIndex = value.findIndex((item) => item.id === tabId)
+
+        if (fromIndex < 0) {
+            return
+        }
+
+        const toIndex = fromIndex + direction
+
+        if (toIndex < 0 || toIndex >= value.length) {
+            return
+        }
+
+        onChange(arrayMoveImmutable(value, fromIndex, toIndex))
     }
 
     const sortTabs = (event: DragEndEvent) => {
@@ -98,6 +121,7 @@ const useTabs = (props: IUseTabsProps): IUseTabs => {
         setTab,
         addTab,
         removeTab,
+        moveTab,
         sortTabs,
     }
 }

@@ -67,9 +67,7 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
 
     return (
         <div className={headerClass}>
-            {Boolean(title) && (
-                <h3 className="rjf-header__title">{title}</h3>
-            )}
+            {Boolean(title) && <h3 className="rjf-header__title">{title}</h3>}
             {children}
         </div>
     );
@@ -104,9 +102,7 @@ const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
     }
 
     return (
-        <div
-            className={`rjf-item${compact ? " rjf-item--compact" : ""}`}
-        >
+        <div className={`rjf-item${compact ? " rjf-item--compact" : ""}`}>
             {children}
         </div>
     );
@@ -180,12 +176,11 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
 
     const isError = Boolean(errors?.length);
 
-    const label =
-        showLabel ? (
-            <label className="rjf-field__label" htmlFor={id}>
-                {title}
-            </label>
-        ) : null;
+    const label = showLabel ? (
+        <label className="rjf-field__label" htmlFor={id}>
+            {title}
+        </label>
+    ) : null;
 
     const toggle = showToggle ? (
         <ConnectToForm name={`${name}__isDisabled`}>
@@ -219,9 +214,11 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
                     </div>
                 )}
 
-                <div className="rjf-panel rjf-panel--widget">
-                    <div className="rjf-panel__body">{children}</div>
-                </div>
+                {/* <div className="rjf-panel rjf-panel--widget"> */}
+                {/* <div className="rjf-panel__body"> */}
+                {children}
+                {/* </div> */}
+                {/* </div> */}
 
                 {description !== null && !isError && (
                     <p className="rjf-field__description">{description}</p>

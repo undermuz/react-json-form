@@ -59,6 +59,7 @@ export const ArrayFormContext = createContext<IArrayFormParams>({
     setTab: () => {},
     sortTabs: () => {},
     removeTab: () => {},
+    moveTab: () => {},
     changeTab: () => {},
     setTabErrors: () => {},
     onChange: () => {},

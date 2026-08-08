@@ -1,147 +1,134 @@
-# @undermuz/react-json-form
+# react-json-form
 
 (⚠️⚠️⚠️ THIS PACKAGE IS UNDER DEVELOPING ⚠️⚠️⚠️)
 
-[React library for generate JSON-based form](https://www.npmjs.com/package/@undermuz/react-json-form)
+Monorepo for [@undermuz/react-json-form](https://www.npmjs.com/package/@undermuz/react-json-form) — a React library that renders forms from a JSON scheme. UI is swappable via themes.
+
+## Repository layout
+
+```
+packages/
+  react-json-form/          # core library (@undermuz/react-json-form)
+  themes/
+    base/                   # @undermuz/react-json-form-theme-base — native HTML + CSS
+    chakra/                 # Chakra UI v2
+    grommet/                # Grommet
+    rsuite/                 # Rsuite
+    chakra3/                # Chakra UI v3
+    heroui/                 # HeroUI
+stories/                    # Storybook demos
+```
 
 ## Install
 
-`npm i @undermuz/react-json-form @undermuz/react-json-form-theme-chakra`
+Core + theme:
+
+```bash
+npm i @undermuz/react-json-form @undermuz/react-json-form-theme-chakra
+```
+
+Or with the lightweight base theme (no UI library):
+
+```bash
+npm i @undermuz/react-json-form @undermuz/react-json-form-theme-base
+```
 
 ## Basic usage
 
-1. Import JsonForm component
-
 ```jsx
-import JsonForm from "@undermuz/react-json-form"
-```
-
-2. Import UiContext for apply theme
-
-```jsx
-import JsonForm, {
-    UiContext,
-} from "@undermuz/react-json-form"
-```
-
-3. Import theme
-
-```jsx
+import { useState } from "react"
+import JsonForm, { UiContext, EnumSchemeItemType } from "@undermuz/react-json-form"
 import ChakraUiTheme from "@undermuz/react-json-form-theme-chakra"
-```
 
-4. Create form component
-
-```jsx
-const YourForm = () => {
-    const [value, setValue] = useState({})
-
-    return (
-        <>
-            <UiContext.Provider value={ChakraUiTheme}>
-                <JsonForm value={value} onChange={setValue} />
-            </UiContext.Provider>
-        </>
-    )
-}
-```
-
-5. Add form's scheme
-
-```jsx
-const scheme: IScheme = {
+const scheme = {
     id: "login-form-v1",
-    single: true,
-    multiple: false,
     title: "Login",
-    name: "login-form-v1",
     scheme: [
         {
             name: "email",
             title: "E-mail",
-            placeholder: "ex: youremail@mail.com",
             type: EnumSchemeItemType.Input,
-            settings: {
-                inputType: "email",
-            },
-            def_value: "",
-            rules: [
-                [["Boolean"], "Required"],
-                [["isEmail"], "Incorrect e-mail"],
-            ],
+            settings: { inputType: "email" },
+            rules: [[["Boolean"], "Required"]],
         },
         {
             name: "password",
             title: "Password",
             type: EnumSchemeItemType.Input,
-            settings: {
-                inputType: "password",
-            },
-            def_value: "",
-            rules: [
-                [["Boolean"], "Required"],
-                [
-                    ["isStringMinMaxLength:[6,18]"],
-                    "Min length: 6; Max length: 18",
-                ],
-            ],
-        },
-        {
-            name: "remember",
-            title: "Remember?",
-            type: EnumSchemeItemType.Checkbox,
-            def_value: true,
+            settings: { inputType: "password" },
+            rules: [[["Boolean"], "Required"]],
         },
     ],
 }
-```
 
-6. Apply the scheme to JsonForm
-
-```jsx
 const YourForm = () => {
     const [value, setValue] = useState({})
 
     return (
-        <>
-            <UiContext.Provider value={ChakraUiTheme}>
-                <JsonForm {...scheme} value={value} onChange={setValue} />
-            </UiContext.Provider>
-        </>
+        <UiContext.Provider value={ChakraUiTheme}>
+            <JsonForm {...scheme} value={value} onChange={setValue} />
+        </UiContext.Provider>
     )
 }
 ```
 
-7. Get result
+### Base theme
 
-![Result](/screenshots/login-form.png)
+```jsx
+import { JsonForm, UiContext } from "@undermuz/react-json-form"
+import BaseTheme from "@undermuz/react-json-form-theme-base"
+import "@undermuz/react-json-form-theme-base/styles.css"
 
-## Built-in themes
+<UiContext.Provider value={BaseTheme}>
+    <JsonForm {...scheme} value={value} onChange={setValue} />
+</UiContext.Provider>
+```
 
-[Storybook: ChakraUi](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-chakra)
+## Themes
 
-[Storybook: Rsuite](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-rsuite)
-
-[Storybook: Grommet](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-grommet)
+| Package | Storybook |
+| --- | --- |
+| `@undermuz/react-json-form-theme-base` | [Base](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-base) |
+| `@undermuz/react-json-form-theme-chakra` | [Chakra UI](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-chakra) |
+| `@undermuz/react-json-form-theme-rsuite` | [Rsuite](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-rsuite) |
+| `@undermuz/react-json-form-theme-grommet` | [Grommet](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-grommet) |
 
 ## Examples
 
-### Forms
+[Storybook](https://undermuz.github.io/react-json-form/)
 
-[Storybook: Login form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--login-form)
+- [Login form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--login-form)
+- [Signup form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--signup-form)
+- [Custom layouts](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-form)
 
-[Storybook: Signup form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--signup-form)
+## Development
 
-### Custom layout
+**Core library** (`packages/react-json-form`):
 
-[Storybook: Wrapp form](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-form)
+```bash
+cd packages/react-json-form
+npm install
+npm run lint
+npm test
+npm run build
+```
 
-[Storybook: Wrapp fields block](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-field-block)
+**Theme** (example: base):
 
-[Storybook: Wrapp each field](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-each-field)
+```bash
+cd packages/themes/base
+npm install
+npm run build
+```
 
-[Storybook: Vertical stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--vertical-stack)
+**Storybook**:
 
-[Storybook: Horizontal stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--horizontal-stack)
+```bash
+cd stories
+npm install
+npm run storybook
+```
 
-[Storybook: Grid layout](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--grid-layout)
+Agent/contributor notes: [packages/react-json-form/AGENTS.md](./packages/react-json-form/AGENTS.md)
+
+Package README: [packages/react-json-form/README.md](./packages/react-json-form/README.md)

@@ -6,64 +6,35 @@
 
 ## Install
 
-`npm i @undermuz/react-json-form`
+Core library + a theme (pick one):
+
+```bash
+npm i @undermuz/react-json-form @undermuz/react-json-form-theme-chakra
+```
+
+Lightweight option without UI libraries:
+
+```bash
+npm i @undermuz/react-json-form @undermuz/react-json-form-theme-base
+```
 
 ## Basic usage
 
-1. Import JsonForm component
-
 ```jsx
-import JsonForm from "@undermuz/react-json-form"
-```
+import { useState } from "react"
+import JsonForm, { UiContext, EnumSchemeItemType } from "@undermuz/react-json-form"
+import ChakraUiTheme from "@undermuz/react-json-form-theme-chakra"
 
-2. Import UiContext for apply theme
-
-```jsx
-import JsonForm, {
-    UiContext,
-} from "@undermuz/react-json-form"
-```
-
-3. Import theme
-
-```jsx
-import ChakraUiTheme from "@undermuz/react-json-form/themes/chakra"
-```
-
-4. Create form component
-
-```jsx
-const YourForm = () => {
-    const [value, setValue] = useState({})
-
-    return (
-        <>
-            <UiContext.Provider value={ChakraUiTheme}>
-                <JsonForm value={value} onChange={setValue} />
-            </UiContext.Provider>
-        </>
-    )
-}
-```
-
-5. Add form's scheme
-
-```jsx
-const scheme: IScheme = {
+const scheme = {
     id: "login-form-v1",
-    single: true,
-    multiple: false,
     title: "Login",
-    name: "login-form-v1",
     scheme: [
         {
             name: "email",
             title: "E-mail",
             placeholder: "ex: youremail@mail.com",
             type: EnumSchemeItemType.Input,
-            settings: {
-                inputType: "email",
-            },
+            settings: { inputType: "email" },
             def_value: "",
             rules: [
                 [["Boolean"], "Required"],
@@ -74,9 +45,7 @@ const scheme: IScheme = {
             name: "password",
             title: "Password",
             type: EnumSchemeItemType.Input,
-            settings: {
-                inputType: "password",
-            },
+            settings: { inputType: "password" },
             def_value: "",
             rules: [
                 [["Boolean"], "Required"],
@@ -94,54 +63,75 @@ const scheme: IScheme = {
         },
     ],
 }
-```
 
-6. Apply the scheme to JsonForm
-
-```jsx
 const YourForm = () => {
     const [value, setValue] = useState({})
 
     return (
-        <>
-            <UiContext.Provider value={ChakraUiTheme}>
-                <JsonForm {...scheme} value={value} onChange={setValue} />
-            </UiContext.Provider>
-        </>
+        <UiContext.Provider value={ChakraUiTheme}>
+            <JsonForm {...scheme} value={value} onChange={setValue} />
+        </UiContext.Provider>
     )
 }
 ```
 
-7. Get result
+### Base theme
 
-![Result](/screenshots/login-form.png)
+Native HTML controls + CSS variables. Import styles separately:
 
-## Built-in themes
+```jsx
+import { JsonForm, UiContext } from "@undermuz/react-json-form"
+import BaseTheme from "@undermuz/react-json-form-theme-base"
+import "@undermuz/react-json-form-theme-base/styles.css"
 
-[Storybook: ChakraUi](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-chakra)
+<UiContext.Provider value={BaseTheme}>
+    <JsonForm {...scheme} value={value} onChange={setValue} />
+</UiContext.Provider>
+```
 
-[Storybook: Rsuite](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-rsuite)
+See [packages/themes/base/README.md](../themes/base/README.md) for CSS customization.
 
-[Storybook: Grommet](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-grommet)
+## Themes
+
+| Package | Storybook |
+| --- | --- |
+| `@undermuz/react-json-form-theme-base` | [Base](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-base) |
+| `@undermuz/react-json-form-theme-chakra` | [Chakra UI](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-chakra) |
+| `@undermuz/react-json-form-theme-rsuite` | [Rsuite](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-rsuite) |
+| `@undermuz/react-json-form-theme-grommet` | [Grommet](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-grommet) |
+
+Other theme packages in the monorepo: `chakra3`, `heroui`.
 
 ## Examples
 
 ### Forms
 
-[Storybook: Login form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--login-form)
+[Login form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--login-form)
 
-[Storybook: Signup form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--signup-form)
+[Signup form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--signup-form)
 
 ### Custom layout
 
-[Storybook: Wrapp form](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-form)
+[Wrap form](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-form)
 
-[Storybook: Wrapp fields block](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-field-block)
+[Wrap fields block](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-field-block)
 
-[Storybook: Wrapp each field](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-each-field)
+[Wrap each field](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-each-field)
 
-[Storybook: Vertical stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--vertical-stack)
+[Vertical stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--vertical-stack)
 
-[Storybook: Horizontal stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--horizontal-stack)
+[Horizontal stack](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--horizontal-stack)
 
-[Storybook: Grid layout](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--grid-layout)
+[Grid layout](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--grid-layout)
+
+## Development
+
+From this directory:
+
+```bash
+npm run lint
+npm test
+npm run build
+```
+
+See [AGENTS.md](./AGENTS.md) for monorepo layout, theme contracts, and tooling notes.

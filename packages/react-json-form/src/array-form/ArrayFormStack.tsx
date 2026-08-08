@@ -10,6 +10,7 @@ export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
         value,
         addTab,
         removeTab,
+        moveTab,
         changeTab,
         setTabErrors,
         fillArrayDefault,
@@ -26,7 +27,7 @@ export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
             <Ui.ArrayForm style={{ position: "relative", zIndex: 1 }}>
                 <Ui.ArrayForm.Header>
                     <Ui.ArrayForm.Tabs actions>
-                        <Ui.Tab onSelect={addTab}>
+                        <Ui.Tab onSelect={() => addTab()}>
                             <Ui.Icons.Tabs.Add title="add-tab" />
                         </Ui.Tab>
                     </Ui.ArrayForm.Tabs>
@@ -61,6 +62,9 @@ export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
 
                 if (!Ui?.ArrayForm || !Ui.Tab || !Ui.Icons) return body
 
+                const canMoveUp = index > 0
+                const canMoveDown = index < value.length - 1
+
                 return (
                     <Ui.ArrayForm
                         key={item.id}
@@ -72,13 +76,29 @@ export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
                             </Ui.ArrayForm.Tabs>
 
                             <Ui.ArrayForm.Tabs actions>
+                                {canMoveUp && (
+                                    <Ui.Tab
+                                        onSelect={() => moveTab(item.id, -1)}
+                                    >
+                                        <Ui.Icons.Tabs.MoveUp title="move-up" />
+                                    </Ui.Tab>
+                                )}
+
+                                {canMoveDown && (
+                                    <Ui.Tab
+                                        onSelect={() => moveTab(item.id, 1)}
+                                    >
+                                        <Ui.Icons.Tabs.MoveDown title="move-down" />
+                                    </Ui.Tab>
+                                )}
+
                                 {(!fillArrayDefault || value.length > 1) && (
                                     <Ui.Tab onSelect={() => removeTab(item.id)}>
                                         <Ui.Icons.Tabs.Remove title="remove-tab" />
                                     </Ui.Tab>
                                 )}
 
-                                <Ui.Tab onSelect={addTab}>
+                                <Ui.Tab onSelect={() => addTab(item.id)}>
                                     <Ui.Icons.Tabs.Add title="add-tab" />
                                 </Ui.Tab>
                             </Ui.ArrayForm.Tabs>

@@ -161,6 +161,8 @@ export interface JsonFormIcons {
     Tabs: {
         Remove: FC<any> | ComponentClass<any>
         Add: FC<any> | ComponentClass<any>
+        MoveUp: FC<any> | ComponentClass<any>
+        MoveDown: FC<any> | ComponentClass<any>
     }
 }
 
