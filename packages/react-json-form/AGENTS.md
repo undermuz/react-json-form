@@ -6,23 +6,24 @@ Guidance for AI agents working on `@undermuz/react-json-form`.
 
 React library that renders forms from a JSON scheme. UI is themeable via `UiContext`. Core form state comes from `@undermuz/use-form`.
 
-Published package lives in this directory. Themes and Storybook live elsewhere in the monorepo (`packages/themes/*`, `stories/`).
+Published package lives in this directory. Themes live under `packages/themes/*`. The repo root is an npm workspaces + Nx monorepo (`stories/` is legacy and excluded from the graph).
 
 ## Commands
 
-Run from `packages/react-json-form`:
+From the **repo root** (`npm install` once):
 
 | Command | Purpose |
 | --- | --- |
-| `npm run lint` | ESLint + `tsc --noEmit` (TypeScript 7) |
-| `npm run typecheck` | Typecheck only (`tsc` = TS 7) |
-| `npm test` | Vitest once |
-| `npm run test:watch` | Vitest watch |
-| `npm run build` | tsup CJS + ESM + DTS |
+| `npx nx run-many -t build` | Build all workspace packages |
+| `npx nx build @undermuz/react-json-form` | Build this package |
+| `npx nx lint @undermuz/react-json-form` | ESLint + `tsc --noEmit` (TypeScript 7) |
+| `npx nx test @undermuz/react-json-form` | Vitest once |
+| `npx nx run @undermuz/react-json-form:typecheck` | Typecheck only (`tsc` = TS 7) |
+| `npx nx affected -t build` | Build only affected projects |
 
-Theme packages (`packages/themes/*`): `npm run lint`, `npm run build` in each package directory.
+Per-package scripts still work from `packages/react-json-form` (`npm run lint`, `npm test`, `npm run build`, `npm run test:watch`).
 
-Stories: `npm run storybook` from `stories/` (uses `relative-deps` for local theme packages).
+Theme packages: `npx nx run-many -t lint,build` or target a theme by package name.
 
 Do not commit unless the user asks.
 

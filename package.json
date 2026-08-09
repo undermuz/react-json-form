@@ -1,0 +1,25 @@
+{
+  "name": "react-json-form",
+  "private": true,
+  "workspaces": [
+    "packages/react-json-form",
+    "packages/themes/*"
+  ],
+  "scripts": {
+    "build": "nx run-many -t build",
+    "lint": "nx run-many -t lint",
+    "test": "nx run-many -t test",
+    "typecheck": "nx run-many -t typecheck"
+  },
+  "devDependencies": {
+    "nx": "23.1.1"
+  },
+  "overrides": {
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    },
+    "chakra-dayzed-datepicker": "^0.3.1",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7"
+  }
+}

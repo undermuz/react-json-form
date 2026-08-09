@@ -11,12 +11,13 @@ packages/
   react-json-form/          # core library (@undermuz/react-json-form)
   themes/
     base/                   # @undermuz/react-json-form-theme-base — native HTML + CSS
+    base-dnd-tabs/          # DnD ArrayFormList for themes
     chakra/                 # Chakra UI v2
     grommet/                # Grommet
     rsuite/                 # Rsuite
     chakra3/                # Chakra UI v3
     heroui/                 # HeroUI
-stories/                    # Storybook demos
+stories/                    # legacy Storybook (not in Nx workspaces)
 ```
 
 ## Install
@@ -103,31 +104,26 @@ import "@undermuz/react-json-form-theme-base/styles.css"
 
 ## Development
 
-**Core library** (`packages/react-json-form`):
+This is an npm workspaces + Nx monorepo. Install once from the repo root:
 
 ```bash
-cd packages/react-json-form
 npm install
+```
+
+Run tasks via Nx:
+
+```bash
+npm run build          # nx run-many -t build
 npm run lint
-npm test
-npm run build
+npm run test
+npm run typecheck
+
+npx nx build @undermuz/react-json-form
+npx nx build @undermuz/react-json-form-theme-base
+npx nx affected -t build
 ```
 
-**Theme** (example: base):
-
-```bash
-cd packages/themes/base
-npm install
-npm run build
-```
-
-**Storybook**:
-
-```bash
-cd stories
-npm install
-npm run storybook
-```
+`stories/` is legacy Storybook (outside the workspace / Nx graph) and will be removed in a later iteration.
 
 Agent/contributor notes: [packages/react-json-form/AGENTS.md](./packages/react-json-form/AGENTS.md)
 

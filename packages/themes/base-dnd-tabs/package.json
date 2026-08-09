@@ -51,9 +51,9 @@
     "react-dom": ">=17.0.0"
   },
   "devDependencies": {
-    "@types/react": "18.0.15",
-    "@types/react-dom": "18.0.6",
-    "@undermuz/react-json-form": "file:../../react-json-form",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@undermuz/react-json-form": "*",
     "esbuild-plugin-file-path-extensions": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -69,9 +69,5 @@
     "json-form",
     "dnd",
     "drag-and-drop"
-  ],
-  "overrides": {
-    "@types/react": "18.0.15",
-    "@types/react-dom": "18.0.6"
-  }
+  ]
 }
