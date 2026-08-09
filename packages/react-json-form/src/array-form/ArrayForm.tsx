@@ -22,15 +22,13 @@ import type { IErrors } from "@undermuz/use-form"
 import useTabs, { type IUseTabs } from "../utils/useTabs"
 import type { IChildFormRefs } from "../flat-form/useFlatRef"
 
-import { ArrayFormStack } from "./ArrayFormStack"
-import { ArrayFormTabs } from "./ArrayFormTabs"
+import { useJsonFormComponents } from "../contexts/ui"
 
 export interface IArrayForm {
     id?: string
     value: TypeValueItem[]
     errors: TypeErrorItem[]
     fillArrayDefault?: boolean
-    viewType?: string
     primary?: boolean
     level: number
     defValue: TypeValueItem
@@ -50,7 +48,6 @@ export const ArrayFormContext = createContext<IArrayFormParams>({
     tab: 0,
     value: [],
     errors: [],
-    viewType: "stack",
     primary: false,
     level: 1,
     defValue: [],
@@ -71,11 +68,12 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
         const {
             value: _value,
             errors,
-            viewType = "stack",
             onChange,
             onError,
             children: _children,
         } = props
+
+        const Components = useJsonFormComponents()
 
         const setErrors = useCallback(
             (newErrors: IErrors, id: number) => {
@@ -160,10 +158,8 @@ const ArrayForm = forwardRef<IJsonFormRef, PropsWithChildren & IArrayForm>(
         const children =
             count > 0 ? (
                 _children
-            ) : viewType === "stack" ? (
-                <ArrayFormStack {...params} />
             ) : (
-                <ArrayFormTabs {...params} />
+                <Components.ArrayFormList {...params} />
             )
 
         /* Ref */

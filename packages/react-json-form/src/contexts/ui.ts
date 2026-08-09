@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react"
 import { JsonFormComponent } from "../components/JsonFormComponents"
+import { ArrayFormList } from "../array-form/ArrayFormList"
 import type { JsonFormComponents, JsonFormUi } from "../types"
 
 const UiContext = createContext<Partial<JsonFormUi> | null>(null)
@@ -27,6 +28,7 @@ export const useJsonFormComponents = (): JsonFormComponents => {
 
     return {
         JsonForm: JsonFormComponent,
+        ArrayFormList,
         ...rawComponents,
     }
 }

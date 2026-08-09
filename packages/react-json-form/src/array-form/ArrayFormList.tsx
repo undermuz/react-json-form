@@ -4,7 +4,7 @@ import { useJsonFormUi } from "../contexts/ui"
 import ArrayFormItem from "./ArrayFormItem"
 import { type IArrayFormParams } from "./ArrayForm"
 
-export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
+export const ArrayFormList: FC<IArrayFormParams> = (props) => {
     const {
         id,
         value,

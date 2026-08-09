@@ -43,7 +43,7 @@ Do not replace this with a single `typescript@7` until typescript-eslint support
 
 - ESLint 10 flat config: `eslint.config.mjs`
 - `eslint-plugin-react` needs `@eslint/compat` + explicit `settings.react.version` (ESLint 10 API break)
-- Tests: Vitest + Testing Library + jsdom; setup in `src/tests/setup.ts` (includes `ResizeObserver` mock for `@dnd-kit`)
+- Tests: Vitest + Testing Library + jsdom; setup in `src/tests/setup.ts` (includes `ResizeObserver` mock)
 - Exclude test/setup files from the published build in `tsup.config.ts`
 
 ## Source layout
@@ -52,7 +52,7 @@ Do not replace this with a single `typescript@7` until typescript-eslint support
 src/
   JsonForm.tsx, Form.tsx, index.tsx   # public entry
   types.ts                            # scheme + UI prop types (JsonFormUi contract)
-  array-form/                         # multi-value / stack / tabs (dnd-kit sortable)
+  array-form/                         # multi-value list view (ArrayFormList)
   flat-form/                          # single object form + field inputs
   components/                         # layout primitives
   contexts/                           # ui, value, api, id
@@ -61,14 +61,32 @@ src/
   tests/                              # Vitest specs + test theme/schemes
 ```
 
+## Array list view
+
+There is a single array view: `ArrayFormList` (no `viewType`, no tabs mode).
+
+- Core default: `array-form/ArrayFormList.tsx` — items with move up/down / add / remove actions.
+- Theme override: `JsonFormUi.Components.ArrayFormList` (merged in `useJsonFormComponents`).
+- State API: `useTabs` — `addTab` / `removeTab` / `moveTab` / `sortTabs(fromIndex, toIndex)` (DnD-agnostic).
+- Public exports for custom theme lists: `ArrayFormItem`, type `IArrayFormParams`.
+
 ## Drag and drop
 
-Array tabs use `@dnd-kit/react` + `@dnd-kit/helpers` (not legacy `@dnd-kit/core` / `sortable` / `utilities`):
+DnD is **not** a core dependency. Themes that want sortable lists implement `Components.ArrayFormList` and own `@dnd-kit/*`.
+
+Reference package: `@undermuz/react-json-form-theme-base-dnd-tabs` (`packages/themes/base-dnd-tabs`) — drop-in `ArrayFormList` with `@dnd-kit/react`:
+
+```ts
+import BaseTheme from "@undermuz/react-json-form-theme-base"
+import { ArrayFormList } from "@undermuz/react-json-form-theme-base-dnd-tabs"
+
+const theme = { ...BaseTheme, Components: { ArrayFormList } }
+```
 
 - Provider: `DragDropProvider`
 - Sortable: `useSortable` from `@dnd-kit/react/sortable` (pass `id` + `index`)
-- Reorder: `move` from `@dnd-kit/helpers` (or `isSortable` + index)
-- Trash drop: `useDroppable` + `event.operation.target?.id === "trash"`; cancel via `event.canceled`
+- Reorder: call `sortTabs(fromIndex, toIndex)` from `IArrayFormParams`
+- Trash drop: `useDroppable` + `target.id === "trash"` → `removeTab(id)`; cancel via `event.canceled`
 - Overlay: `DragOverlay` render prop; do not use sortable hooks inside the overlay
 - Collision: per-droppable `collisionDetector` from `@dnd-kit/collision` (`closestCenter`, `pointerIntersection`)
 
@@ -78,7 +96,8 @@ Themes are separate npm packages under `packages/themes/`. Each implements `Json
 
 | Package | Path | Notes |
 | --- | --- | --- |
-| `@undermuz/react-json-form-theme-base` | `packages/themes/base` | Native HTML + plain CSS (`styles.css`), zero UI libs; good default for new themes |
+| `@undermuz/react-json-form-theme-base` | `packages/themes/base` | Native HTML + plain CSS (`styles.css`), zero UI libs |
+| `@undermuz/react-json-form-theme-base-dnd-tabs` | `packages/themes/base-dnd-tabs` | Optional DnD `ArrayFormList` for any theme chrome |
 | `@undermuz/react-json-form-theme-chakra` | `packages/themes/chakra` | Chakra UI v2 |
 | `@undermuz/react-json-form-theme-grommet` | `packages/themes/grommet` | Grommet |
 | `@undermuz/react-json-form-theme-rsuite` | `packages/themes/rsuite` | Rsuite |
@@ -89,7 +108,7 @@ This package ships a minimal test theme at `src/tests/theme/` (not published).
 
 ### Theme development
 
-- **Contract:** `JsonFormUi` in `types.ts` — `Container`, `Header`, `Body`, `FlatForm`, `Field`, `Item`, `ItemWrapper`, `ArrayForm` (+ compound parts), `Tab`, `Controls`, `Icons`.
+- **Contract:** `JsonFormUi` in `types.ts` — `Container`, `Header`, `Body`, `FlatForm`, `Field`, `Item`, `ItemWrapper`, `ArrayForm` (+ compound parts), `Tab`, optional `Components` (`JsonForm`, `ArrayFormList`), `Controls`, `Icons`.
 - **Reference for behavior:** `packages/themes/chakra/src/` (Field toggle via `ConnectToForm` + `${name}__isDisabled`, `FlatForm.isShow`, async `Select`, etc.).
 - **Reference for lean setup:** `packages/themes/base/` — tsup multi-entry (`index`, `ui`, `controls`, `icons`), CSS copied to `dist/styles.css`, export `"./styles.css"`.
 - **tsup:** use explicit entry points for all modules; `esbuild-plugin-file-path-extensions` rewrites relative imports to `.mjs`/`.js` — a single-entry build will break ESM consumers (missing `./ui.mjs`, etc.).

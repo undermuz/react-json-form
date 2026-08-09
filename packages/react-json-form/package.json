@@ -47,8 +47,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@dnd-kit/helpers": "^0.5.0",
-    "@dnd-kit/react": "^0.5.0",
     "@undermuz/use-form": ">=1.1.1",
     "react-error-boundary": "^3.1.4",
     "underscore": "^1.13.4"

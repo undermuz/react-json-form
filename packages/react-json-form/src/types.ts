@@ -16,6 +16,7 @@ import type {
     RefAttributes,
 } from "react"
 import type { IInput } from "./flat-form/form-input/input"
+import type { IArrayFormParams } from "./array-form/ArrayForm"
 
 export enum EnumSchemeItemType {
     Input = "input",
@@ -204,7 +205,6 @@ export type IJsonFormProps = PropsWithChildren &
     Partial<Pick<IScheme, "title">> &
     Pick<IScheme, "id" | "multiple" | "scheme"> & {
         tests?: FieldTests
-        viewType?: string
         level?: number
         fillArrayDefault?: boolean
         showToggle?: boolean
@@ -212,6 +212,7 @@ export type IJsonFormProps = PropsWithChildren &
 
 export interface JsonFormComponents {
     JsonForm: FC<PropsWithChildren<IJsonFormProps>>
+    ArrayFormList: FC<IArrayFormParams>
 }
 
 export interface IUiArrayFormTabsProps {

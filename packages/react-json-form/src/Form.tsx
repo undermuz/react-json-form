@@ -30,7 +30,6 @@ type FormProps = IJsonFormProps & {
 const Form = forwardRef<IJsonFormRef, FormProps>((props, ref) => {
     const {
         id,
-        viewType,
         level = 1,
         multiple = false,
         isLoading = false,
@@ -84,7 +83,6 @@ const Form = forwardRef<IJsonFormRef, FormProps>((props, ref) => {
             {...rest}
             ref={ref}
             fillArrayDefault={fillArrayDefault}
-            viewType={viewType}
             errors={errors as TypeErrorItem[]}
             defValue={def}
             value={value as TypeValueItem[]}
