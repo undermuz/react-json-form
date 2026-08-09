@@ -3,15 +3,20 @@
   "private": true,
   "workspaces": [
     "packages/react-json-form",
-    "packages/themes/*"
+    "packages/themes/*",
+    "www/*"
   ],
   "scripts": {
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "test": "nx run-many -t test",
-    "typecheck": "nx run-many -t typecheck"
+    "typecheck": "nx run-many -t typecheck",
+    "dev:home": "npm run dev --workspace=@undermuz/react-json-form-home",
+    "build:home:pages": "npm run build:pages --workspace=@undermuz/react-json-form-home",
+    "deploy:home": "npm run build:home:pages && gh-pages -d www/home/dist -b gh-pages --dotfiles -m \"Deploy home-page to GitHub Pages\""
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "nx": "23.1.1"
   },
   "overrides": {
@@ -20,6 +25,7 @@
     },
     "chakra-dayzed-datepicker": "^0.3.1",
     "@types/react": "^18.3.31",
-    "@types/react-dom": "^18.3.7"
+    "@types/react-dom": "^18.3.7",
+    "vite": "^8.2.0"
   }
 }

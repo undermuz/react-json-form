@@ -4,6 +4,8 @@
 
 Monorepo for [@undermuz/react-json-form](https://www.npmjs.com/package/@undermuz/react-json-form) — a React library that renders forms from a JSON scheme. UI is swappable via themes.
 
+**Home:** [undermuz.github.io/react-json-form](https://undermuz.github.io/react-json-form/)
+
 ## Repository layout
 
 ```
@@ -17,7 +19,9 @@ packages/
     rsuite/                 # Rsuite
     chakra3/                # Chakra UI v3
     heroui/                 # HeroUI
-stories/                    # legacy Storybook (not in Nx workspaces)
+www/
+  home/                     # landing page (Vite) → GitHub Pages
+stories/                    # legacy Storybook (not in Nx workspaces; not deployed)
 ```
 
 ## Install
@@ -87,20 +91,14 @@ import "@undermuz/react-json-form-theme-base/styles.css"
 
 ## Themes
 
-| Package | Storybook |
+| Package | Notes |
 | --- | --- |
-| `@undermuz/react-json-form-theme-base` | [Base](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-base) |
-| `@undermuz/react-json-form-theme-chakra` | [Chakra UI](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-chakra) |
-| `@undermuz/react-json-form-theme-rsuite` | [Rsuite](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-rsuite) |
-| `@undermuz/react-json-form-theme-grommet` | [Grommet](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-grommet) |
-
-## Examples
-
-[Storybook](https://undermuz.github.io/react-json-form/)
-
-- [Login form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--login-form)
-- [Signup form](https://undermuz.github.io/react-json-form/?path=/story/form-examples--signup-form)
-- [Custom layouts](https://undermuz.github.io/react-json-form/?path=/story/custom-layout--wrapp-form)
+| `@undermuz/react-json-form-theme-base` | Native HTML + CSS |
+| `@undermuz/react-json-form-theme-chakra` | Chakra UI v2 |
+| `@undermuz/react-json-form-theme-chakra-v3` | Chakra UI v3 |
+| `@undermuz/react-json-form-theme-heroui` | HeroUI |
+| `@undermuz/react-json-form-theme-rsuite` | Rsuite |
+| `@undermuz/react-json-form-theme-grommet` | Grommet |
 
 ## Development
 
@@ -123,7 +121,19 @@ npx nx build @undermuz/react-json-form-theme-base
 npx nx affected -t build
 ```
 
-`stories/` is legacy Storybook (outside the workspace / Nx graph) and will be removed in a later iteration.
+### Home page
+
+```bash
+npm run dev:home           # local Vite (Edit mode + Download JSON in DEV)
+npm run build:home:pages   # production build with /react-json-form/ base
+```
+
+- Landing: `/` (hash: `#/`)
+- Form examples from stories: `#/examples` (Login, Signup, Select, Offer, useSubmit, custom field, grid layout)
+
+GitHub Pages deploys from `.github/workflows/deploy-home-page.yml` on push to `master`.
+
+`stories/` is legacy Storybook (outside the workspace / Nx graph) and is not deployed to GitHub Pages.
 
 Agent/contributor notes: [packages/react-json-form/AGENTS.md](./packages/react-json-form/AGENTS.md)
 

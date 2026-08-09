@@ -1,0 +1,48 @@
+name: Deploy home-page to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "www/home/**"
+      - "packages/react-json-form/**"
+      - "packages/themes/base/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy-home-page.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build home-page for GitHub Pages
+        run: npm run build:pages --workspace=@undermuz/react-json-form-home
+        env:
+          BASE_PATH: /react-json-form/
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./www/home/dist
+          force_orphan: true
