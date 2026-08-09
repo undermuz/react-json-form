@@ -34,5 +34,8 @@ export {
     getHomeHref,
     getExamplesHref,
     getExamplesBaseHref,
+    getJsonFormHref,
+    getUseFormHref,
+    getPageBuilderHref,
     type ThemeAppId,
 } from "./siteUrls"

@@ -3,11 +3,12 @@ import { Link, NavLink } from "react-router-dom"
 import ThemeSwitcher from "./ThemeSwitcher"
 import type { ThemeAppId } from "../siteUrls"
 
+import {
+    getPageBuilderHref,
+    getUseFormHref,
+} from "../siteUrls"
+
 const GITHUB = "https://github.com/undermuz/react-json-form"
-const NPM = "https://www.npmjs.com/package/@undermuz/react-json-form"
-const USE_FORM = "https://www.npmjs.com/package/@undermuz/use-form"
-const PAGE_BUILDER =
-    "https://www.npmjs.com/package/@undermuz/react-page-builder"
 
 export type AppChromeProps = {
     /** External URL to the landing app (used by theme example apps). */
@@ -183,28 +184,10 @@ const AppChrome: FC<AppChromeProps> = ({
                     >
                         GitHub
                     </a>
-                    <a
-                        className={linkClass}
-                        href={NPM}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        npm
-                    </a>
-                    <a
-                        className={linkClass}
-                        href={USE_FORM}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
+                    <a className={linkClass} href={getUseFormHref()}>
                         use-form
                     </a>
-                    <a
-                        className={linkClass}
-                        href={PAGE_BUILDER}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
+                    <a className={linkClass} href={getPageBuilderHref()}>
                         page-builder
                     </a>
                 </nav>

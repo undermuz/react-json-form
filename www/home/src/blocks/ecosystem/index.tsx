@@ -1,6 +1,10 @@
 import type { FC } from "react"
 import { EnumSchemeItemType } from "@undermuz/react-json-form"
 import type { IScheme } from "@undermuz/react-json-form"
+import {
+    getPageBuilderHref,
+    getUseFormHref,
+} from "@undermuz/react-json-form-home-lib"
 import type { IBlock } from "@undermuz/react-page-builder"
 
 export type EcosystemLink = {
@@ -27,23 +31,17 @@ const DEF_VALUE: EcosystemValue = {
             href: "https://github.com/undermuz/react-json-form",
         },
         {
-            id: 2,
-            name: "npm · react-json-form",
-            description: "Published core package.",
-            href: "https://www.npmjs.com/package/@undermuz/react-json-form",
-        },
-        {
             id: 3,
             name: "@undermuz/use-form",
             description: "Form state, tests, and submit helpers under the hood.",
-            href: "https://www.npmjs.com/package/@undermuz/use-form",
+            href: getUseFormHref(),
         },
         {
             id: 4,
             name: "@undermuz/react-page-builder",
             description:
                 "Block pages that generate edit dialogs with this library.",
-            href: "https://www.npmjs.com/package/@undermuz/react-page-builder",
+            href: getPageBuilderHref(),
         },
         {
             id: 5,
