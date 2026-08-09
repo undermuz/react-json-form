@@ -146,6 +146,7 @@ describe("Submit", () => {
             expect(values).toEqual({
                 email: "213@d",
                 password: "1234567",
+                remember: true,
             })
         })
     })
@@ -234,6 +235,7 @@ describe("Submit", () => {
                     {
                         email: "test-email@er.er",
                         password: "1234567",
+                        remember: true
                     },
                     null,
                     true

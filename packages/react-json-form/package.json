@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Generate JSON-based forms with react",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -47,7 +47,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@undermuz/use-form": ">=1.1.1",
+    "@undermuz/use-form": "2.0.0-alpha.0",
     "react-error-boundary": "^3.1.4",
     "underscore": "^1.13.4"
   },
