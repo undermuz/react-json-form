@@ -288,6 +288,7 @@ const UiTab: ForwardRefExoticComponent<
                 onClick={onSelect}
             >
                 {Boolean(label) && <span>{label}</span>}
+
                 {children}
             </button>
         );
@@ -329,6 +330,7 @@ const UiArrayFormTrashContainer = forwardRef<
             {Boolean(props?.label) && (
                 <span className="rjf-trash__label">{props.label}</span>
             )}
+
             {props.children}
         </div>
     );

@@ -194,6 +194,7 @@ export const ArrayFormTabs: FC<IArrayFormParams> = (props) => {
                             <Ui.Icons.Tabs.Remove />
                         </Ui.Tab>
                     )}
+
                     <Ui.Tab onSelect={() => addTab()}>
                         <Ui.Icons.Tabs.Add />
                     </Ui.Tab>

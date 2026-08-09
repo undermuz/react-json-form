@@ -44,7 +44,7 @@ export const ArrayFormStack: FC<IArrayFormParams> = (props) => {
                 if (!item.id) {
                     console.error("ERROR: item.id is required")
 
-                    return "ERROR: item.id is required"
+                    return <p key={index}>ERROR: item.id is required</p>
                 }
 
                 const body = (
