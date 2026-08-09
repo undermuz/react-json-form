@@ -10,6 +10,7 @@ export default defineConfig({
         "./src/icons.tsx",
         "./src/ui.tsx",
     ],
+    tsconfig: "./tsconfig.build.json",
     sourcemap: false,
     clean: true,
     target: "es2020",

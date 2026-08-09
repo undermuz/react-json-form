@@ -1,22 +1,25 @@
 import type { CSSProperties, FC, ForwardedRef, PropsWithChildren } from "react"
-import { forwardRef, useMemo } from "react"
+import { forwardRef, useCallback, useMemo } from "react"
 
 import styled, { css } from "styled-components"
 
-import { Box, Button, Heading, Tag, Text } from "grommet"
+import { Box, Button, CheckBox, Heading, Tag, Text } from "grommet"
 
 import type {
     IField,
+    IInput,
     IItem,
     IUiArrayFormProps,
     IUiArrayFormTabsProps,
     IUiArrayFormTrashContainerProps,
     IUiBodyProps,
+    IUiFlatFormProps,
     IUiHeaderProps,
     IUiTabProps,
     JsonFormUi,
 } from "@undermuz/react-json-form"
 import { EnumSchemeItemType } from "@undermuz/react-json-form"
+import { ConnectToForm } from "@undermuz/use-form"
 
 const UiContainer = styled(Box)`
     @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
@@ -70,8 +73,13 @@ const UiHeader: FC<PropsWithChildren<IUiHeaderProps>> = (props) => {
     )
 }
 
-const UiFlatFormContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
-    return <Box>{children}</Box>
+const UiFlatFormContainer: FC<PropsWithChildren<IUiFlatFormProps>> = ({
+    children,
+    isShow,
+}) => {
+    return (
+        <Box style={{ display: isShow ? undefined : "none" }}>{children}</Box>
+    )
 }
 
 const Branch = styled(Box)`
@@ -126,20 +134,67 @@ const UiItemWrapper: FC<PropsWithChildren<IItem>> = (props) => {
     )
 }
 
+const UiFieldSwitch: FC<Omit<IInput, "type" | "title" | "settings">> = ({
+    value = false,
+    onChange,
+}) => {
+    const onChangeHandler = useCallback(
+        (event: { target: { checked: boolean } }) => {
+            onChange?.(!event.target.checked)
+        },
+        [onChange]
+    )
+
+    return (
+        <CheckBox
+            toggle
+            checked={!value}
+            onChange={onChangeHandler}
+            label=""
+        />
+    )
+}
+
 const UiField: FC<PropsWithChildren<IField>> = (props) => {
-    const { title, isLast = false, primary = false, type, children } = props
+    const {
+        id,
+        title,
+        name,
+        description = null,
+        isLast = false,
+        primary = false,
+        type,
+        errors,
+        children,
+        showToggle = false,
+        showLabel: rawShowLabel,
+    } = props
 
     const showLabel = useMemo(() => {
+        if (typeof rawShowLabel === "boolean") {
+            return rawShowLabel
+        }
+
         if (type === EnumSchemeItemType.Checkbox) {
             return false
         }
 
-        if (type === EnumSchemeItemType.Widget) {
-            return false
-        }
-
         return true
-    }, [type])
+    }, [type, rawShowLabel])
+
+    const isError = Boolean(errors?.length)
+
+    const label = showLabel ? (
+        <Text as="label" {...({ htmlFor: id } as object)}>
+            {title}
+        </Text>
+    ) : null
+
+    const toggle = showToggle ? (
+        <ConnectToForm name={`${name}__isDisabled`}>
+            <UiFieldSwitch />
+        </ConnectToForm>
+    ) : null
 
     return (
         <Box
@@ -172,14 +227,41 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
             <Box
                 width={"100%"}
                 pad={{
-                    top: !showLabel ? "small" : undefined,
-                    bottom: !showLabel ? "small" : undefined,
+                    top: !showLabel && !showToggle ? "small" : undefined,
+                    bottom: !showLabel && !showToggle ? "small" : undefined,
                 }}
                 direction={"column"}
                 justify="center"
+                gap="xsmall"
             >
-                {showLabel && <Text as="label">{title}</Text>}
+                {!showToggle && showLabel && label}
+                {showToggle && !showLabel && toggle}
+                {showToggle && showLabel && (
+                    <Box direction="row" justify="between" align="center">
+                        {label}
+                        {toggle}
+                    </Box>
+                )}
+
                 {children}
+
+                {description !== null && !isError && (
+                    <Text size="small" color="dark-4">
+                        {description}
+                    </Text>
+                )}
+
+                {errors?.map((errorText, index) => {
+                    if (typeof errorText !== "string") {
+                        return null
+                    }
+
+                    return (
+                        <Text key={index} size="small" color="status-critical">
+                            {errorText}
+                        </Text>
+                    )
+                })}
             </Box>
         </Box>
     )
@@ -191,20 +273,22 @@ const Tab = styled(Box)<IUiTabProps>`
 
 const UiTab = forwardRef<HTMLButtonElement, PropsWithChildren<IUiTabProps>>(
     (props, ref) => {
+        const { label, active, onSelect, children, style } = props
+
         return (
             <Tab
-                {...props}
-                onClick={props.onSelect}
+                onClick={onSelect}
                 background={{
-                    color: props.active ? "brand" : "light-3",
-                    opacity: props.active ? "medium" : undefined,
+                    color: active ? "brand" : "light-3",
+                    opacity: active ? "medium" : undefined,
                 }}
                 ref={ref as ForwardedRef<HTMLDivElement>}
                 hoverIndicator
+                style={style}
             >
                 <Box pad={"xsmall"}>
-                    {Boolean(props?.label) && <Text>{props?.label}</Text>}
-                    {props.children}
+                    {Boolean(label) && <Text>{label}</Text>}
+                    {children}
                 </Box>
             </Tab>
         )

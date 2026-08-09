@@ -8,10 +8,12 @@
     "build": "tsc -b && vite build",
     "build:pages": "tsc -b && vite build --base=/react-json-form/",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {
     "@undermuz/react-json-form": "*",
+    "@undermuz/react-json-form-home-lib": "*",
     "@undermuz/react-json-form-theme-base": "*",
     "@undermuz/react-page-builder": "^2.1.0",
     "react": "^18.3.1",

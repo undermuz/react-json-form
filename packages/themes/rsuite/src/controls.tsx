@@ -1,11 +1,10 @@
-import { type FC, type SyntheticEvent, useRef } from "react"
+import { type FC, useRef } from "react"
 
 import Select from "react-select"
 
 import { Checkbox, Input } from "rsuite"
 
-import type { IInput } from "@undermuz/react-json-form"
-import type { JsonFormControls } from "@undermuz/react-json-form"
+import type { IInput, JsonFormControls } from "@undermuz/react-json-form"
 
 import { isArray } from "underscore"
 
@@ -64,7 +63,7 @@ const ControlDate: FC<IInput> = (props) => {
             value={value}
             name={name}
             {...settings}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
             onChange={(value) => onChange?.(value)}
         />
     )
@@ -80,9 +79,7 @@ const ControlCheckBox: FC<IInput> = (props) => {
             checked={Boolean(value)}
             name={name}
             onChange={(v, checked) => onChange?.(checked)}
-            onMouseLeave={(e: SyntheticEvent) =>
-                onBlur?.((e.currentTarget as HTMLInputElement).checked)
-            }
+            onMouseLeave={() => onBlur?.()}
         >
             {title}
         </Checkbox>
@@ -100,7 +97,7 @@ const ControlTextBlock: FC<IInput> = (props) => {
             value={value}
             name={name}
             {...settings}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
             onChange={(value) => onChange?.(value)}
         />
     )
@@ -118,7 +115,7 @@ const ControlInput: FC<IInput> = (props) => {
             type={type || "text"}
             value={value}
             onChange={(value) => onChange?.(value)}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
         />
     )
 }
@@ -159,7 +156,7 @@ const ControlFileInput: FC<IInput> = (props) => {
             <Input
                 placeholder={placeholder || "Your file ..."}
                 onClick={() => inputRef.current?.click()}
-                onBlur={(e) => onBlur?.(e.currentTarget.value)}
+                onBlur={() => onBlur?.()}
                 readOnly={true}
                 value={(value && value.name) || ""}
             />
@@ -167,13 +164,13 @@ const ControlFileInput: FC<IInput> = (props) => {
     )
 }
 
-const Controls: JsonFormControls = {
+const Controls = {
     FileInput: ControlFileInput,
     Input: ControlInput,
     TextBlock: ControlTextBlock,
     CheckBox: ControlCheckBox,
     Date: ControlDate,
     Select: ControlSelect,
-}
+} as JsonFormControls
 
 export default Controls

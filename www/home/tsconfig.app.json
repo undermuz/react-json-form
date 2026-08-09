@@ -7,25 +7,21 @@
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
-
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
     "paths": {
       "@undermuz/react-json-form": [
         "../../packages/react-json-form/src/index.tsx"
       ],
+      "@undermuz/react-json-form-home-lib": ["../home-lib/src/index.ts"],
       "@undermuz/react-json-form-theme-base": [
         "../../packages/themes/base/src/index.tsx"
       ]
     },
-
-    /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true

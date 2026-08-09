@@ -1,0 +1,11 @@
+﻿@import "@undermuz/react-json-form-home-lib/styles.css";
+@import "rsuite/dist/rsuite.min.css";
+
+/*
+ * RSuite sets a global `a { color: ... }` that paints every link on the page.
+ * Undo it outside RSuite components; shell utilities (text-rpb-*) still win.
+ */
+a:where(:not([class*="rs-"])) {
+    color: inherit;
+    text-decoration: none;
+}

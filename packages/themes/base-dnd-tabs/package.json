@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form-theme-base-dnd-tabs",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "DnD ArrayFormList (sortable items + trash) for @undermuz/react-json-form themes",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -26,7 +26,8 @@
     "dist"
   ],
   "scripts": {
-    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ./src && npm run typecheck",
     "build": "npm run build:tsup",
     "build:tsup": "tsup",
     "prepublishOnly": "npm run lint && npm run build"
@@ -46,20 +47,28 @@
     "@dnd-kit/react": "^0.5.0"
   },
   "peerDependencies": {
-    "@undermuz/react-json-form": "^2.2.0",
+    "@undermuz/react-json-form": "^2.3.0",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.1",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@undermuz/react-json-form": "*",
     "esbuild-plugin-file-path-extensions": "^1.0.0",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.9.0",
+    "prettier": "^2.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tslib": "^2.8.1",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.66.0"
   },
   "keywords": [
     "react",

@@ -240,8 +240,7 @@ const ControlDate: FC<IInput & IConnectedProps> = (props) => {
             disabled={isDisabled}
             value={dateValue}
             onChange={(e) => onChange?.(e.currentTarget.value)}
-            // @ts-ignore
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
         />
     )
 }
@@ -257,11 +256,10 @@ const ControlCheckBox: FC<IInput & IConnectedProps> = (props) => {
             name={name}
             checked={Boolean(value)}
             disabled={isDisabled}
-            onCheckedChange={(e) => onChange?.(e.target.checked)}
-            onMouseLeave={(e) =>
-                //@ts-ignore
-                onBlur?.((e.currentTarget as HTMLInputElement).checked)
+            onCheckedChange={(details) =>
+                onChange?.(Boolean(details.checked))
             }
+            onMouseLeave={() => onBlur?.()}
         >
             <Checkbox.HiddenInput />
             <Checkbox.Control>
@@ -284,10 +282,7 @@ const ControlTextBlock: FC<IInput & IConnectedProps> = (props) => {
             name={name}
             disabled={isDisabled}
             {...settings}
-            onBlur={(e) =>
-                //@ts-ignore
-                onBlur?.(e.currentTarget.value)
-            }
+            onBlur={() => onBlur?.()}
             onChange={(event) => onChange?.(event.currentTarget.value)}
         />
     )
@@ -329,22 +324,17 @@ const ControlFileInput: FC<IInput & IConnectedProps> = (props) => {
     const onChangeFile = useCallback(
         (inFiles?: FileList | null) => {
             try {
-                console.log("[onChangeFile]", inFiles)
-
                 if (!onChange) return
 
                 if (!inFiles?.length) {
-                    console.log("[onChangeFile][Nothing]", inFiles)
                     return
                 }
 
                 if (!isMultiple) {
-                    console.log("[onChangeFile][Single]", inFiles[0])
                     onChange(inFiles[0])
                     return
                 }
 
-                console.log("[onChangeFile][Multiple]", inFiles[0])
                 let nextFiles = [...files, ...inFiles]
 
                 if (nextFiles.length > max) {
@@ -356,10 +346,8 @@ const ControlFileInput: FC<IInput & IConnectedProps> = (props) => {
                 if (inputRef.current) inputRef.current.value = ""
             }
         },
-        [onChange, files],
+        [onChange, files, isMultiple, max]
     )
-
-    console.log("[ControlFileInput]", props)
 
     return (
         <Wrap>
@@ -434,19 +422,18 @@ const ControlInput: FC<IInput & IConnectedProps> = (props) => {
             type={inputType || type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
-            // @ts-ignore
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
         />
     )
 }
 
-const Controls: JsonFormControls = {
+const Controls = {
     FileInput: ControlFileInput,
     Input: ControlInput,
     TextBlock: ControlTextBlock,
     CheckBox: ControlCheckBox,
     Date: ControlDate,
     Select: ControlSelect,
-}
+} as JsonFormControls
 
 export default Controls

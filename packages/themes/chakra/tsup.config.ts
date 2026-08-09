@@ -4,7 +4,13 @@ import { esbuildPluginFilePathExtensions } from "esbuild-plugin-file-path-extens
 const env = process.env.NODE_ENV
 
 export default defineConfig({
-    entry: ["./src", "!./src/stories/**/*", "!src/**/*.spec.*"],
+    entry: [
+        "./src/index.tsx",
+        "./src/controls.tsx",
+        "./src/icons.tsx",
+        "./src/ui.tsx",
+    ],
+    tsconfig: "./tsconfig.build.json",
     sourcemap: false,
     clean: true,
     target: "es2020",
@@ -14,13 +20,18 @@ export default defineConfig({
     minify: env === "production",
     bundle: true,
     external: [
-        "rsuite",
-        "grommet",
-        "chakra-ui",
-        "stories",
         "react",
         "react-dom",
-        "node_modules",
+        "@undermuz/react-json-form",
+        "@undermuz/use-form",
+        "@chakra-ui/react",
+        "@chakra-ui/icons",
+        "@emotion/styled",
+        "@emotion/react",
+        "chakra-react-select",
+        "framer-motion",
+        "react-select",
+        "underscore",
     ],
     esbuildPlugins: [
         esbuildPluginFilePathExtensions({

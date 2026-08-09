@@ -1,7 +1,7 @@
 {
   "name": "@undermuz/react-json-form-theme-heroui",
   "homepage": "http://undermuz.github.io/react-json-form",
-  "version": "2.0.29",
+  "version": "2.3.1",
   "description": "HeroUI theme for @undermuz/react-json-form",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -27,12 +27,11 @@
     "dist"
   ],
   "scripts": {
-    "test": "jest",
-    "lint": "eslint ./src/* && tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ./src && npm run typecheck",
     "build": "npm run build:tsup",
     "build:tsup": "tsup",
-    "predeploy": "npm run lint && npm run build",
-    "prepublishOnly": "npm run predeploy"
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "author": {
     "name": "undermuz",
@@ -45,32 +44,39 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@undermuz/use-form": ">=1.0.32",
+    "@undermuz/use-form": "2.0.0-alpha.0",
     "dayzed": "^3.2.3",
     "react-icons": "5.4.0",
     "underscore": "^1.13.4"
   },
   "peerDependencies": {
-    "framer-motion": "^12.23.12",
     "@heroui/react": "^2.8.2",
-    "@undermuz/react-json-form": "^2.0.28",
+    "@undermuz/react-json-form": "^2.3.0",
+    "framer-motion": "^12.23.12",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.1",
+    "@heroui/react": "^2.8.2",
     "@types/react": "^18.0.5",
+    "@types/react-dom": "^18.0.6",
     "@types/underscore": "^1.11.4",
-    "@typescript-eslint/eslint-plugin": "^5.54.0",
-    "@typescript-eslint/parser": "^5.54.0",
+    "@undermuz/react-json-form": "*",
     "esbuild-plugin-file-path-extensions": "^1.0.0",
-    "eslint": "^8.19.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.32.2",
-    "prettier": "^3",
-    "tslib": "^2",
-    "tsup": "^6",
-    "typescript": "^5"
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "framer-motion": "^12.23.12",
+    "globals": "^17.9.0",
+    "prettier": "^2.8.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tslib": "^2.8.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.66.0"
   },
   "keywords": [
     "react",

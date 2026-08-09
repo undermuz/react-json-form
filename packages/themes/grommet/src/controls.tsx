@@ -9,10 +9,9 @@ import _AsyncSelect from "react-select/async"
 const AsyncSelect = ((_AsyncSelect as any).default ??
     _AsyncSelect) as typeof _AsyncSelect
 
-import type { IInput } from "@undermuz/react-json-form"
+import type { IInput, JsonFormControls } from "@undermuz/react-json-form"
 
 import { isArray } from "underscore"
-import type { JsonFormControls } from "@undermuz/react-json-form"
 
 interface TypeSelectValue {
     label: string
@@ -101,7 +100,7 @@ const ControlCheckBox: FC<IInput> = (props) => {
             name={name}
             label={title}
             onChange={(event) => onChange?.(event.target.checked)}
-            onMouseLeave={(e) => onBlur?.(e.currentTarget.checked)}
+            onMouseLeave={() => onBlur?.()}
         />
     )
 }
@@ -116,7 +115,7 @@ const ControlTextBlock: FC<IInput> = (props) => {
             value={value}
             name={name}
             {...settings}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
             onChange={(event) => onChange?.(event.currentTarget.value)}
         />
     )
@@ -134,7 +133,7 @@ const ControlInput: FC<IInput> = (props) => {
             type={type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
         />
     )
 }
@@ -175,7 +174,7 @@ const ControlFileInput: FC<IInput> = (props) => {
             <TextInput
                 placeholder={placeholder || "Your file ..."}
                 onClick={() => inputRef.current?.click()}
-                onBlur={(e) => onBlur?.(e.currentTarget.value)}
+                onBlur={() => onBlur?.()}
                 readOnly={true}
                 value={(value && value.name) || ""}
             />
@@ -183,13 +182,13 @@ const ControlFileInput: FC<IInput> = (props) => {
     )
 }
 
-const Controls: JsonFormControls = {
+const Controls = {
     FileInput: ControlFileInput,
     Input: ControlInput,
     TextBlock: ControlTextBlock,
     CheckBox: ControlCheckBox,
     Date: ControlDate,
     Select: ControlSelect,
-}
+} as JsonFormControls
 
 export default Controls

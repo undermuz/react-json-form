@@ -7,7 +7,7 @@ import JsonForm, {
 } from "@undermuz/react-json-form";
 import BaseTheme from "@undermuz/react-json-form-theme-base";
 import type { IBlock } from "@undermuz/react-page-builder";
-import CodePanel from "../../components/CodePanel";
+import { CodePanel } from "@undermuz/react-json-form-home-lib";
 
 /** One node in a recursive widget tree — children may nest at runtime. */
 export type NestNode = {

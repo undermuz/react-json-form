@@ -242,7 +242,8 @@ const ControlDate: FC<IInput & IConnectedProps> = (props) => {
         <DatePicker
             {...settings}
             label={label}
-            value={date}
+            // Duplicate @internationalized/date copies make CalendarDate incompatible across packages
+            value={date as any}
             onChange={handleChange}
         />
     )
@@ -261,10 +262,7 @@ const ControlCheckBox: FC<IInput & IConnectedProps> = (props) => {
             isSelected={Boolean(value)}
             disabled={isDisabled}
             onValueChange={(checked) => onChange?.(checked)}
-            onMouseLeave={(e) =>
-                //@ts-ignore
-                onBlur?.((e.currentTarget as HTMLInputElement).checked)
-            }
+            onMouseLeave={() => onBlur?.()}
         >
             {title}
         </Checkbox>
@@ -283,10 +281,7 @@ const ControlTextBlock: FC<IInput & IConnectedProps> = (props) => {
             name={name}
             disabled={isDisabled}
             {...settings}
-            onBlur={(e) =>
-                //@ts-ignore
-                onBlur?.(e.currentTarget.value)
-            }
+            onBlur={() => onBlur?.()}
             onChange={(event) => onChange?.(event.currentTarget.value)}
         />
     )
@@ -457,19 +452,18 @@ const ControlInput: FC<IInput & IConnectedProps> = (props) => {
             type={inputType || type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
-            // @ts-ignore
-            onBlur={(e) => onBlur?.(e.currentTarget.value)}
+            onBlur={() => onBlur?.()}
         />
     )
 }
 
-const Controls: JsonFormControls = {
+const Controls = {
     FileInput: ControlFileInput,
     Input: ControlInput,
     TextBlock: ControlTextBlock,
     CheckBox: ControlCheckBox,
     Date: ControlDate,
     Select: ControlSelect,
-}
+} as JsonFormControls
 
 export default Controls

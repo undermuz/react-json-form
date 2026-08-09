@@ -1,0 +1,11 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+/* HeroUI v2 styles are generated via the Tailwind plugin + theme source scan. */
+@plugin "../hero.ts";
+@source "../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/themes/heroui/src/**/*.{ts,tsx}";
+@source "../../home-lib/src/**/*.{ts,tsx}";
+@custom-variant dark (&:is(.dark *));
+
+@import "@undermuz/react-json-form-home-lib/shell.css";

@@ -5,8 +5,11 @@ on:
     branches: [master]
     paths:
       - "www/home/**"
+      - "www/home-lib/**"
+      - "www/home-*/**"
+      - "www/scripts/**"
       - "packages/react-json-form/**"
-      - "packages/themes/base/**"
+      - "packages/themes/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/deploy-home-page.yml"
@@ -35,14 +38,12 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Build home-page for GitHub Pages
-        run: npm run build:pages --workspace=@undermuz/react-json-form-home
-        env:
-          BASE_PATH: /react-json-form/
+      - name: Build home + theme example apps for GitHub Pages
+        run: npm run build:home:pages
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./www/home/dist
+          publish_dir: ./www/dist-pages
           force_orphan: true

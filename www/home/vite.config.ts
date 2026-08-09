@@ -1,35 +1,29 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { defineConfig } from "vite"
-import react from "@vitejs/plugin-react"
-import tailwindcss from "@tailwindcss/vite"
+import { createHomeViteConfig } from "../home-lib/src/vite/createHomeViteConfig.ts"
 
 const root = path.dirname(fileURLToPath(import.meta.url))
+const repoRoot = path.resolve(root, "../..")
 
-export default defineConfig({
-    // GitHub Pages project site: https://undermuz.github.io/react-json-form/
-    base: process.env.BASE_PATH || "/",
-    plugins: [react(), tailwindcss()],
-    resolve: {
-        alias: {
-            "@undermuz/react-json-form": path.resolve(
-                root,
-                "../../packages/react-json-form/src/index.tsx"
+export default createHomeViteConfig({
+    root,
+    themes: [
+        {
+            name: "@undermuz/react-json-form-theme-base",
+            entry: path.resolve(
+                repoRoot,
+                "packages/themes/base/src/index.tsx"
             ),
-            "@undermuz/react-json-form-theme-base/styles.css": path.resolve(
-                root,
-                "../../packages/themes/base/src/styles.css"
-            ),
-            "@undermuz/react-json-form-theme-base": path.resolve(
-                root,
-                "../../packages/themes/base/src/index.tsx"
-            ),
+            styles: {
+                name: "@undermuz/react-json-form-theme-base/styles.css",
+                file: path.resolve(
+                    repoRoot,
+                    "packages/themes/base/src/styles.css"
+                ),
+            },
         },
-    },
-    server: {
-        host: true,
-    },
-    preview: {
-        host: true,
+    ],
+    extend: {
+        server: { port: 5173 },
     },
 })

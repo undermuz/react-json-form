@@ -5,6 +5,7 @@ const env = process.env.NODE_ENV
 
 export default defineConfig({
     entry: ["./src/index.tsx", "./src/array-form-list.tsx"],
+    tsconfig: "./tsconfig.build.json",
     sourcemap: false,
     clean: true,
     target: "es2020",

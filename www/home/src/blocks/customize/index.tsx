@@ -2,7 +2,7 @@ import type { FC } from "react"
 import { EnumSchemeItemType } from "@undermuz/react-json-form"
 import type { IScheme } from "@undermuz/react-json-form"
 import type { IBlock } from "@undermuz/react-page-builder"
-import CodePanel from "../../components/CodePanel"
+import { CodePanel } from "@undermuz/react-json-form-home-lib"
 
 export type CustomizePillar = {
     id: number

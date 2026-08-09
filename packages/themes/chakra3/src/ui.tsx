@@ -259,38 +259,36 @@ const UiField: FC<PropsWithChildren<IField>> = (props) => {
     const showChildren = type === EnumSchemeItemType.Widget ? !isDisabled : true
 
     return (
-        <Field.Root
-            isInvalid={isError}
-            as={Flex}
-            alignItems="stretch"
-            flexDir={"column"}
-        >
-            {!showToggle && showLabel && label}
-            {showToggle && !showLabel && toggle}
+        <Field.Root invalid={isError} asChild>
+            <Flex alignItems="stretch" flexDir={"column"}>
+                {!showToggle && showLabel && label}
+                {showToggle && !showLabel && toggle}
 
-            {showToggle && showLabel && (
-                <HStack justify={"space-between"}>
-                    {label}
-                    {toggle}
-                </HStack>
-            )}
+                {showToggle && showLabel && (
+                    <HStack justify={"space-between"}>
+                        {label}
+                        {toggle}
+                    </HStack>
+                )}
 
-            {showChildren && children}
+                {showChildren && children}
 
-            {description !== null && !isError && (
-                <Field.HelperText>{description}</Field.HelperText>
-            )}
+                {description !== null && !isError && (
+                    <Field.HelperText>{description}</Field.HelperText>
+                )}
 
-            {errors?.map((errorText, index) => {
-                if (typeof errorText !== "string") {
-                    return null
-                }
+                {errors?.map((errorText, index) => {
+                    if (typeof errorText !== "string") {
+                        return null
+                    }
 
-                return (
-                    /*@ts-ignore*/
-                    <Field.ErrorText key={index}>{errorText}</Field.ErrorText>
-                )
-            })}
+                    return (
+                        <Field.ErrorText key={index}>
+                            {errorText}
+                        </Field.ErrorText>
+                    )
+                })}
+            </Flex>
         </Field.Root>
     )
 }

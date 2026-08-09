@@ -6,9 +6,12 @@ import {
 } from "@undermuz/react-page-builder"
 import { UiContext } from "@undermuz/react-json-form"
 import BaseTheme from "@undermuz/react-json-form-theme-base"
+import {
+    AppChrome,
+    getExamplesBaseHref,
+} from "@undermuz/react-json-form-home-lib"
 
-import AppChrome from "../components/AppChrome"
-import type { AppMode } from "../components/ModeToggle"
+import ModeToggle, { type AppMode } from "../components/ModeToggle"
 import { library } from "../blocks/library"
 import { DEFAULT_PAGE } from "../blocks/defaultPage"
 import {
@@ -45,16 +48,19 @@ function HomePage() {
     }
 
     const showEditor = IS_DEV && mode === "edit"
+    const examplesHref = getExamplesBaseHref()
 
     return (
         <div data-rpb-landing className="flex min-h-screen w-full flex-col">
             <AppChrome
-                mode={mode}
-                onModeChange={setMode}
-                onReset={onReset}
-                onDownload={onDownload}
-                isDirty={IS_DEV && isPageDirty(value)}
+                examplesHref={examplesHref}
+                showThemeSwitcher
                 showEditorControls={IS_DEV}
+                modeToggle={<ModeToggle mode={mode} onChange={setMode} />}
+                onDownload={onDownload}
+                onReset={onReset}
+                isDirty={IS_DEV && isPageDirty(value)}
+                editBanner={showEditor}
             />
 
             <main className="flex-1">

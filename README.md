@@ -121,15 +121,20 @@ npx nx build @undermuz/react-json-form-theme-base
 npx nx affected -t build
 ```
 
-### Home page
+### Home page + theme examples
 
 ```bash
-npm run dev:home           # local Vite (Edit mode + Download JSON in DEV)
-npm run build:home:pages   # production build with /react-json-form/ base
+npm run dev:home           # landing (Edit mode + Download JSON in DEV)
+npm run dev:home-base      # examples — base theme (:5174)
+npm run dev:home-chakra    # examples — chakra (:5175)
+# also: dev:home-chakra3, dev:home-grommet, dev:home-heroui, dev:home-rsuite
+npm run build:home:pages   # aggregate GH Pages build → www/dist-pages
 ```
 
-- Landing: `/` (hash: `#/`)
-- Form examples from stories: `#/examples` (Login, Signup, Select, Offer, useSubmit, custom field, grid layout)
+Shared UI lives in `www/home-lib`. Each theme has its own Vite app under `www/home-<theme>` so UI kits stay isolated.
+
+- Landing: `/react-json-form/`
+- Theme examples: `/react-json-form/<theme>/#/login` (base, chakra, chakra3, grommet, heroui, rsuite)
 
 GitHub Pages deploys from `.github/workflows/deploy-home-page.yml` on push to `master`.
 

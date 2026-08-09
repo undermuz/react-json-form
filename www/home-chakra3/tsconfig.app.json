@@ -1,0 +1,30 @@
+﻿{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    "types": ["vite/client"],
+    "allowArbitraryExtensions": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@undermuz/react-json-form": [
+        "../../packages/react-json-form/src/index.tsx"
+      ],
+      "@undermuz/react-json-form-home-lib": ["../home-lib/src/index.ts"],
+      "@chakra-ui/react": [
+        "../../packages/themes/chakra3/node_modules/@chakra-ui/react"
+      ]
+    },
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}

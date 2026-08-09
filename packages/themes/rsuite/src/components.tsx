@@ -15,6 +15,22 @@ const JsonFormComponent: FC<PropsWithChildren<IJsonFormProps>> = (props) => {
 
     const Ui = useJsonFormUi()
 
+    if (!Ui?.Container) {
+        return (
+            <Panel
+                header={
+                    <UiHeader>
+                        {title}
+                        {header}
+                    </UiHeader>
+                }
+                shaded={!primary}
+            >
+                {children}
+            </Panel>
+        )
+    }
+
     return (
         <Ui.Container>
             <Panel

@@ -1,6 +1,7 @@
 node_modules
 storybook-static
 dist
+www/dist-pages
 build
 .nx/cache
 .nx/workspace-data

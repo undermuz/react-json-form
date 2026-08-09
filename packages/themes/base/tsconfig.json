@@ -3,7 +3,7 @@
         "allowJs": true,
         "checkJs": false,
         "resolveJsonModule": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "module": "esnext",
         "target": "ESNext",
         "lib": ["esnext", "dom.iterable", "dom"],
@@ -21,8 +21,7 @@
         "noUnusedParameters": false,
         "skipLibCheck": true,
         "strictPropertyInitialization": false,
-        "isolatedModules": true,
-        "ignoreDeprecations": "6.0"
+        "isolatedModules": true
     },
     "exclude": ["dist", "node_modules"],
     "include": ["./src/**/*"]

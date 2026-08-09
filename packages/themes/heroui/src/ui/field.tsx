@@ -8,8 +8,6 @@ import { EnumSchemeItemType } from "@undermuz/react-json-form"
 import { ConnectToForm } from "@undermuz/use-form"
 import { UiFieldSwitch } from "./field-switch"
 
-const enumValues = Object.values(EnumSchemeItemType)
-
 export const UiField: FC<PropsWithChildren<IField>> = (props) => {
     const {
         id,
@@ -21,38 +19,30 @@ export const UiField: FC<PropsWithChildren<IField>> = (props) => {
         errors,
         children,
         showToggle = false,
-        showLabel: _showLabel,
+        showLabel: rawShowLabel,
     } = props
 
     const showLabel = useMemo(() => {
-        if (typeof _showLabel === "boolean") {
-            return _showLabel
+        if (typeof rawShowLabel === "boolean") {
+            return rawShowLabel
         }
 
-        if (
-            type !== EnumSchemeItemType.Widget &&
-            enumValues.includes(type as EnumSchemeItemType)
-        ) {
+        if (type === EnumSchemeItemType.Checkbox) {
             return false
         }
 
         return true
-    }, [type, _showLabel])
+    }, [type, rawShowLabel])
 
-    if (!showLabel) {
-        return children
-    }
+    const isError = Boolean(errors?.length)
 
-    const isError = errors?.length > 0
+    const label = showLabel ? <label htmlFor={id}>{title}</label> : null
 
-    /*@ts-ignore*/
-    const label = <label htmlFor={id}>{title}</label>
-
-    const toggle = (
+    const toggle = showToggle ? (
         <ConnectToForm name={`${name}__isDisabled`}>
             <UiFieldSwitch />
         </ConnectToForm>
-    )
+    ) : null
 
     const showChildren = type !== EnumSchemeItemType.Widget || !isDisabled
 
@@ -82,7 +72,6 @@ export const UiField: FC<PropsWithChildren<IField>> = (props) => {
                 }
 
                 return (
-                    /*@ts-ignore*/
                     <span key={index} className="text-tiny text-danger">
                         {errorText}
                     </span>

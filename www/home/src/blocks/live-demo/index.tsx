@@ -6,7 +6,7 @@ import JsonForm, {
 } from "@undermuz/react-json-form"
 import BaseTheme from "@undermuz/react-json-form-theme-base"
 import type { IBlock } from "@undermuz/react-page-builder"
-import CodePanel from "../../components/CodePanel"
+import { CodePanel } from "@undermuz/react-json-form-home-lib"
 
 export type LiveDemoValue = {
     title: string

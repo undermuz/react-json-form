@@ -12,8 +12,14 @@
     "test": "nx run-many -t test",
     "typecheck": "nx run-many -t typecheck",
     "dev:home": "npm run dev --workspace=@undermuz/react-json-form-home",
-    "build:home:pages": "npm run build:pages --workspace=@undermuz/react-json-form-home",
-    "deploy:home": "npm run build:home:pages && gh-pages -d www/home/dist -b gh-pages --dotfiles -m \"Deploy home-page to GitHub Pages\""
+    "dev:home-base": "npm run dev --workspace=@undermuz/react-json-form-home-base",
+    "dev:home-chakra": "npm run dev --workspace=@undermuz/react-json-form-home-chakra",
+    "dev:home-chakra3": "npm run dev --workspace=@undermuz/react-json-form-home-chakra3",
+    "dev:home-grommet": "npm run dev --workspace=@undermuz/react-json-form-home-grommet",
+    "dev:home-heroui": "npm run dev --workspace=@undermuz/react-json-form-home-heroui",
+    "dev:home-rsuite": "npm run dev --workspace=@undermuz/react-json-form-home-rsuite",
+    "build:home:pages": "node www/scripts/build-home-pages.mjs",
+    "deploy:home": "npm run build:home:pages && gh-pages -d www/dist-pages -b gh-pages --dotfiles -m \"Deploy home-page to GitHub Pages\""
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",

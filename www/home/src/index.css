@@ -1,151 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap");
-@import "tailwindcss";
-
-@theme {
-    --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-
-    --color-rpb-primary: #5fa04e;
-    --color-rpb-secondary: #84ba64;
-    --color-rpb-success: #5fa04e;
-    --color-rpb-surface: #0d1117;
-    --color-rpb-elevated: #161b22;
-    --color-rpb-text: #ffffff;
-    --color-rpb-muted: #b9bbbe;
-    --color-rpb-border: rgb(255 255 255 / 0.1);
-    --color-rpb-glass: rgb(255 255 255 / 0.04);
-}
-
-@layer base {
-    html {
-        color-scheme: dark;
-    }
-
-    body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: var(--font-sans);
-        color: var(--color-rpb-text);
-        background-color: var(--color-rpb-surface);
-        background-image:
-            radial-gradient(
-                ellipse 70% 50% at 50% 20%,
-                rgb(95 160 78 / 0.18),
-                transparent 55%
-            ),
-            radial-gradient(
-                ellipse 50% 40% at 15% 80%,
-                rgb(95 160 78 / 0.08),
-                transparent 50%
-            ),
-            radial-gradient(
-                ellipse 40% 30% at 90% 10%,
-                rgb(132 186 100 / 0.1),
-                transparent 50%
-            );
-        background-attachment: fixed;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    #root {
-        min-height: 100vh;
-    }
-
-    ::selection {
-        background: rgb(95 160 78 / 0.4);
-    }
-}
-
-@layer utilities {
-    .glass {
-        background: var(--color-rpb-glass);
-        border: 1px solid var(--color-rpb-border);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-    }
-
-    .glass-hover {
-        transition:
-            border-color 200ms ease,
-            background-color 200ms ease,
-            transform 200ms ease;
-    }
-
-    .glass-hover:hover {
-        border-color: rgb(95 160 78 / 0.45);
-        background: rgb(255 255 255 / 0.06);
-    }
-
-    .animate-rise {
-        animation: rpb-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    .animate-rise-delay {
-        animation: rpb-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
-    }
-
-    .hero-tip {
-        animation:
-            rpb-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both,
-            rpb-float 3.2s ease-in-out 900ms infinite;
-    }
-}
-
-@keyframes rpb-rise {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes rpb-float {
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-8px);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .hero-tip {
-        animation: rpb-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
-    }
-}
-
-/* sugar-high — Node-inspired dark syntax theme */
-.sh-theme {
-    --sh-class: #7ee787;
-    --sh-identifier: #e6edf3;
-    --sh-sign: #8b949e;
-    --sh-property: #79c0ff;
-    --sh-entity: #d2a8ff;
-    --sh-jsxliterals: #a5d6ff;
-    --sh-string: #a5d6ff;
-    --sh-keyword: #ff7b72;
-    --sh-comment: #8b949e;
-}
-
-/* white-space:normal collapses newlines between .sh__line spans (avoids double gaps in <pre>) */
-.sh-theme pre {
-    white-space: normal;
-}
-
-.sh-theme code {
-    display: block;
-    color: var(--sh-identifier);
-}
-
-.sh-theme .sh__line {
-    display: block;
-    white-space: pre;
-    min-height: 1.35em;
-}
+@import "@undermuz/react-json-form-home-lib/styles.css";
 
 /* Dark-friendly BlocksEditor chrome on the landing page.
    BasicTheme sets inline color — need !important to keep block copy readable. */
@@ -195,8 +48,7 @@
     color: var(--color-rpb-text) !important;
 }
 
-/* Base theme → Node Contemporary (live demos + edit dialogs on this page) */
-[data-rjf-live-demo] .rjf,
+/* Base theme → Node Contemporary (edit dialogs on landing) */
 [data-rpb-landing] .rjf {
     --rjf-font: var(--font-sans);
     --rjf-text: #ffffff;
@@ -215,18 +67,14 @@
     --rjf-shadow-nested: 0 1px 2px rgb(0 0 0 / 0.3);
 }
 
-/* Theme CSS mixes borders with white — keep nested panels dark-friendly */
-[data-rjf-live-demo] .rjf .rjf-panel .rjf-panel,
 [data-rpb-landing] .rjf .rjf-panel .rjf-panel {
     border-color: var(--rjf-border);
 }
 
-[data-rjf-live-demo] .rjf .rjf-panel__header--array,
 [data-rpb-landing] .rjf .rjf-panel__header--array {
     border-bottom-color: var(--rjf-border);
 }
 
-[data-rjf-live-demo] .rjf .rjf-trash--over,
 [data-rpb-landing] .rjf .rjf-trash--over {
     background: var(--rjf-danger-bg);
 }
