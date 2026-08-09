@@ -18,6 +18,9 @@
         "../../packages/react-json-form/src/index.tsx"
       ],
       "@undermuz/react-json-form-home-lib": ["../home-lib/src/index.ts"],
+      "@undermuz/react-json-form-theme-chakra-v3": [
+        "../../packages/themes/chakra3/src/index.tsx"
+      ],
       "@chakra-ui/react": [
         "../../packages/themes/chakra3/node_modules/@chakra-ui/react"
       ]

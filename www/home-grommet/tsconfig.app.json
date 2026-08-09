@@ -17,7 +17,10 @@
       "@undermuz/react-json-form": [
         "../../packages/react-json-form/src/index.tsx"
       ],
-      "@undermuz/react-json-form-home-lib": ["../home-lib/src/index.ts"]
+      "@undermuz/react-json-form-home-lib": ["../home-lib/src/index.ts"],
+      "@undermuz/react-json-form-theme-grommet": [
+        "../../packages/themes/grommet/src/index.tsx"
+      ]
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,
