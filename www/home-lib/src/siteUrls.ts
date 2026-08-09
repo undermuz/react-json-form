@@ -6,6 +6,9 @@ export const THEME_APP_IDS = [
     "grommet",
     "heroui",
     "rsuite",
+    "antd",
+    "mantine",
+    "mui",
 ] as const
 
 export type ThemeAppId = (typeof THEME_APP_IDS)[number]
@@ -17,6 +20,9 @@ export const THEME_APP_LABELS: Record<ThemeAppId, string> = {
     grommet: "grommet",
     heroui: "heroui",
     rsuite: "rsuite",
+    antd: "antd",
+    mantine: "mantine",
+    mui: "mui",
 }
 
 /**
@@ -46,6 +52,9 @@ const DEV_PORTS: Record<ThemeAppId, number> = {
     grommet: 5177,
     heroui: 5178,
     rsuite: 5179,
+    antd: 5182,
+    mantine: 5183,
+    mui: 5184,
 }
 
 function withTrailingSlash(url: string): string {

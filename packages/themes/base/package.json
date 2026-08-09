@@ -46,7 +46,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@undermuz/use-form": "2.0.0-alpha.0"
+    "@undermuz/use-form": "2.0.0-alpha.1"
   },
   "peerDependencies": {
     "@undermuz/react-json-form": "^2.3.0",

@@ -1,0 +1,90 @@
+{
+  "name": "@undermuz/react-json-form-theme-mui",
+  "homepage": "http://undermuz.github.io/react-json-form",
+  "version": "2.3.1",
+  "description": "Material UI theme for @undermuz/react-json-form",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "module": "./dist/index.mjs",
+      "esmodules": "./dist/index.mjs",
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ./src && npm run typecheck",
+    "build": "npm run build:tsup",
+    "build:tsup": "tsup",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "author": {
+    "name": "undermuz",
+    "email": "undermuz@gmail.com",
+    "url": "https://github.com/undermuz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/undermuz/react-json-form.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.3.1",
+    "@mui/material": "^9.3.1",
+    "@mui/x-date-pickers": "^9.11.0",
+    "@undermuz/use-form": "2.0.0-alpha.1",
+    "dayjs": "^1.11.21",
+    "underscore": "^1.13.4"
+  },
+  "peerDependencies": {
+    "@undermuz/react-json-form": "^2.3.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^18.0.5",
+    "@types/react-dom": "^18.0.6",
+    "@types/underscore": "^1.11.4",
+    "@undermuz/react-json-form": "*",
+    "esbuild-plugin-file-path-extensions": "^1.0.0",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.9.0",
+    "prettier": "^2.8.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tslib": "^2.8.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.66.0"
+  },
+  "keywords": [
+    "react",
+    "form",
+    "forms",
+    "use-form",
+    "hook",
+    "mui",
+    "material-ui"
+  ]
+}

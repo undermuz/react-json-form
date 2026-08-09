@@ -95,6 +95,8 @@ const theme = { ...BaseTheme, Components: { ArrayFormList } }
 
 Themes are separate npm packages under `packages/themes/`. Each implements `JsonFormUi` from `types.ts` and is passed via `UiContext.Provider`.
 
+**Shared theme agent guide:** [`packages/themes/AGENTS.md`](../themes/AGENTS.md) (contract, layout, tsup, demo apps, checklist for new themes). Kit-specific notes live in `<theme>/AGENTS.md` when present.
+
 | Package | Path | Notes |
 | --- | --- | --- |
 | `@undermuz/react-json-form-theme-base` | `packages/themes/base` | Native HTML + plain CSS (`styles.css`), zero UI libs |
@@ -104,15 +106,11 @@ Themes are separate npm packages under `packages/themes/`. Each implements `Json
 | `@undermuz/react-json-form-theme-rsuite` | `packages/themes/rsuite` | Rsuite |
 | `@undermuz/react-json-form-theme-chakra3` | `packages/themes/chakra3` | Chakra UI v3 |
 | `@undermuz/react-json-form-theme-heroui` | `packages/themes/heroui` | HeroUI |
+| `@undermuz/react-json-form-theme-antd` | `packages/themes/antd` | Ant Design v6 |
+| `@undermuz/react-json-form-theme-mantine` | `packages/themes/mantine` | Mantine v9 (React 19.2+) |
+| `@undermuz/react-json-form-theme-mui` | `packages/themes/mui` | Material UI |
 
 This package ships a minimal test theme at `src/tests/theme/` (not published).
-
-### Theme development
-
-- **Contract:** `JsonFormUi` in `types.ts` — `Container`, `Header`, `Body`, `FlatForm`, `Field`, `Item`, `ItemWrapper`, `ArrayForm` (+ compound parts), `Tab`, optional `Components` (`JsonForm`, `ArrayFormList`), `Controls`, `Icons`.
-- **Reference for behavior:** `packages/themes/chakra/src/` (Field toggle via `ConnectToForm` + `${name}__isDisabled`, `FlatForm.isShow`, async `Select`, etc.).
-- **Reference for lean setup:** `packages/themes/base/` — tsup multi-entry (`index`, `ui`, `controls`, `icons`), CSS copied to `dist/styles.css`, export `"./styles.css"`.
-- **tsup:** use explicit entry points for all modules; `esbuild-plugin-file-path-extensions` rewrites relative imports to `.mjs`/`.js` — a single-entry build will break ESM consumers (missing `./ui.mjs`, etc.).
 
 ## Conventions
 

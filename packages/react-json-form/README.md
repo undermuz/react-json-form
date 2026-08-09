@@ -100,7 +100,7 @@ See [packages/themes/base/README.md](../themes/base/README.md) for CSS customiza
 | `@undermuz/react-json-form-theme-rsuite` | [Rsuite](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-rsuite) |
 | `@undermuz/react-json-form-theme-grommet` | [Grommet](https://undermuz.github.io/react-json-form/?path=/story/themes--ui-grommet) |
 
-Other theme packages in the monorepo: `chakra3`, `heroui`.
+Other theme packages in the monorepo: `chakra3`, `heroui`, `antd`, `mantine` (React 19.2+), `mui`.
 
 ## Examples
 

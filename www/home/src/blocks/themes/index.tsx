@@ -22,14 +22,15 @@ export type ThemesValue = {
 }
 
 const DEF_VALUE: ThemesValue = {
-    title: "Pick a face for the same scheme",
+    title: "Themes when you want chrome — not before",
     subtitle:
-        "UiContext swaps the entire chrome. Migrate design systems without rewriting field lists. Open live examples for each theme.",
+        "The engine stays headless. Themes implement JsonFormUi and plug in via UiContext — install from npm or copy the package into your project and own the source (shadcn-style). Base is the reference scaffold for custom themes.",
     items: [
         {
             id: 1,
             name: "@undermuz/react-json-form-theme-base",
-            description: "Native HTML + CSS. Zero UI library dependency.",
+            description:
+                "Scaffold: native HTML + CSS, zero UI kit. Copy into your app and evolve into a custom theme.",
             themeId: "base",
             npmHref:
                 "https://www.npmjs.com/package/@undermuz/react-json-form-theme-base",
@@ -37,7 +38,8 @@ const DEF_VALUE: ThemesValue = {
         {
             id: 2,
             name: "@undermuz/react-json-form-theme-chakra",
-            description: "Chakra UI v2 theme.",
+            description:
+                "Drop-in Chakra UI v2 chrome — npm install or copy into your project.",
             themeId: "chakra",
             npmHref:
                 "https://www.npmjs.com/package/@undermuz/react-json-form-theme-chakra",
@@ -45,7 +47,8 @@ const DEF_VALUE: ThemesValue = {
         {
             id: 3,
             name: "@undermuz/react-json-form-theme-chakra-v3",
-            description: "Chakra UI v3 theme.",
+            description:
+                "Drop-in Chakra UI v3 chrome — npm install or copy into your project.",
             themeId: "chakra3",
             npmHref:
                 "https://www.npmjs.com/package/@undermuz/react-json-form-theme-chakra-v3",
@@ -53,7 +56,8 @@ const DEF_VALUE: ThemesValue = {
         {
             id: 4,
             name: "@undermuz/react-json-form-theme-heroui",
-            description: "HeroUI theme.",
+            description:
+                "Drop-in HeroUI chrome — npm install or copy into your project.",
             themeId: "heroui",
             npmHref:
                 "https://www.npmjs.com/package/@undermuz/react-json-form-theme-heroui",
@@ -61,7 +65,8 @@ const DEF_VALUE: ThemesValue = {
         {
             id: 5,
             name: "@undermuz/react-json-form-theme-rsuite",
-            description: "Rsuite theme.",
+            description:
+                "Drop-in Rsuite chrome — npm install or copy into your project.",
             themeId: "rsuite",
             npmHref:
                 "https://www.npmjs.com/package/@undermuz/react-json-form-theme-rsuite",
@@ -69,10 +74,38 @@ const DEF_VALUE: ThemesValue = {
         {
             id: 6,
             name: "@undermuz/react-json-form-theme-grommet",
-            description: "Grommet theme.",
+            description:
+                "Drop-in Grommet chrome — npm install or copy into your project.",
             themeId: "grommet",
             npmHref:
                 "https://www.npmjs.com/package/@undermuz/react-json-form-theme-grommet",
+        },
+        {
+            id: 7,
+            name: "@undermuz/react-json-form-theme-antd",
+            description:
+                "Drop-in Ant Design v6 chrome — npm install or copy into your project.",
+            themeId: "antd",
+            npmHref:
+                "https://www.npmjs.com/package/@undermuz/react-json-form-theme-antd",
+        },
+        {
+            id: 8,
+            name: "@undermuz/react-json-form-theme-mantine",
+            description:
+                "Drop-in Mantine v9 chrome (React 19.2+) — npm install or copy into your project.",
+            themeId: "mantine",
+            npmHref:
+                "https://www.npmjs.com/package/@undermuz/react-json-form-theme-mantine",
+        },
+        {
+            id: 9,
+            name: "@undermuz/react-json-form-theme-mui",
+            description:
+                "Drop-in Material UI chrome — npm install or copy into your project.",
+            themeId: "mui",
+            npmHref:
+                "https://www.npmjs.com/package/@undermuz/react-json-form-theme-mui",
         },
     ],
 }
@@ -140,7 +173,7 @@ const ThemesView: FC<{ id?: number; value?: ThemesValue }> = ({ value }) => {
         <section className="w-full px-4 py-12 sm:px-6 sm:py-16">
             <div className="mx-auto max-w-6xl">
                 <p className="font-mono text-xs uppercase tracking-[0.16em] text-rpb-secondary">
-                    UI kits
+                    Bring your UI
                 </p>
                 <h2 className="mt-2 font-sans text-2xl font-semibold tracking-tight sm:text-3xl">
                     {v.title}
@@ -155,10 +188,24 @@ const ThemesView: FC<{ id?: number; value?: ThemesValue }> = ({ value }) => {
                         )
                         return (
                             <li key={`${item.name}-${index}`}>
-                                <div className="glass glass-hover flex h-full flex-col rounded-2xl p-5">
-                                    <p className="break-all font-mono text-xs font-semibold text-rpb-secondary">
-                                        {item.name}
-                                    </p>
+                                <div
+                                    className={[
+                                        "glass glass-hover flex h-full flex-col rounded-2xl p-5",
+                                        item.themeId === "base"
+                                            ? "border-rpb-primary/35"
+                                            : "",
+                                    ].join(" ")}
+                                >
+                                    <div className="flex flex-wrap items-start justify-between gap-2">
+                                        <p className="break-all font-mono text-xs font-semibold text-rpb-secondary">
+                                            {item.name}
+                                        </p>
+                                        {item.themeId === "base" ? (
+                                            <span className="shrink-0 rounded-md border border-rpb-primary/40 bg-rpb-primary/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-rpb-secondary">
+                                                Scaffold
+                                            </span>
+                                        ) : null}
+                                    </div>
                                     <p className="mt-3 flex-1 text-sm leading-relaxed text-rpb-muted">
                                         {item.description}
                                     </p>

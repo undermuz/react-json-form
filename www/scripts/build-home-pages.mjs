@@ -7,7 +7,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, "../..")
 const staging = path.join(repoRoot, "www/dist-pages")
 
-const THEMES = ["base", "chakra", "chakra3", "grommet", "heroui", "rsuite"]
+const THEMES = [
+    "base",
+    "chakra",
+    "chakra3",
+    "grommet",
+    "heroui",
+    "rsuite",
+    "antd",
+    "mantine",
+    "mui",
+]
 
 function run(cmd, env = {}) {
     console.log(`\n> ${cmd}`)
@@ -30,6 +40,10 @@ function copyDir(src, dest) {
 
 rimraf(staging)
 fs.mkdirSync(staging, { recursive: true })
+
+// Shared lib must not keep a nested @types/react (React 19 from home-mantine
+// can land here via workspaces and break tsc for every other home app).
+rimraf(path.join(repoRoot, "www/home-lib/node_modules"))
 
 run("npm run build:pages --workspace=@undermuz/react-json-form-home", {
     BASE_PATH: "/react-json-form/",

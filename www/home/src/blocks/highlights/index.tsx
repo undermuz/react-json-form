@@ -46,15 +46,15 @@ const DEF_VALUE: HighlightsValue = {
             id: 4,
             title: "Own the chrome",
             description:
-                "Themes, custom field components, and JsonFormLayout (JFL) reshape the UX.",
+                "Headless by default. Ready themes for popular UI kits — use as a dependency or copy-paste. Base theme is a lean scaffold for a custom JsonFormUi.",
         },
     ],
     cardOneTitle: "CMS & admin UIs",
     cardOneBody:
         "Generate edit screens from config stored in your API — change the scheme, not the React tree.",
-    cardTwoTitle: "Design-system friendly",
+    cardTwoTitle: "Headless + your UI",
     cardTwoBody:
-        "Keep Chakra, HeroUI, or your own theme. The scheme stays stable while the UI kit evolves.",
+        "Ship forms without locking to a kit. Plug a theme package, fork it into your repo, or build on the base theme.",
 }
 
 const scheme: IScheme = {

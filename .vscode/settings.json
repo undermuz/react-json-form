@@ -16,6 +16,9 @@
         "packages/themes/chakra3",
         "packages/themes/heroui",
         "packages/themes/grommet",
-        "packages/themes/rsuite"
+        "packages/themes/rsuite",
+        "packages/themes/antd",
+        "packages/themes/mantine",
+        "packages/themes/mui"
     ]
 }

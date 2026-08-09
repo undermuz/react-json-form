@@ -22,7 +22,7 @@ const DEF_VALUE: HeroValue = {
     eyebrow: "Scheme-first forms for React",
     headline: "Stop hand-wiring fields. Ship the scheme instead.",
     support:
-        "One JSON scheme drives inputs, validation, nested widgets, and submit. Keep your design system — swap themes or plug custom field components without rewriting the form.",
+        "One JSON scheme drives inputs, validation, nested widgets, and submit. Headless by default — optional themes for popular UI kits (install or copy-paste). Base theme scaffolds custom chrome.",
     primaryLabel: "Install →",
     primaryHref: "#install",
     secondaryLabel: "Examples",
@@ -105,6 +105,24 @@ const scheme: IScheme = {
             def_value: DEF_VALUE.tipBody,
         },
     ],
+}
+
+const HERO_EMPHASIS_RE = /\b(Headless|themes|copy-paste|scaffolds)\b/gi
+
+const HERO_EMPHASIS_CLASS =
+    "bg-gradient-to-r from-rpb-secondary via-rpb-primary to-[#b6e08a] bg-clip-text font-semibold text-transparent"
+
+function emphasizeSupport(text: string) {
+    return text.split(HERO_EMPHASIS_RE).map((part, index) => {
+        if (/^(Headless|themes|copy-paste|scaffolds)$/i.test(part)) {
+            return (
+                <span key={index} className={HERO_EMPHASIS_CLASS}>
+                    {part}
+                </span>
+            )
+        }
+        return part
+    })
 }
 
 const FlowArrow: FC = () => (
@@ -225,7 +243,7 @@ const HeroView: FC<{ id?: number; value?: HeroValue }> = ({ value }) => {
 
                 <div className="animate-rise-delay flex flex-col gap-6 border-t border-rpb-border/70 pt-8">
                     <p className="max-w-2xl font-mono text-sm leading-relaxed text-rpb-muted sm:text-[15px]">
-                        {v.support}
+                        {emphasizeSupport(v.support)}
                     </p>
                     <HeroFlow
                         eyebrow={v.tipEyebrow}

@@ -12,7 +12,7 @@ export type UsageValue = {
 
 const DEF_VALUE: UsageValue = {
     title: "Minimal form in ~30 lines",
-    body: "Controlled value + scheme + theme. Rules and field types travel with the scheme — not with JSX per field.",
+    body: "Controlled value + scheme + theme. Rules and field types travel with the scheme — not with JSX per field. Example uses the base theme; omit it and provide your own JsonFormUi, or swap for any kit theme.",
     editorCode: `import { useState } from "react"
 import JsonForm, {
   UiContext,

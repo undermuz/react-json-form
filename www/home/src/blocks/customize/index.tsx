@@ -25,7 +25,7 @@ const DEF_VALUE: CustomizeValue = {
         {
             id: 1,
             title: "Themes (UiContext)",
-            body: "Swap Base / Chakra / HeroUI / … or implement JsonFormUi yourself. Same scheme, different look.",
+            body: "Install a theme package, copy it into your codebase, or extend base. Same scheme — your chrome.",
         },
         {
             id: 2,

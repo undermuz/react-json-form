@@ -18,6 +18,9 @@
     "dev:home-grommet": "npm run dev --workspace=@undermuz/react-json-form-home-grommet",
     "dev:home-heroui": "npm run dev --workspace=@undermuz/react-json-form-home-heroui",
     "dev:home-rsuite": "npm run dev --workspace=@undermuz/react-json-form-home-rsuite",
+    "dev:home-antd": "npm run dev --workspace=@undermuz/react-json-form-home-antd",
+    "dev:home-mantine": "npm run dev --workspace=@undermuz/react-json-form-home-mantine",
+    "dev:home-mui": "npm run dev --workspace=@undermuz/react-json-form-home-mui",
     "build:home:pages": "node www/scripts/build-home-pages.mjs",
     "deploy:home": "npm run build:home:pages && gh-pages -d www/dist-pages -b gh-pages --dotfiles -m \"Deploy home-page to GitHub Pages\""
   },
@@ -31,6 +34,16 @@
     },
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "vite": "^8.2.0"
+    "vite": "^8.2.0",
+    "@undermuz/react-json-form-theme-mantine": {
+      "react": "^19.2.8",
+      "react-dom": "^19.2.8",
+      "@types/react": "^19.2.2",
+      "@types/react-dom": "^19.2.2"
+    },
+    "@undermuz/react-json-form-home-mantine": {
+      "react": "^19.2.8",
+      "react-dom": "^19.2.8"
+    }
   }
 }

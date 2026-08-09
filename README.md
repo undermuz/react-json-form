@@ -99,6 +99,9 @@ import "@undermuz/react-json-form-theme-base/styles.css"
 | `@undermuz/react-json-form-theme-heroui` | HeroUI |
 | `@undermuz/react-json-form-theme-rsuite` | Rsuite |
 | `@undermuz/react-json-form-theme-grommet` | Grommet |
+| `@undermuz/react-json-form-theme-antd` | Ant Design v6 |
+| `@undermuz/react-json-form-theme-mantine` | Mantine v9 (React 19.2+) |
+| `@undermuz/react-json-form-theme-mui` | Material UI |
 
 ## Development
 
@@ -127,14 +130,14 @@ npx nx affected -t build
 npm run dev:home           # landing (Edit mode + Download JSON in DEV)
 npm run dev:home-base      # examples — base theme (:5174)
 npm run dev:home-chakra    # examples — chakra (:5175)
-# also: dev:home-chakra3, dev:home-grommet, dev:home-heroui, dev:home-rsuite
+# also: dev:home-chakra3, …, dev:home-antd, dev:home-mantine, dev:home-mui
 npm run build:home:pages   # aggregate GH Pages build → www/dist-pages
 ```
 
 Shared UI lives in `www/home-lib`. Each theme has its own Vite app under `www/home-<theme>` so UI kits stay isolated.
 
 - Landing: `/react-json-form/`
-- Theme examples: `/react-json-form/<theme>/#/login` (base, chakra, chakra3, grommet, heroui, rsuite)
+- Theme examples: `/react-json-form/<theme>/#/login` (base, chakra, chakra3, grommet, heroui, rsuite, antd, mantine, mui)
 
 GitHub Pages deploys from `.github/workflows/deploy-home-page.yml` on push to `master`.
 

@@ -12,12 +12,12 @@ export type InstallValue = {
 }
 
 const DEF_VALUE: InstallValue = {
-    title: "Two packages, one form",
-    body: "Core engine + a theme. Start with base (no UI kit), or plug Chakra / HeroUI / Rsuite / Grommet later.",
+    title: "Start headless — add a theme when ready",
+    body: "Install the core alone for a headless form engine. Add a theme package for instant UI, or copy a theme (start with base) into your repo and customize like shadcn/ui.",
     command:
         "npm i @undermuz/react-json-form @undermuz/react-json-form-theme-base",
     themeNote:
-        "For base: import styles.css, then wrap JsonForm in UiContext.Provider.",
+        "Recommended fast path above: base (no UI kit) + styles.css, wrap JsonForm in UiContext.Provider. Or swap base for chakra / heroui / antd / …",
 }
 
 const scheme: IScheme = {

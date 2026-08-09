@@ -69,6 +69,36 @@ const themes = [
         deps: {},
         stylesImport: undefined,
     },
+    {
+        id: "antd",
+        port: 5182,
+        pkg: "@undermuz/react-json-form-theme-antd",
+        importName: "AntdUi",
+        folder: "antd",
+        title: "antd",
+        deps: {},
+        stylesImport: undefined,
+    },
+    {
+        id: "mantine",
+        port: 5183,
+        pkg: "@undermuz/react-json-form-theme-mantine",
+        importName: "MantineUi",
+        folder: "mantine",
+        title: "mantine",
+        deps: {},
+        stylesImport: undefined,
+    },
+    {
+        id: "mui",
+        port: 5184,
+        pkg: "@undermuz/react-json-form-theme-mui",
+        importName: "MuiTheme",
+        folder: "mui",
+        title: "mui",
+        deps: {},
+        stylesImport: undefined,
+    },
 ]
 
 const eslint = `import js from '@eslint/js'

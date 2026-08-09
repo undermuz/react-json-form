@@ -48,7 +48,7 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@undermuz/use-form": "2.0.0-alpha.0",
+    "@undermuz/use-form": "2.0.0-alpha.1",
     "chakra-react-select": "^4.5.0",
     "dayzed": "^3.2.3",
     "react-select": "^5.4.0",
