@@ -7,8 +7,6 @@ import {
     type FC,
 } from "react"
 
-import { SingleDatepicker } from "chakra-dayzed-datepicker"
-
 import {
     Button,
     Checkbox,
@@ -223,22 +221,27 @@ const ControlSelect: FC<IInput & IConnectedProps> = (props) => {
 }
 
 const ControlDate: FC<IInput & IConnectedProps> = (props) => {
-    const { id, name, value, settings = {} /* , isDisabled = false */ } = props
+    const { id, name, value, settings = {}, isDisabled = false } = props
+    const { onChange, onBlur } = props
 
-    // const defValue = useMemo(() => {
-    //     return new Date()
-    // }, [])
-
-    const { onChange } = props
+    const dateValue =
+        value instanceof Date
+            ? value.toISOString().slice(0, 10)
+            : typeof value === "string"
+              ? value.slice(0, 10)
+              : ""
 
     return (
-        <SingleDatepicker
+        <Input
             id={id}
-            name={name}
             {...settings}
-            // isDisabled={isDisabled}
-            date={value ? value : undefined}
-            onDateChange={(value) => onChange?.(value)}
+            type="date"
+            name={name}
+            disabled={isDisabled}
+            value={dateValue}
+            onChange={(e) => onChange?.(e.currentTarget.value)}
+            // @ts-ignore
+            onBlur={(e) => onBlur?.(e.currentTarget.value)}
         />
     )
 }
