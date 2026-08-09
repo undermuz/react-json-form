@@ -183,7 +183,7 @@ const UiTab = forwardRef<HTMLButtonElement, PropsWithChildren<IUiTabProps>>(
                 active={active}
                 onSelect={onSelect}
                 style={style}
-                ref={ref as ForwardedRef<HTMLAnchorElement>}
+                ref={ref as unknown as ForwardedRef<HTMLAnchorElement>}
             >
                 {Boolean(label) && label}
                 {children}

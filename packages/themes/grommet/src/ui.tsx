@@ -282,7 +282,7 @@ const UiTab = forwardRef<HTMLButtonElement, PropsWithChildren<IUiTabProps>>(
                     color: active ? "brand" : "light-3",
                     opacity: active ? "medium" : undefined,
                 }}
-                ref={ref as ForwardedRef<HTMLDivElement>}
+                ref={ref as unknown as ForwardedRef<HTMLDivElement>}
                 hoverIndicator
                 style={style}
             >

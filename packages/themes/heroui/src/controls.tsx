@@ -339,7 +339,7 @@ const ControlFileInput: FC<IInput & IConnectedProps> = (props) => {
                 }
 
                 console.log("[onChangeFile][Multiple]", inFiles[0])
-                let nextFiles = [...files, ...inFiles]
+                let nextFiles = [...files, ...Array.from(inFiles)]
 
                 if (nextFiles.length > max) {
                     nextFiles = nextFiles.slice(0, max)

@@ -229,8 +229,8 @@ const ControlDate: FC<IInput & IConnectedProps> = (props) => {
         value instanceof Date
             ? value.toISOString().slice(0, 10)
             : typeof value === "string"
-              ? value.slice(0, 10)
-              : ""
+            ? value.slice(0, 10)
+            : ""
 
     return (
         <Input
@@ -258,7 +258,7 @@ const ControlCheckBox: FC<IInput & IConnectedProps> = (props) => {
             isChecked={Boolean(value)}
             name={name}
             onChange={(event) => onChange?.(event.target.checked)}
-            onMouseLeave={(e) => onBlur?.()}
+            onMouseLeave={() => onBlur?.()}
         >
             {title}
         </Checkbox>
@@ -277,7 +277,7 @@ const ControlTextBlock: FC<IInput & IConnectedProps> = (props) => {
             name={name}
             isDisabled={isDisabled}
             {...settings}
-            onBlur={(e) => onBlur?.()}
+            onBlur={() => onBlur?.()}
             onChange={(event) => onChange?.(event.currentTarget.value)}
         />
     )
@@ -295,9 +295,10 @@ const ControlFileInput: FC<IInput & IConnectedProps> = (props) => {
 
     const { onChange } = props
 
-    /* @ts-ignore */
     const {
+        /* @ts-ignore */
         showLabel,
+        /* @ts-ignore */
         showToggle,
         icon,
         max = Infinity,
@@ -330,7 +331,7 @@ const ControlFileInput: FC<IInput & IConnectedProps> = (props) => {
                     return
                 }
 
-                let nextFiles = [...files, ...inFiles]
+                let nextFiles = [...files, ...Array.from(inFiles)]
 
                 if (nextFiles.length > max) {
                     nextFiles = nextFiles.slice(0, max)
@@ -417,7 +418,7 @@ const ControlInput: FC<IInput & IConnectedProps> = (props) => {
             type={inputType || type || "text"}
             value={value}
             onChange={(e) => onChange?.(e.currentTarget.value)}
-            onBlur={(e) => onBlur?.()}
+            onBlur={() => onBlur?.()}
         />
     )
 }

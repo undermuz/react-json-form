@@ -78,7 +78,7 @@ const ControlCheckBox: FC<IInput> = (props) => {
         <Checkbox
             checked={Boolean(value)}
             name={name}
-            onChange={(v, checked) => onChange?.(checked)}
+            onChange={(_v, checked) => onChange?.(checked)}
             onMouseLeave={() => onBlur?.()}
         >
             {title}
