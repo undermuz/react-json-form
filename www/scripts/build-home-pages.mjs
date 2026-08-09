@@ -45,6 +45,13 @@ fs.mkdirSync(staging, { recursive: true })
 // can land here via workspaces and break tsc for every other home app).
 rimraf(path.join(repoRoot, "www/home-lib/node_modules"))
 
+// Nested React under the core package breaks Vite source aliases: the landing
+// app (React 18) and `@undermuz/react-json-form` source would ship two Reacts
+// → Context.Consumer runtime error (`x is not a function`).
+for (const name of ["react", "react-dom", "scheduler"]) {
+    rimraf(path.join(repoRoot, "packages/react-json-form/node_modules", name))
+}
+
 run("npm run build:pages --workspace=@undermuz/react-json-form-home", {
     BASE_PATH: "/react-json-form/",
 })

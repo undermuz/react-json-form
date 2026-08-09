@@ -1,3 +1,4 @@
+import fs from "node:fs"
 import path from "node:path"
 import { defineConfig, type Alias, type UserConfig } from "vite"
 import react from "@vitejs/plugin-react"
@@ -23,6 +24,39 @@ export type CreateHomeViteConfigOptions = {
 
 const repoRootFromApp = (appRoot: string) => path.resolve(appRoot, "../..")
 
+/** Prefer the app's install, then the monorepo root hoist. */
+function resolveInstalledPkg(appRoot: string, repoRoot: string, name: string) {
+    const candidates = [
+        path.resolve(appRoot, "node_modules", name),
+        path.resolve(repoRoot, "node_modules", name),
+    ]
+    for (const candidate of candidates) {
+        if (fs.existsSync(candidate)) return candidate
+    }
+    return candidates[1]
+}
+
+// Pin every react / react-dom import to one copy for this app.
+// A nested React under a package node_modules (e.g. React 19 next to
+// source-aliased @undermuz/react-json-form) can ship beside the app React 18
+// and break Context.Consumer at runtime (x is not a function).
+function reactAliases(appRoot: string, repoRoot: string): Alias[] {
+    const reactRoot = resolveInstalledPkg(appRoot, repoRoot, "react")
+    const reactDomRoot = resolveInstalledPkg(appRoot, repoRoot, "react-dom")
+    return [
+        { find: "react", replacement: reactRoot },
+        { find: "react-dom", replacement: reactDomRoot },
+        {
+            find: "react/jsx-runtime",
+            replacement: path.resolve(reactRoot, "jsx-runtime.js"),
+        },
+        {
+            find: "react/jsx-dev-runtime",
+            replacement: path.resolve(reactRoot, "jsx-dev-runtime.js"),
+        },
+    ]
+}
+
 export function createHomeViteConfig({
     root,
     themes = [],
@@ -30,8 +64,9 @@ export function createHomeViteConfig({
 }: CreateHomeViteConfigOptions) {
     const repoRoot = repoRootFromApp(root)
 
-    // Longer / more specific finds first so `/styles.css` is not resolved via the package entry.
+    // React aliases first — Vite uses first-match-wins for alias arrays.
     const alias: Alias[] = [
+        ...reactAliases(root, repoRoot),
         {
             find: "@undermuz/react-json-form-home-lib/styles.css",
             replacement: path.resolve(
@@ -85,6 +120,7 @@ export function createHomeViteConfig({
         plugins: [react(), tailwindcss(), ...(extend.plugins ?? [])],
         resolve: {
             alias,
+            dedupe: ["react", "react-dom"],
         },
         server: {
             host: true,
